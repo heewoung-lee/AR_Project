@@ -76,7 +76,6 @@ namespace FishingGameTool.Example
 
         private void Awake()
         {
-            _lineStatus = _fishingSystem._fishingRod._lineStatus;
         }
 
         private void Update()

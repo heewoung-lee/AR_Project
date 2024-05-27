@@ -12,16 +12,6 @@ public class Findlake : MonoBehaviour
 
     private List<ARPlane> detectedPlanes = new List<ARPlane>();
 
-    void OnEnable()
-    {
-        arPlaneManager.planesChanged += OnPlanesChanged;
-    }
-
-    void OnDisable()
-    {
-        arPlaneManager.planesChanged -= OnPlanesChanged;
-    }
-
     void OnPlanesChanged(ARPlanesChangedEventArgs eventArgs)
     {
         foreach (ARPlane plane in eventArgs.added)
