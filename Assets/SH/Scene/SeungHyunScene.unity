@@ -1594,6 +1594,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI_Shop
       objectReference: {fileID: 0}
+    - target: {fileID: 3451089104937634491, guid: c3fd169c18ecb8144930182af3535c75,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 23123.078
+      objectReference: {fileID: 0}
     - target: {fileID: 3451089105561268282, guid: c3fd169c18ecb8144930182af3535c75,
         type: 3}
       propertyPath: m_AnchorMax.x
