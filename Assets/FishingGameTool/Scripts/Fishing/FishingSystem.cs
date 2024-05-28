@@ -23,7 +23,7 @@ namespace FishingGameTool.Fishing
     };
 
     [AddComponentMenu("Fishing Game Tool/Fishing System")]
-    public class FishingSystem : MonoBehaviour,InputSystem.IUIActions
+    public class FishingSystem : MonoBehaviour, InputSystem.IUIActions
     {
         [System.Serializable]
         public class LootCatchEvent
@@ -58,7 +58,7 @@ namespace FishingGameTool.Fishing
         public LayerMask _fishingLayer;
         public FishingBaitData _bait;
 
-        [Space ,BetterHeader("Loot Settings", 20) ,InfoBox("Select the method of handling loot catching:\n\n- \"SpawnItem\": Creates a game object " +
+        [Space, BetterHeader("Loot Settings", 20), InfoBox("Select the method of handling loot catching:\n\n- \"SpawnItem\": Creates a game object " +
             "upon successfully catching the loot.\n- \"InvokeEvent\": Triggers a designated event upon successfully catching the loot.")]
         public LootCatchType _lootCatchType;
 
@@ -79,7 +79,7 @@ namespace FishingGameTool.Fishing
         [InfoBox("Minimum distance required for successfully picking up or catching a target (e.g., fish or object).")]
         public float _catchDistance = 3.5f;
 
-        [Space ,AddButton("Advanced Settings", "_showAdvancedSettings")]
+        [Space, AddButton("Advanced Settings", "_showAdvancedSettings")]
         public bool _showAdvancedSettings = false;
 
         [ShowVariable("_showAdvancedSettings")]
@@ -92,12 +92,15 @@ namespace FishingGameTool.Fishing
         [HideInInspector]
         public bool _castFloat = false;
 
-        private Button _castingButton;
         private Button _attractButton;
-        private bool _isReady = true;
         private Vector2 _startPos;
 
         private InputSystem _inputSystem;
+        private float _dragDistance = 0;
+        public float dragDistance
+        {
+            get => _dragDistance;
+        }
         #region PRIVATE VARIABLES
 
         private float _catchCheckIntervalTimer;
@@ -187,7 +190,7 @@ namespace FishingGameTool.Fishing
 
             if (substrateType == SubstrateType.Water)
                 _advanced._caughtLoot = CheckingLoot(_advanced._caughtLoot, _bait, _advanced._catchProbabilityData, transform.position, _fishingRod._fishingFloat.position);
-            
+
             LineLengthLimitation(_fishingRod._fishingFloat.gameObject, transform.position, _fishingRod._lineStatus, substrateType);
 
             if (_attractInput && substrateType == SubstrateType.InAir && !_advanced._caughtLoot)
@@ -219,8 +222,8 @@ namespace FishingGameTool.Fishing
             {
                 float distance = Vector3.Distance(transform.position, _fishingRod._fishingFloat.position);
 
-                 _fishingFloatPathfinder.FloatBehavior(null, _fishingRod._fishingFloat, transform.position, _fishingRod._lineStatus._maxLineLength, 
-                    _advanced._returnSpeedWithoutLoot, _attractInput, _fishingLayer);
+                _fishingFloatPathfinder.FloatBehavior(null, _fishingRod._fishingFloat, transform.position, _fishingRod._lineStatus._maxLineLength,
+                   _advanced._returnSpeedWithoutLoot, _attractInput, _fishingLayer);
 
                 if (distance <= _catchDistance)
                 {
@@ -230,7 +233,7 @@ namespace FishingGameTool.Fishing
                     return;
                 }
             }
-            else if(_advanced._caughtLoot && _fishingRod._fishingFloat != null)
+            else if (_advanced._caughtLoot && _fishingRod._fishingFloat != null)
             {
                 _fishingRod.LootCaught(_advanced._caughtLoot);
 
@@ -239,7 +242,7 @@ namespace FishingGameTool.Fishing
                     List<FishingLootData> lootDataList = _fishingRod._fishingFloat.GetComponent<FishingFloat>().GetLootDataFormWaterObject();
                     _advanced._caughtLootData = ChooseFishingLoot(_bait, lootDataList);
 
-                    if(_advanced._caughtLootData != null)
+                    if (_advanced._caughtLootData != null)
                     {
                         float lootWeight = Random.Range(_advanced._caughtLootData._weightRange._minWeight, _advanced._caughtLootData._weightRange._maxWeight);
                         _advanced._lootWeight = lootWeight;
@@ -295,14 +298,14 @@ namespace FishingGameTool.Fishing
 
         #region AttractWithLoot
 
-        private void AttractWithLoot(FishingLootData lootData, Transform fishingFloatTransform, Vector3 transformPosition, LayerMask fishingLayer, bool attractInput, 
+        private void AttractWithLoot(FishingLootData lootData, Transform fishingFloatTransform, Vector3 transformPosition, LayerMask fishingLayer, bool attractInput,
             float lootWeight, FishingRod fishingRod)
         {
             float lootSpeed = CalculateLootSpeed(lootData, lootWeight);
             float attractSpeed = CalculateAttractSpeed(fishingRod, attractInput, lootWeight, (int)lootData._lootTier);
             _finalSpeed = Mathf.Lerp(_finalSpeed, attractInput == true ? CalculateFinalAttractSpeed(lootSpeed, attractSpeed, lootData) : lootSpeed, 3f * Time.deltaTime);
 
-            _fishingFloatPathfinder.FloatBehavior(lootData ,fishingFloatTransform, transformPosition, fishingRod._lineStatus._maxLineLength, _finalSpeed, attractInput, fishingLayer);
+            _fishingFloatPathfinder.FloatBehavior(lootData, fishingFloatTransform, transformPosition, fishingRod._lineStatus._maxLineLength, _finalSpeed, attractInput, fishingLayer);
 
             //Debug.Log("Loot Speed: " + lootSpeed + " | Attract Speed: " + attractSpeed + " | Final Speed: " + _finalSpeed);
         }
@@ -390,7 +393,7 @@ namespace FishingGameTool.Fishing
 
         #region CheckingLoot
 
-        private bool CheckingLoot(bool caughtLoot, FishingBaitData baitData, CatchProbabilityData catchProbabilityData, 
+        private bool CheckingLoot(bool caughtLoot, FishingBaitData baitData, CatchProbabilityData catchProbabilityData,
             Vector3 transformPosition, Vector3 fishingFloatPosition)
         {
             if (caughtLoot)
@@ -409,7 +412,7 @@ namespace FishingGameTool.Fishing
             return caught;
         }
 
-        private bool CheckLootIsCatch(FishingBaitData baitData, CatchProbabilityData catchProbabilityData, 
+        private bool CheckLootIsCatch(FishingBaitData baitData, CatchProbabilityData catchProbabilityData,
             Vector3 transformPosition, Vector3 fishingFloatPosition)
         {
             float distance = Vector3.Distance(transformPosition, fishingFloatPosition);
@@ -521,7 +524,7 @@ namespace FishingGameTool.Fishing
             float chanceVal = Random.Range(1f, 100f);
             float addedRarity = 0f;
 
-            for(int i = 0; i < lootRarityList.Count; i++)
+            for (int i = 0; i < lootRarityList.Count; i++)
             {
                 addedRarity += lootRarityList[i];
 
@@ -637,7 +640,7 @@ namespace FishingGameTool.Fishing
 
         public void AddBait(FishingBaitData baitData)
         {
-            if(_bait == null)
+            if (_bait == null)
                 _bait = baitData;
             else
             {
@@ -678,19 +681,29 @@ namespace FishingGameTool.Fishing
 
         public void OnClick(InputAction.CallbackContext context)
         {
-            if (context.performed)
+            if (IsPointerOverButton(_attractButton))
+                return; // _attractButton 위에 있을 때는 OnClick 동작을 무시
+
+            if (Pointer.current.press.isPressed)
             {
-                _castInput = true;
+                _castInput = true; // 마우스 버튼이 눌렸을 때
                 _startPos = Pointer.current.position.ReadValue();
                 Debug.Log("처음지점 좌표" + _startPos.ToString());
             }
-            else if (context.canceled)
+            else if (!Pointer.current.press.isPressed)
             {
-                _castInput = false;
+                _castInput = false; // 마우스 버튼이 떼어졌을 때
                 Vector2 endPos = Pointer.current.position.ReadValue();
-                float dragDistance = endPos.y - _startPos.y;
-                Debug.Log("끝지점 좌표"+endPos.ToString());
+                _dragDistance = Mathf.Abs(endPos.y - _startPos.y);
+                Debug.Log("끝지점 좌표" + endPos.ToString());
+                Debug.Log("거리차이" + dragDistance);
             }
+        }
+
+        private bool IsPointerOverButton(Button button)
+        {
+            RectTransform rectTransform = button.GetComponent<RectTransform>();
+            return RectTransformUtility.RectangleContainsScreenPoint(rectTransform, Pointer.current.position.ReadValue(), Camera.main);
         }
 
         public void OnScrollWheel(InputAction.CallbackContext context)
