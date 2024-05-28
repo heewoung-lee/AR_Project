@@ -1,0 +1,54 @@
+{
+    "name": "PlayerInput",
+    "maps": [
+        {
+            "name": "FishingInputActions",
+            "id": "24adc3fd-ad14-4d03-9eb4-9401e80978df",
+            "actions": [
+                {
+                    "name": "Casting",
+                    "type": "Button",
+                    "id": "54e0c19c-adea-46aa-bd72-81029ff18eda",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Attracting",
+                    "type": "Button",
+                    "id": "9c042b2b-52a6-486d-a5ca-b908b5c0464a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "c843673b-75c0-4a0f-96aa-366d431fc592",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Casting",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e87f8238-64ec-41e3-8c9b-df08bb18f26e",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Attracting",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
