@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b13dda281772297448bd6fc4fd0d74ef, type: 3}
+  m_Name: TestBait
+  m_EditorClassIdentifier: 
+  itemType: 0
+  itemID: 1000
+  itemImage: {fileID: 21300000, guid: dcd312606da9b47e8b1acb372b00b4ac, type: 3}
+  itemInfo: GreatMeat
+  itemPrice: 1000
+  itmeEffect: 0
+  baitType: 1
