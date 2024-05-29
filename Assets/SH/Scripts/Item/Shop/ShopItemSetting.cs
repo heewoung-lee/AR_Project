@@ -26,7 +26,6 @@ public class ShopItemSetting : MonoBehaviour
         _shopItemInfo = transform.Find("ItemInfoBG/ItemInfoText").GetComponent<TMP_Text>();
         _shopItemPrice = transform.Find("ItemInfoBG/ItemPriceText").GetComponent <TMP_Text>();
         _shopBuyButton = transform.Find("ItemBuyButton").GetComponent<ShopItemBuyButton>();
-
     }
 
     // 이미지 , 가격 , 아이템 설명 
