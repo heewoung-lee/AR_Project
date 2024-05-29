@@ -7,6 +7,7 @@ using FishingGameTool.Fishing.LootData;
 using TMPro;
 using System.Collections;
 using UnityEngine.EventSystems;
+using UnityEngine.Events;
 
 namespace FishingGameTool.Example
 {
@@ -87,7 +88,7 @@ namespace FishingGameTool.Example
             _fishingSystem = GameObject.Find("AR Session Origin/AR Camera/Character").GetComponent<FishingSystem>();
             _castForceTestBar._UIObject.SetActive(false);
             _lineStatus = _fishingSystem._fishingRod._lineStatus;   // 낚싯줄 상태 초기화
-
+            _fishingSystem.showPowerbarEvent += showPowerBar;
         }
 
         private void Update()
@@ -95,7 +96,6 @@ namespace FishingGameTool.Example
             ControlFishingLineLoadBar();   // 낚싯줄 상태 바 제어
             ControlCastBar();   // 던지기 힘 바 제어
             ControlMenu();   // 메뉴 제어
-            showPowerBar();
         }
 
         private void ControlMenu()
@@ -137,15 +137,37 @@ namespace FishingGameTool.Example
         }
 
 
-        private void showPowerBar()
+        private void showPowerBar(bool ischeckedCast)
         {
-            //if(_fishingSystem.castInput == false)
-            //{
-            //    _castForceTestBar._UIObject.SetActive(true);
-            //}
+            if(_fishingSystem.castInput == false)
+            {
+                _castForceTestBar._UIObject.SetActive(true);
+                float castProgress = CalculateProgess(_fishingSystem._currentCastForce, _fishingSystem._maxCastForce);
+                SetBarScale(_castForceBar._fillDirection, _castForceBar._castBar, castProgress);
+            }
+
+
+            StartCoroutine(PowerBarFadeOut());
         }
 
+        private IEnumerator PowerBarFadeOut()
+        {
+            Color color = _castForceTestBar._UIObject.GetComponent<Image>().color;
+            float alpha = color.a;
+            while (color.a >=0)
+            {
+                
+                color = new Color(color.r, color.g, color.b, color.a--); ;
 
+
+            }
+            yield return null;
+
+
+            
+
+
+        }
 
 
         //private void ControlPowerBar()

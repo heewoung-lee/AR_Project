@@ -39,7 +39,7 @@ namespace FishingGameTool.Fishing
         public class AdvancedSettings
         {
             [ReadOnlyField]
-            public FishingLootData _caughtLootData;
+            public FishingLootData _caughtLootData; 
 
             [InfoBox("Custom Catch Probability Data.")]
             public CatchProbabilityData _catchProbabilityData;
@@ -96,8 +96,8 @@ namespace FishingGameTool.Fishing
         private bool _castFloat = false;
         public bool castFloat { get => _castFloat; }
 
-        public bool ischeckedCast { get; private set; }
-        public event Action showPowerbarEvent; 
+        private bool ischeckedCast = false; 
+        public event Action<bool> showPowerbarEvent;
 
 
         private Button _attractButton;
@@ -232,7 +232,7 @@ namespace FishingGameTool.Fishing
 
                     if (_advanced._caughtLootData != null)
                     {
-                        float lootWeight = Random.Range(_advanced._caughtLootData._weightRange._minWeight, _advanced._caughtLootData._weightRange._maxWeight);
+                        float lootWeight = UnityEngine.Random.Range(_advanced._caughtLootData._weightRange._minWeight, _advanced._caughtLootData._weightRange._maxWeight);
                         _advanced._lootWeight = lootWeight;
 
                         _bait = null;
@@ -308,8 +308,8 @@ namespace FishingGameTool.Fishing
             _randomSpeedChangerTimer -= Time.deltaTime;
             if (_randomSpeedChangerTimer < 0)
             {
-                _randomSpeedChanger = Random.Range(1f, 3f);
-                _randomSpeedChangerTimer = Random.Range(2f, 4f);
+                _randomSpeedChanger = UnityEngine.Random.Range(1f, 3f);
+                _randomSpeedChangerTimer = UnityEngine.Random.Range(2f, 4f);
             }
 
             float lootSpeed = (baseSpeed + lootWeight * 0.1f * speedMultipliersByTier[tier]) * _randomSpeedChanger;
@@ -406,7 +406,7 @@ namespace FishingGameTool.Fishing
             float distance = Vector3.Distance(transformPosition, fishingFloatPosition);
             float minSafeFishingDistanceFactor = 10f;
 
-            int chanceVal = Random.Range(1, 100);
+            int chanceVal = UnityEngine.Random.Range(1, 100);
 
             int commonProbability = 5;
             int uncommonProbability = 12;
@@ -496,7 +496,7 @@ namespace FishingGameTool.Fishing
             for (int i = 0; i < lootDataList.Count; i++)
             {
                 FishingLootData temp = lootDataList[i];
-                int randomIndex = Random.Range(i, lootDataList.Count);
+                int randomIndex = UnityEngine.Random.Range(i, lootDataList.Count);
                 lootDataList[i] = lootDataList[randomIndex];
                 lootDataList[randomIndex] = temp;
             }
@@ -509,7 +509,7 @@ namespace FishingGameTool.Fishing
             if (baitData != null)
                 baitTier = (int)baitData._baitTier + 1;
 
-            float chanceVal = Random.Range(1f, 100f);
+            float chanceVal = UnityEngine.Random.Range(1f, 100f);
             float addedRarity = 0f;
 
             for (int i = 0; i < lootRarityList.Count; i++)
@@ -683,8 +683,7 @@ namespace FishingGameTool.Fishing
             {
                 _castInput = false; // 마우스 버튼이 떼어졌을 때
                 ischeckedCast = true; // 힘의 바 체크를 위한 변수
-                showPowerbarEvent?.Invoke();
-
+                showPowerbarEvent?.Invoke(ischeckedCast);
                 Vector2 endPos = Pointer.current.position.ReadValue();
                 _dragDistance = Mathf.Abs(endPos.y - _startPos.y);
                 Debug.Log("끝지점 좌표" + endPos.ToString());
