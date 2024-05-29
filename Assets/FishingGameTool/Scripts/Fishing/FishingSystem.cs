@@ -13,6 +13,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.EnhancedTouch;
+using System;
 
 namespace FishingGameTool.Fishing
 {
@@ -86,11 +87,18 @@ namespace FishingGameTool.Fishing
         public AdvancedSettings _advanced;
 
         [HideInInspector]
-        public bool _attractInput;
+        private bool _attractInput;
+        public bool attractInput { get => _attractInput; }
         [HideInInspector]
-        public bool _castInput = false;
+        private bool _castInput = false;
+        public bool castInput { get => _castInput; } 
         [HideInInspector]
-        public bool _castFloat = false;
+        private bool _castFloat = false;
+        public bool castFloat { get => _castFloat; }
+
+        public bool ischeckedCast { get; private set; }
+        public event Action showPowerbarEvent; 
+
 
         private Button _attractButton;
         private Vector2 _startPos;
@@ -148,26 +156,6 @@ namespace FishingGameTool.Fishing
             entry.callback.AddListener(action);
             trigger.triggers.Add(entry);
         }
-
-        //public void TouchScreen()
-        //{
-        //    if (Input.touchCount > 0 && _isReady)
-        //    {
-        //        Touch touch = Input.GetTouch(0);
-
-        //        if (touch.phase == UnityEngine.TouchPhase.Began)
-        //        {
-        //            _castInput = true;
-        //            _startPos = touch.position;
-        //        }
-        //        else if (touch.phase == UnityEngine.TouchPhase.Ended)
-        //        {
-        //            _castInput = false;
-        //            Vector2 endPos = touch.position;
-        //            float dragDistance = endPos.y - _startPos.y;
-        //        }
-        //    }
-        //}
 
         private void Update()
         {
@@ -684,15 +672,19 @@ namespace FishingGameTool.Fishing
             if (IsPointerOverButton(_attractButton))
                 return; // _attractButton 위에 있을 때는 OnClick 동작을 무시
 
-            if (Pointer.current.press.isPressed)
+
+            if (context.ReadValueAsButton())
             {
                 _castInput = true; // 마우스 버튼이 눌렸을 때
                 _startPos = Pointer.current.position.ReadValue();
                 Debug.Log("처음지점 좌표" + _startPos.ToString());
             }
-            else if (!Pointer.current.press.isPressed)
+            else
             {
                 _castInput = false; // 마우스 버튼이 떼어졌을 때
+                ischeckedCast = true; // 힘의 바 체크를 위한 변수
+                showPowerbarEvent?.Invoke();
+
                 Vector2 endPos = Pointer.current.position.ReadValue();
                 _dragDistance = Mathf.Abs(endPos.y - _startPos.y);
                 Debug.Log("끝지점 좌표" + endPos.ToString());

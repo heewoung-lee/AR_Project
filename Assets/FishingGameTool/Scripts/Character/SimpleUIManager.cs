@@ -6,6 +6,7 @@ using FishingGameTool.CustomAttribute;
 using FishingGameTool.Fishing.LootData;
 using TMPro;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 namespace FishingGameTool.Example
 {
@@ -70,7 +71,7 @@ namespace FishingGameTool.Example
         public FishingLineLoadBar _fishingLineLoadBar;   // 낚싯줄 상태 바 설정
         [Space]
         public CastForceBar _castForceBar;   // 던지기 힘 바 설정
-
+        [Space]
         public CastForceBar _castForceTestBar;
         
 
@@ -84,7 +85,9 @@ namespace FishingGameTool.Example
         private void Awake()
         {
             _fishingSystem = GameObject.Find("AR Session Origin/AR Camera/Character").GetComponent<FishingSystem>();
+            _castForceTestBar._UIObject.SetActive(false);
             _lineStatus = _fishingSystem._fishingRod._lineStatus;   // 낚싯줄 상태 초기화
+
         }
 
         private void Update()
@@ -92,7 +95,7 @@ namespace FishingGameTool.Example
             ControlFishingLineLoadBar();   // 낚싯줄 상태 바 제어
             ControlCastBar();   // 던지기 힘 바 제어
             ControlMenu();   // 메뉴 제어
-            ControlPowerBar();
+            showPowerBar();
         }
 
         private void ControlMenu()
@@ -114,7 +117,7 @@ namespace FishingGameTool.Example
 
         private void ControlCastBar()
         {
-            if (_fishingSystem._advanced._caughtLoot || !_fishingSystem._castInput)   // 전리품을 잡았거나 던지기 입력이 없으면
+            if (_fishingSystem._advanced._caughtLoot || !_fishingSystem.castInput)   // 전리품을 잡았거나 던지기 입력이 없으면
             {
                 _castForceBar._UIObject.SetActive(false);   // 캐스트 바 비활성화
                 return;
@@ -132,44 +135,57 @@ namespace FishingGameTool.Example
 
             SetBarScale(_castForceBar._fillDirection, _castForceBar._castBar, castProgress);   // 캐스트 바 크기 설정
         }
-        private void ControlPowerBar()
+
+
+        private void showPowerBar()
         {
-            if (_fishingSystem._advanced._caughtLoot || !_fishingSystem._castInput)   // 전리품을 잡았거나 던지기 입력이 없으면
-            {
-                _castForceTestBar._UIObject.SetActive(false);   // 캐스트 바 비활성화
-                return;
-            }
-
-            _castForceTestBar._UIObject.SetActive(true); // 캐스트 바 활성화
-
-            // _dragDistance 값을 사용하여 힘 계산
-            float inputPower = (_fishingSystem.dragDistance / Screen.width) * _fishingSystem._maxCastForce;
-            float castProgress = CalculateProgess(inputPower, _fishingSystem._maxCastForce);
-            SetBarScale(_castForceTestBar._fillDirection, _castForceTestBar._castBar, castProgress);
-
-            // 알파값 조정 코루틴 시작
-            StartCoroutine(PowerBarFadeOut());
+            //if(_fishingSystem.castInput == false)
+            //{
+            //    _castForceTestBar._UIObject.SetActive(true);
+            //}
         }
 
-        private IEnumerator PowerBarFadeOut()
-        {
-            Image castBarImage = _castForceTestBar._UIObject.GetComponent<Image>();
-            Color originalColor = castBarImage.color;
 
-            float elapsedTime = 0f;
-            float duration = 2f; // 2초 동안 알파값 감소
 
-            while (elapsedTime < duration)
-            {
-                elapsedTime += Time.deltaTime;
-                float alpha = Mathf.Lerp(1f, 0f, elapsedTime / duration);
-                castBarImage.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
-                yield return null;
-            }
 
-            // 2초 후 캐스트 바 비활성화
-            _castForceTestBar._UIObject.SetActive(false);
-        }
+        //private void ControlPowerBar()
+        //{
+        //    if (_fishingSystem._advanced._caughtLoot || !_fishingSystem.castInput)   // 전리품을 잡았거나 던지기 입력이 없으면
+        //    {
+        //        _castForceTestBar._UIObject.SetActive(false);   // 캐스트 바 비활성화
+        //        return;
+        //    }
+
+        //    _castForceTestBar._UIObject.SetActive(true); // 캐스트 바 활성화
+
+        //    // _dragDistance 값을 사용하여 힘 계산
+        //    float inputPower = (_fishingSystem.dragDistance / Screen.width) * _fishingSystem._maxCastForce;
+        //    float castProgress = CalculateProgess(inputPower, _fishingSystem._maxCastForce);
+        //    SetBarScale(_castForceTestBar._fillDirection, _castForceTestBar._castBar, castProgress);
+
+        //    // 알파값 조정 코루틴 시작
+        //    StartCoroutine(PowerBarFadeOut());
+        //}
+
+        //private IEnumerator PowerBarFadeOut()
+        //{
+        //    Image castBarImage = _castForceTestBar._UIObject.GetComponent<Image>();
+        //    Color originalColor = castBarImage.color;
+
+        //    float elapsedTime = 0f;
+        //    float duration = 2f; // 2초 동안 알파값 감소
+
+        //    while (elapsedTime < duration)
+        //    {
+        //        elapsedTime += Time.deltaTime;
+        //        float alpha = Mathf.Lerp(1f, 0f, elapsedTime / duration);
+        //        castBarImage.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+        //        yield return null;
+        //    }
+
+        //    // 2초 후 캐스트 바 비활성화
+        //    _castForceTestBar._UIObject.SetActive(false);
+        //}
 
 
         private void ControlFishingLineLoadBar()

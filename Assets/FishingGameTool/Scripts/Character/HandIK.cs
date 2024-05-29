@@ -30,8 +30,8 @@ namespace FishingGameTool.Example
         private void AnimationControl()
         {
             bool caughtLoot = _fishingSystem._advanced._caughtLoot;
-            bool attractLoot = _fishingSystem._attractInput;
-            bool castFloat = _fishingSystem._castFloat;
+            bool attractLoot = _fishingSystem.attractInput;
+            bool castFloat = _fishingSystem.castFloat;
 
             if (_fishingSystem._advanced._caughtLoot)
             {
