@@ -17,106 +17,85 @@ using System;
 
 namespace FishingGameTool.Fishing
 {
+    // 루트를 잡는 방법을 지정하는 열거형: SpawnItem 또는 InvokeEvent
     public enum LootCatchType
     {
         SpawnItem,
         InvokeEvent
     };
 
+    // FishingSystem 스크립트에 컴포넌트 메뉴 추가
     [AddComponentMenu("Fishing Game Tool/Fishing System")]
     public class FishingSystem : MonoBehaviour, InputSystem.IUIActions
     {
+        // 루트 잡기 이벤트를 처리하기 위한 직렬화된 클래스
         [System.Serializable]
         public class LootCatchEvent
         {
-            [InfoBox("This UnityEvent passes a prefab from LootData as an argument of type GameObject.")]
-            [InfoBox("This feature is under development. In version 1.0, it does not work.")]
-            public int _invokeCalls = 1;
-            public UnityEvent _event;
+            public int _invokeCalls = 1; // 이벤트 호출 횟수
+            public UnityEvent _event; // Unity 이벤트 객체
         }
 
+        // 고급 설정을 위한 직렬화된 클래스
         [System.Serializable]
         public class AdvancedSettings
         {
-            [ReadOnlyField]
-            public FishingLootData _caughtLootData; 
-
-            [InfoBox("Custom Catch Probability Data.")]
-            public CatchProbabilityData _catchProbabilityData;
-
-            public bool _caughtLoot = false;
-            public float _returnSpeedWithoutLoot = 3f;
-            [InfoBox("The time interval in seconds between consecutive checks to determine if the catch has been successfully caught.")]
-            public float _catchCheckInterval = 1f;
-            [ReadOnlyField]
-            public float _lootWeight;
+            public FishingLootData _caughtLootData; // 잡은 루트 데이터 저장
+            public CatchProbabilityData _catchProbabilityData; // 잡기 확률 데이터
+            public bool _caughtLoot = false; // 루트를 잡았는지 여부
+            public float _returnSpeedWithoutLoot = 3f; // 루트 없이 돌아오는 속도
+            public float _catchCheckInterval = 1f; // 잡기 확인 간격
+            public float _lootWeight; // 루트의 무게
         }
 
-        [BetterHeader("Fishing Settings", 20), Space]
-        public FishingRod _fishingRod;
-
-        [InfoBox("LayerMask used to determine on which layer fishing is allowed.")]
-        public LayerMask _fishingLayer;
-        public FishingBaitData _bait;
-
-        [Space, BetterHeader("Loot Settings", 20), InfoBox("Select the method of handling loot catching:\n\n- \"SpawnItem\": Creates a game object " +
-            "upon successfully catching the loot.\n- \"InvokeEvent\": Triggers a designated event upon successfully catching the loot.")]
-        public LootCatchType _lootCatchType;
+        public FishingRod _fishingRod; // 낚싯대 객체
+        public LayerMask _fishingLayer; // 낚시 레이어 마스크
+        public FishingBaitData _bait; // 미끼 데이터
+        public LootCatchType _lootCatchType; // 루트 잡기 타입
 
         [HideInInspector]
-        public bool _showCatchEvent = false;
+        public bool _showCatchEvent = false; // 루트 잡기 이벤트 표시 여부
 
-        [ShowVariable("_showCatchEvent")]
-        public LootCatchEvent _lootCatchEvent;
+        public LootCatchEvent _lootCatchEvent; // 루트 잡기 이벤트
 
-        [Space, BetterHeader("Cast And Attract Settings", 20)]
-        public GameObject _fishingFloatPrefab;
-        public float _maxCastForce = 20f;
-        public float _forceChargeRate = 4f;
-        [ReadOnlyField]
-        public float _currentCastForce;
-        public float _spawnFloatDelay = 0.3f;
+        public GameObject _fishingFloatPrefab; // 낚싯대 프리팹
+        public float _maxCastForce = 20f; // 최대 던지기 힘
+        public float _forceChargeRate = 4f; // 힘 충전 속도
+        public float _currentCastForce; // 현재 던지기 힘
+        public float _spawnFloatDelay = 0.3f; // 낚싯대 생성 지연 시간
+        public float _catchDistance = 3.5f; // 잡기 최소 거리
 
-        [InfoBox("Minimum distance required for successfully picking up or catching a target (e.g., fish or object).")]
-        public float _catchDistance = 3.5f;
+        public bool _showAdvancedSettings = false; // 고급 설정 표시 여부
 
-        [Space, AddButton("Advanced Settings", "_showAdvancedSettings")]
-        public bool _showAdvancedSettings = false;
-
-        [ShowVariable("_showAdvancedSettings")]
-        public AdvancedSettings _advanced;
+        public AdvancedSettings _advanced; // 고급 설정 객체
 
         [HideInInspector]
-        private bool _attractInput;
-        public bool attractInput { get => _attractInput; }
+        private bool _attractInput; // 미끼 유도 입력 여부
+        public bool attractInput { get => _attractInput; } // 미끼 유도 입력 접근자
         [HideInInspector]
-        private bool _castInput = false;
-        public bool castInput { get => _castInput; } 
+        private bool _castInput = false; // 던지기 입력 여부
+        public bool castInput { get => _castInput; } // 던지기 입력 접근자
         [HideInInspector]
-        private bool _castFloat = false;
-        public bool castFloat { get => _castFloat; }
+        private bool _castFloat = false; // 던지기 동작 여부
+        public bool castFloat { get => _castFloat; } // 던지기 동작 접근자
 
-        private bool ischeckedCast = false; 
-        public event Action<bool> showPowerbarEvent;
+        public event Func<float> showPowerbarEvent; // 파워바 이벤트
 
+        private Vector2 _startPos; // 시작 위치
+        private float _castingPower; // 던지기 힘
 
-        private Button _attractButton;
-        private Vector2 _startPos;
+        private InputSystem _inputSystem; // 입력 시스템
+        private float _dragDistance = 0; // 드래그 거리
+        public float dragDistance { get => _dragDistance; } // 드래그 거리 접근자
 
-        private InputSystem _inputSystem;
-        private float _dragDistance = 0;
-        public float dragDistance
-        {
-            get => _dragDistance;
-        }
         #region PRIVATE VARIABLES
 
-        private float _catchCheckIntervalTimer;
-        private float _randomSpeedChangerTimer = 2f;
-        private float _randomSpeedChanger = 1f;
-        private float _finalSpeed;
+        private float _catchCheckIntervalTimer; // 잡기 확인 간격 타이머
+        private float _randomSpeedChangerTimer = 2f; // 랜덤 속도 변경 타이머
+        private float _randomSpeedChanger = 1f; // 랜덤 속도 변경 값
+        private float _finalSpeed; // 최종 속도
 
-        FishingFloatPathfinder _fishingFloatPathfinder = new FishingFloatPathfinder();
+        FishingFloatPathfinder _fishingFloatPathfinder = new FishingFloatPathfinder(); // 낚시 부표 경로 찾기 객체
 
         #endregion
 
@@ -132,31 +111,17 @@ namespace FishingGameTool.Fishing
 
 #endif
 
+        // Awake 메서드: 초기화 작업 수행
         private void Awake()
         {
             _inputSystem = new InputSystem();
             _inputSystem.UI.AddCallbacks(this);
             _inputSystem.Enable();
 
-
             _catchCheckIntervalTimer = _advanced._catchCheckInterval;
-            //_castingButton = GameObject.Find("CharacterUI/Casting").GetComponent<Button>();
-            _attractButton = GameObject.Find("CharacterUI/Attract").GetComponent<Button>();
-
-            //AddEventTrigger(_castingButton.gameObject, EventTriggerType.PointerDown, (e) => { _castInput = true; });
-            //AddEventTrigger(_castingButton.gameObject, EventTriggerType.PointerUp, (e) => { _castInput = false; });
-
-            AddEventTrigger(_attractButton.gameObject, EventTriggerType.PointerDown, (e) => { _attractInput = true; });
-            AddEventTrigger(_attractButton.gameObject, EventTriggerType.PointerUp, (e) => { _attractInput = false; });
-        }
-        private void AddEventTrigger(GameObject obj, EventTriggerType type, UnityAction<BaseEventData> action)
-        {
-            EventTrigger trigger = obj.GetComponent<EventTrigger>() ?? obj.AddComponent<EventTrigger>();
-            var entry = new EventTrigger.Entry { eventID = type };
-            entry.callback.AddListener(action);
-            trigger.triggers.Add(entry);
         }
 
+        // Update 메서드: 매 프레임마다 호출되며 부표 유도 및 던지기 동작 수행
         private void Update()
         {
             if (_fishingRod != null)
@@ -164,11 +129,11 @@ namespace FishingGameTool.Fishing
                 AttractFloat();
                 CastFloat();
             }
-
         }
 
         #region AttractFloat
 
+        // 부표 유도 메서드
         private void AttractFloat()
         {
             if (_fishingRod._fishingFloat == null)
@@ -184,8 +149,8 @@ namespace FishingGameTool.Fishing
             if (_attractInput && substrateType == SubstrateType.InAir && !_advanced._caughtLoot)
             {
                 Destroy(_fishingRod._fishingFloat.gameObject);
+                _attractInput = false;
                 _fishingRod._fishingFloat = null;
-
                 return;
             }
             else if (_attractInput && substrateType == SubstrateType.Land && !_advanced._caughtLoot)
@@ -265,6 +230,7 @@ namespace FishingGameTool.Fishing
         #endregion
 
         #region LineLengthLimitation
+        // 낚싯줄 길이 제한 메서드
         private void LineLengthLimitation(GameObject fishingFloat, Vector3 transformPosition, FishingLineStatus fishingLineStatus, SubstrateType substrateType)
         {
             if (fishingLineStatus._currentLineLength > fishingLineStatus._maxLineLength && substrateType != SubstrateType.Water)
@@ -286,6 +252,7 @@ namespace FishingGameTool.Fishing
 
         #region AttractWithLoot
 
+        // 루트를 잡고 있을 때의 부표 유도 메서드
         private void AttractWithLoot(FishingLootData lootData, Transform fishingFloatTransform, Vector3 transformPosition, LayerMask fishingLayer, bool attractInput,
             float lootWeight, FishingRod fishingRod)
         {
@@ -294,10 +261,9 @@ namespace FishingGameTool.Fishing
             _finalSpeed = Mathf.Lerp(_finalSpeed, attractInput == true ? CalculateFinalAttractSpeed(lootSpeed, attractSpeed, lootData) : lootSpeed, 3f * Time.deltaTime);
 
             _fishingFloatPathfinder.FloatBehavior(lootData, fishingFloatTransform, transformPosition, fishingRod._lineStatus._maxLineLength, _finalSpeed, attractInput, fishingLayer);
-
-            //Debug.Log("Loot Speed: " + lootSpeed + " | Attract Speed: " + attractSpeed + " | Final Speed: " + _finalSpeed);
         }
 
+        // 루트 속도 계산
         private float CalculateLootSpeed(FishingLootData lootData, float lootWeight)
         {
             float[] speedMultipliersByTier = { 1.0f, 1.5f, 2.0f, 2.5f, 3.0f };
@@ -316,6 +282,7 @@ namespace FishingGameTool.Fishing
             return lootSpeed;
         }
 
+        // 유도 속도 계산
         private float CalculateAttractSpeed(FishingRod fishingRod, bool attractInput, float lootWeight, int lootTier)
         {
             FishingLineStatus fishingLineStatus = fishingRod.CalculateLineLoad(_attractInput, lootWeight, lootTier);
@@ -324,6 +291,7 @@ namespace FishingGameTool.Fishing
             return attractionSpeed;
         }
 
+        // 최종 유도 속도 계산
         private float CalculateFinalAttractSpeed(float lootSpeed, float attractSpeed, FishingLootData lootData)
         {
             int tier = (int)lootData._lootTier;
@@ -338,6 +306,7 @@ namespace FishingGameTool.Fishing
         #endregion
 
         #region GrabLoot
+        // 루트를 잡는 메서드
         private void GrabLoot(FishingLootData lootData, Vector3 fishingFloatPosition, Vector3 transformPosition)
         {
             switch (_lootCatchType)
@@ -351,17 +320,16 @@ namespace FishingGameTool.Fishing
                     }
 
                     SpawnLootItem(lootData._lootPrefab, fishingFloatPosition, transformPosition);
-
                     return;
 
                 case LootCatchType.InvokeEvent:
 
-                    Debug.LogWarning("This feature is under development. In version 1.0, it does not work.");
-
+                    Debug.LogWarning("이 기능은 개발 중입니다. 버전 1.0에서는 작동하지 않습니다.");
                     return;
             }
         }
 
+        // 루트 아이템 생성 메서드
         private void SpawnLootItem(GameObject lootPrefab, Vector3 fishingFloatPosition, Vector3 transformPosition)
         {
             Vector3 direction = ((transformPosition - fishingFloatPosition) + (Vector3.up * 3f)).normalized;
@@ -381,6 +349,7 @@ namespace FishingGameTool.Fishing
 
         #region CheckingLoot
 
+        // 루트를 잡았는지 확인하는 메서드
         private bool CheckingLoot(bool caughtLoot, FishingBaitData baitData, CatchProbabilityData catchProbabilityData,
             Vector3 transformPosition, Vector3 fishingFloatPosition)
         {
@@ -400,6 +369,7 @@ namespace FishingGameTool.Fishing
             return caught;
         }
 
+        // 루트를 잡았는지 확인하는 세부 메서드
         private bool CheckLootIsCatch(FishingBaitData baitData, CatchProbabilityData catchProbabilityData,
             Vector3 transformPosition, Vector3 fishingFloatPosition)
         {
@@ -474,6 +444,7 @@ namespace FishingGameTool.Fishing
             return false;
         }
 
+        // 던지기 거리로 확률 값을 계산하는 메서드
         private static int CalculateProbabilityValueByCastDistance(float probability, float distance, float minSafeFishingDistanceFactor)
         {
             float minValue = 0.3f;
@@ -491,6 +462,7 @@ namespace FishingGameTool.Fishing
 
         #region ChooseFishingLoot
 
+        // 낚시 루트를 선택하는 메서드
         private FishingLootData ChooseFishingLoot(FishingBaitData baitData, List<FishingLootData> lootDataList)
         {
             for (int i = 0; i < lootDataList.Count; i++)
@@ -528,6 +500,7 @@ namespace FishingGameTool.Fishing
             return null;
         }
 
+        // 총 희귀도를 계산하는 메서드
         private float CalculateTotalRarity(List<FishingLootData> lootDataList)
         {
             float totalRarity = 0;
@@ -540,6 +513,7 @@ namespace FishingGameTool.Fishing
             return totalRarity;
         }
 
+        // 희귀도의 백분율을 계산하는 메서드
         private List<float> CalculatePercentageRarity(List<FishingLootData> lootDataList, float totalRarity)
         {
             List<float> lootRarityList = new List<float>();
@@ -548,8 +522,6 @@ namespace FishingGameTool.Fishing
             {
                 float percentageRarity = (lootData._lootRarity / totalRarity) * 100f;
                 lootRarityList.Add(percentageRarity);
-
-                //Debug.Log(lootData + " - Rarity Percentage: " + percentageRarity + "%");
             }
 
             return lootRarityList;
@@ -559,6 +531,7 @@ namespace FishingGameTool.Fishing
 
         #region CastFloat
 
+        // 부표 던지기 메서드
         private void CastFloat()
         {
             // 낚싯대가 이미 던져졌거나, 낚싯대 던지기 동작이 이미 실행 중이거나, 낚싯줄이 끊어진 상태라면 동작하지 않음
@@ -569,6 +542,7 @@ namespace FishingGameTool.Fishing
             if (_castInput)
             {
                 _currentCastForce = CalculateCastForce(_currentCastForce, _maxCastForce, _forceChargeRate);
+                Debug.Log("파워: " + _castingPower);
             }
             else if (!_castInput && _currentCastForce != 0f) // 던지기 입력이 비활성화되고 던지기 힘이 0이 아니라면 던지기 동작을 시작
             {
@@ -582,7 +556,7 @@ namespace FishingGameTool.Fishing
             }
         }
 
-
+        // 던지기 지연 메서드
         private IEnumerator CastingDelay(float delay, Vector3 castDirection, Vector3 spawnPoint, float castForce, GameObject fishingFloatPrefab)
         {
             _castFloat = true; // 던지기 동작 중임을 표시
@@ -592,6 +566,7 @@ namespace FishingGameTool.Fishing
             _castFloat = false; // 던지기 동작 완료
         }
 
+        // 부표 던지기 메서드
         private Transform Cast(Vector3 castDirection, Vector3 spawnPoint, float castForce, GameObject fishingFloatPrefab)
         {
             // 낚싯대 프리팹을 지정된 위치에 생성
@@ -603,6 +578,7 @@ namespace FishingGameTool.Fishing
             return spawnedFishingFloat.transform;
         }
 
+        // 던지기 힘 계산 메서드
         private float CalculateCastForce(float currentCastForce, float maxCastForce, float forceChargeRate)
         {
             // 현재 던지기 힘을 힘 충전 속도에 따라 증가
@@ -613,9 +589,9 @@ namespace FishingGameTool.Fishing
             return currentCastForce; // 계산된 던지기 힘 반환
         }
 
-
         #endregion
 
+        // 낚시 강제 종료 메서드
         public void ForceStopFishing()
         {
             Destroy(_fishingRod._fishingFloat.gameObject);
@@ -626,6 +602,7 @@ namespace FishingGameTool.Fishing
             _fishingFloatPathfinder.ClearPathData();
         }
 
+        // 미끼 추가 메서드
         public void AddBait(FishingBaitData baitData)
         {
             if (_bait == null)
@@ -639,17 +616,20 @@ namespace FishingGameTool.Fishing
             }
         }
 
+        // 사용자 정의 잡기 확률 데이터 추가 메서드
         public void AddCustomCatchProbabilityData(CatchProbabilityData catchProbabilityData)
         {
             _advanced._catchProbabilityData = catchProbabilityData;
         }
 
+        // 낚싯줄 고정 메서드
         public void FixFishingLine()
         {
             if (_fishingRod._lineStatus._isLineBroken)
                 _fishingRod._lineStatus._isLineBroken = false;
         }
 
+        // InputSystem 인터페이스 구현 메서드
         public void OnNavigate(InputAction.CallbackContext context)
         {
         }
@@ -664,14 +644,11 @@ namespace FishingGameTool.Fishing
 
         public void OnPoint(InputAction.CallbackContext context)
         {
-
         }
 
+        // 클릭 이벤트 처리 메서드
         public void OnClick(InputAction.CallbackContext context)
         {
-            if (IsPointerOverButton(_attractButton))
-                return; // _attractButton 위에 있을 때는 OnClick 동작을 무시
-
 
             if (context.ReadValueAsButton())
             {
@@ -681,20 +658,21 @@ namespace FishingGameTool.Fishing
             }
             else
             {
-                _castInput = false; // 마우스 버튼이 떼어졌을 때
-                ischeckedCast = true; // 힘의 바 체크를 위한 변수
-                showPowerbarEvent?.Invoke(ischeckedCast);
                 Vector2 endPos = Pointer.current.position.ReadValue();
-                _dragDistance = Mathf.Abs(endPos.y - _startPos.y);
-                Debug.Log("끝지점 좌표" + endPos.ToString());
-                Debug.Log("거리차이" + dragDistance);
+                _dragDistance = endPos.y - _startPos.y;
+                Debug.Log(_dragDistance);
+                if (_dragDistance > 0 && _fishingRod._fishingFloat==null)//찌가 이미 있는 상태이고 정방향으로 슬라이더를 하면 찌를 힘만큼 던진다.
+                {
+                    _castInput = false; // 마우스 버튼이 떼어졌을 때
+                    _currentCastForce = showPowerbarEvent.Invoke();
+                }
+                else if(_fishingRod._fishingFloat != null && _dragDistance <= 0)
+                {
+                    Debug.Log("여기 넘어옴");
+                    //찌 회수
+                    _attractInput = true;
+                }
             }
-        }
-
-        private bool IsPointerOverButton(Button button)
-        {
-            RectTransform rectTransform = button.GetComponent<RectTransform>();
-            return RectTransformUtility.RectangleContainsScreenPoint(rectTransform, Pointer.current.position.ReadValue(), Camera.main);
         }
 
         public void OnScrollWheel(InputAction.CallbackContext context)

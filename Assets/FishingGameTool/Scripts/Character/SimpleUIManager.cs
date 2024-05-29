@@ -5,9 +5,7 @@ using UnityEngine.UI;
 using FishingGameTool.CustomAttribute;
 using FishingGameTool.Fishing.LootData;
 using TMPro;
-using System.Collections;
-using UnityEngine.EventSystems;
-using UnityEngine.Events;
+using DG.Tweening;
 
 namespace FishingGameTool.Example
 {
@@ -43,27 +41,6 @@ namespace FishingGameTool.Example
             public Color _overloadLineColor = new Color { r = 255, g = 255, b = 255, a = 255 };  // 과부하 색상
         }
 
-        // 던지기 힘 바 관련 설정을 위한 클래스
-        [System.Serializable]
-        public class CastForceBar
-        {
-            [InfoBox("A reference to a user interface object that will be enabled or disabled.")]
-            public GameObject _UIObject;   // UI 오브젝트에 대한 참조
-            public Transform _castBar;     // 캐스트 바의 트랜스폼
-            public FillDirection _fillDirection;   // 채우기 방향
-
-            [Space, AddButton("Enable Color Gradient", "_castForceBar._enableColorGradient")]
-            public bool _enableColorGradient = false;   // 색상 그라디언트 사용 여부
-
-            [Space, ShowVariable("_enableColorGradient")]
-            [InfoBox("The image in which the color will be changed.")]
-            public Image _castBarImage;   // 색상이 변경될 이미지
-            [ShowVariable("_enableColorGradient")]
-            public Color _minCastForceColor = new Color { r = 255, g = 255, b = 255, a = 255 };   // 최소 캐스트 색상
-            [ShowVariable("_enableColorGradient")]
-            public Color _maxCastForceColor = new Color { r = 255, g = 255, b = 255, a = 255 };   // 최대 캐스트 색상
-        }
-
         [BetterHeader("UI Settings", 20)]
         private FishingSystem _fishingSystem;   // 낚시 시스템에 대한 참조
         public TMP_Text _lootInfoText;   // 전리품 정보 텍스트
@@ -71,10 +48,12 @@ namespace FishingGameTool.Example
         [Space]
         public FishingLineLoadBar _fishingLineLoadBar;   // 낚싯줄 상태 바 설정
         [Space]
-        public CastForceBar _castForceBar;   // 던지기 힘 바 설정
+        //public CastForceBar _castForceBar;   // 던지기 힘 바 설정
         [Space]
-        public CastForceBar _castForceTestBar;
-        
+        private Slider _powerSlider;
+        Color fillcolor = new Color(1, 0, 0,1);
+        Color backgroundColor = new Color(1, 1, 1,1);
+
 
         #region PRIVATE VARIABLES
 
@@ -86,15 +65,16 @@ namespace FishingGameTool.Example
         private void Awake()
         {
             _fishingSystem = GameObject.Find("AR Session Origin/AR Camera/Character").GetComponent<FishingSystem>();
-            _castForceTestBar._UIObject.SetActive(false);
+            _powerSlider = transform.Find("PowerSlider").GetComponent<Slider>();
+            _powerSlider.gameObject.SetActive(false);
+            _powerSlider.value = 50;
             _lineStatus = _fishingSystem._fishingRod._lineStatus;   // 낚싯줄 상태 초기화
-            _fishingSystem.showPowerbarEvent += showPowerBar;
+            _fishingSystem.showPowerbarEvent += ShowPowerBar;
         }
 
         private void Update()
         {
             ControlFishingLineLoadBar();   // 낚싯줄 상태 바 제어
-            ControlCastBar();   // 던지기 힘 바 제어
             ControlMenu();   // 메뉴 제어
         }
 
@@ -115,100 +95,32 @@ namespace FishingGameTool.Example
             }
         }
 
-        private void ControlCastBar()
+        private float ShowPowerBar()
         {
-            if (_fishingSystem._advanced._caughtLoot || !_fishingSystem.castInput)   // 전리품을 잡았거나 던지기 입력이 없으면
+            if (_fishingSystem.castInput == false)
             {
-                _castForceBar._UIObject.SetActive(false);   // 캐스트 바 비활성화
-                return;
+                _powerSlider.gameObject.SetActive(true);
+                _powerSlider.value = (_fishingSystem.dragDistance / Screen.height) * _fishingSystem._maxCastForce;
+                Debug.Log(_fishingSystem.dragDistance / Screen.height * _fishingSystem._maxCastForce);
+
+
+                _powerSlider.fillRect.GetComponent<Image>().DOFade(0, 1).OnComplete(() =>
+                {
+                    setimage(_powerSlider.gameObject, _powerSlider.fillRect.GetComponent<Image>(),fillcolor);
+                });
+                _powerSlider.GetComponentInChildren<Image>().DOFade(0, 1).OnComplete(() =>
+                {
+                    setimage(_powerSlider.gameObject, _powerSlider.GetComponentInChildren<Image>(),backgroundColor);
+                });
             }
-
-            _castForceBar._UIObject.SetActive(true);   // 캐스트 바 활성화
-
-            float castProgress = CalculateProgess(_fishingSystem._currentCastForce, _fishingSystem._maxCastForce);   // 캐스트 진행도 계산
-
-            if (_castForceBar._enableColorGradient)   // 색상 그라디언트가 활성화된 경우
-            {
-                Color currentCastBarColor = Color32.Lerp(_castForceBar._minCastForceColor, _castForceBar._maxCastForceColor, castProgress);   // 현재 캐스트 바 색상 계산
-                _castForceBar._castBarImage.color = currentCastBarColor;   // 캐스트 바 이미지 색상 설정
-            }
-
-            SetBarScale(_castForceBar._fillDirection, _castForceBar._castBar, castProgress);   // 캐스트 바 크기 설정
+            return _powerSlider.value;
         }
 
-
-        private void showPowerBar(bool ischeckedCast)
+        public void setimage(GameObject gameobject, Image image,Color color)
         {
-            if(_fishingSystem.castInput == false)
-            {
-                _castForceTestBar._UIObject.SetActive(true);
-                float castProgress = CalculateProgess(_fishingSystem._currentCastForce, _fishingSystem._maxCastForce);
-                SetBarScale(_castForceBar._fillDirection, _castForceBar._castBar, castProgress);
-            }
-
-
-            StartCoroutine(PowerBarFadeOut());
+            gameobject.SetActive(false);
+            image.color = color;
         }
-
-        private IEnumerator PowerBarFadeOut()
-        {
-            Color color = _castForceTestBar._UIObject.GetComponent<Image>().color;
-            float alpha = color.a;
-            while (color.a >=0)
-            {
-                
-                color = new Color(color.r, color.g, color.b, color.a--); ;
-
-
-            }
-            yield return null;
-
-
-            
-
-
-        }
-
-
-        //private void ControlPowerBar()
-        //{
-        //    if (_fishingSystem._advanced._caughtLoot || !_fishingSystem.castInput)   // 전리품을 잡았거나 던지기 입력이 없으면
-        //    {
-        //        _castForceTestBar._UIObject.SetActive(false);   // 캐스트 바 비활성화
-        //        return;
-        //    }
-
-        //    _castForceTestBar._UIObject.SetActive(true); // 캐스트 바 활성화
-
-        //    // _dragDistance 값을 사용하여 힘 계산
-        //    float inputPower = (_fishingSystem.dragDistance / Screen.width) * _fishingSystem._maxCastForce;
-        //    float castProgress = CalculateProgess(inputPower, _fishingSystem._maxCastForce);
-        //    SetBarScale(_castForceTestBar._fillDirection, _castForceTestBar._castBar, castProgress);
-
-        //    // 알파값 조정 코루틴 시작
-        //    StartCoroutine(PowerBarFadeOut());
-        //}
-
-        //private IEnumerator PowerBarFadeOut()
-        //{
-        //    Image castBarImage = _castForceTestBar._UIObject.GetComponent<Image>();
-        //    Color originalColor = castBarImage.color;
-
-        //    float elapsedTime = 0f;
-        //    float duration = 2f; // 2초 동안 알파값 감소
-
-        //    while (elapsedTime < duration)
-        //    {
-        //        elapsedTime += Time.deltaTime;
-        //        float alpha = Mathf.Lerp(1f, 0f, elapsedTime / duration);
-        //        castBarImage.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
-        //        yield return null;
-        //    }
-
-        //    // 2초 후 캐스트 바 비활성화
-        //    _castForceTestBar._UIObject.SetActive(false);
-        //}
-
 
         private void ControlFishingLineLoadBar()
         {
