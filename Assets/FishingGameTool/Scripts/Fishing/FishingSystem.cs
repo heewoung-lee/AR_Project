@@ -565,7 +565,7 @@ namespace FishingGameTool.Fishing
         private void CastFloat()
         {
             // 낚싯대가 이미 던져졌거나, 낚싯대 던지기 동작이 이미 실행 중이거나, 낚싯줄이 끊어진 상태라면 동작하지 않음
-            if (_fishingRod._fishingFloat != null || _castFloat || _fishingRod._lineStatus._isLineBroken)
+            if (_fishingRod._fishingFloat != null || _castFloat)
                 return;
 
             // 던지기 입력이 활성화된 상태라면 던지기 힘을 계산
