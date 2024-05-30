@@ -11,6 +11,7 @@ public enum BaitType  // ∞≠πÃ≥¢ , πŸ¥Ÿ πÃ≥¢ , πŒπ∞πÃ≥¢
     RiverBait, // ∞≠πÃ≥¢
     SeaBait, // πŸ¥ŸπÃ≥¢
     FreshwaterBait, // πŒπ∞πÃ≥¢
+    CatchingfBait, // ¿‚¿∫ π∞∞Ì±‚∏¶ πÃ≥¢∑Œ
 }
 
 public enum RodType
@@ -27,7 +28,7 @@ public enum FishType // ∞≠ , πŒπ∞ , πŸ¥Ÿ ∑Œ ≥™¥©∏È µ…µÌ?
     Freshwater, // πŒπ∞
 }
 
-public enum OtherType // ¿Ã∞« ∞ÌπŒ¡ª «ÿ∫¡æﬂ «“∞≈∞∞∞Ì
+public enum OtherType // ¿Ã∞« ∞ÌπŒ¡ª «ÿ∫¡æﬂ «“∞≈∞∞∞Ì 
 {
 
 }

@@ -11,6 +11,7 @@ public class ItemDataBase : MonoBehaviour
         _itemData.Add(1000, (Item)Resources.Load("SH/ItemData/TestBait"));
         _itemData.Add(500, (Item)Resources.Load("SH/ItemData/TestFish"));
         _itemData.Add(0, (Item)Resources.Load("SH/ItemData/DefaultItem"));
+        _itemData.Add(10, (Item)Resources.Load("SH/ItemData/TestRod"));
     }
 
 }
