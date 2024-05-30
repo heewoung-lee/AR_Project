@@ -8,11 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using FishingGameTool.CustomAttribute;
-using UnityEngine.UI;
 using UnityEngine.InputSystem;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.EnhancedTouch;
 using System;
 
 namespace FishingGameTool.Fishing
