@@ -14,6 +14,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.EnhancedTouch;
 using System;
+using Unity.VisualScripting;
 
 namespace FishingGameTool.Fishing
 {
@@ -52,7 +53,7 @@ namespace FishingGameTool.Fishing
         public LayerMask _fishingLayer; // 낚시 레이어 마스크
         public FishingBaitData _bait; // 미끼 데이터
         public LootCatchType _lootCatchType; // 루트 잡기 타입
-
+        private const int THRESHOLD = 10;
         [HideInInspector]
         public bool _showCatchEvent = false; // 루트 잡기 이벤트 표시 여부
 
@@ -88,7 +89,9 @@ namespace FishingGameTool.Fishing
         private InputSystem _inputSystem; // 입력 시스템
         private float _dragDistance = 0; // 드래그 거리
         public float dragDistance { get => _dragDistance; } // 드래그 거리 접근자
-        private Vector2 _latestTouchedPosition;
+        private Vector2 _latestTouchedPosition; //마우스가 화면위를 지나갈때의 좌표 저장
+        private bool isCheckedMouseDraged =false;
+        private float _lastPositionY = 0f; //드래그에서만 작동되게끔 마우스 포지션의 위치를 알기위한 필드
         #region PRIVATE VARIABLES
 
         private float _catchCheckIntervalTimer; // 잡기 확인 간격 타이머
@@ -672,19 +675,21 @@ namespace FishingGameTool.Fishing
 
         public void OnPoint(InputAction.CallbackContext context)
         {
-            _latestTouchedPosition = context.ReadValue<Vector2>();
-            if (_fishingRod._fishingFloat != null)
+            Vector2 currentPos = context.ReadValue<Vector2>();
+            if (_fishingRod._fishingFloat != null && isCheckedMouseDraged) // 찌가 있고 마우스를 드래그 하는 중이라면
             {
-                _attractInput = _latestTouchedPosition.y < _startPos.y;
+                _attractInput = currentPos.y < _startPos.y;
+                _lastPositionY = currentPos.y;
             }
         }
+
         // 클릭 이벤트 처리 메서드
         public void OnClick(InputAction.CallbackContext context)
         {
-
             if (context.ReadValueAsButton())
             {
                 _castInput = true; // 마우스 버튼이 눌렸을 때
+                isCheckedMouseDraged = true; // 드래그 기능을 사용 중일 때
                 _startPos = Pointer.current.position.ReadValue();
                 Debug.Log("처음지점 좌표" + _startPos.ToString());
             }
@@ -693,16 +698,15 @@ namespace FishingGameTool.Fishing
                 _endPos = Pointer.current.position.ReadValue();
                 _dragDistance = _endPos.y - _startPos.y;
                 _attractInput = false;
+                isCheckedMouseDraged = false; // 마우스 버튼을 뗐을 때
                 Debug.Log(_dragDistance);
-                if (_dragDistance >= 0 && _fishingRod._fishingFloat==null && _advanced._caughtLoot == false)//찌가 이미 있는 상태이고 미끼가 안문 상태이면 정방향으로 슬라이더를 하면 찌를 힘만큼 던진다.
+                if (_dragDistance >= 0 && _fishingRod._fishingFloat == null && _advanced._caughtLoot == false) // 찌가 이미 있는 상태이고 미끼가 안문 상태이면 정방향으로 슬라이더를 하면 찌를 힘만큼 던진다.
                 {
                     _castInput = false; // 마우스 버튼이 떼어졌을 때
                     _currentCastForce = showPowerbarEvent.Invoke();
                 }
-
             }
         }
-
         public void OnScrollWheel(InputAction.CallbackContext context)
         {
         }
