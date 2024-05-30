@@ -18,7 +18,7 @@ using Unity.VisualScripting;
 
 namespace FishingGameTool.Fishing
 {
-    // 루트를 잡는 방법을 지정하는 열거형: SpawnItem 또는 InvokeEvent
+    // 물고기를 잡는 방법을 지정하는 열거형: SpawnItem 또는 InvokeEvent
     public enum LootCatchType
     {
         SpawnItem,
@@ -29,7 +29,7 @@ namespace FishingGameTool.Fishing
     [AddComponentMenu("Fishing Game Tool/Fishing System")]
     public class FishingSystem : MonoBehaviour, InputSystem.IUIActions
     {
-        // 루트 잡기 이벤트를 처리하기 위한 직렬화된 클래스
+        // 물고기 잡기 이벤트를 처리하기 위한 직렬화된 클래스
         [System.Serializable]
         public class LootCatchEvent
         {
@@ -41,27 +41,27 @@ namespace FishingGameTool.Fishing
         [System.Serializable]
         public class AdvancedSettings
         {
-            public FishingLootData _caughtLootData; // 잡은 루트 데이터 저장
+            public FishingLootData _caughtLootData; // 잡은 물고기 데이터 저장
             public CatchProbabilityData _catchProbabilityData; // 잡기 확률 데이터
-            public bool _caughtLoot = false; // 루트를 잡았는지 여부
-            public float _returnSpeedWithoutLoot = 3f; // 루트 없이 돌아오는 속도
+            public bool _caughtLoot = false; // 물고기를 잡았는지 여부
+            public float _returnSpeedWithoutLoot = 3f; // 물고기 없이 돌아오는 속도
             public float _catchCheckInterval = 1f; // 잡기 확인 간격
-            public float _lootWeight; // 루트의 무게
+            public float _lootWeight; // 물고기의 무게
         }
 
+        private const int THRESHOLD = 5;
         public FishingRod _fishingRod; // 낚싯대 객체
         public LayerMask _fishingLayer; // 낚시 레이어 마스크
         public FishingBaitData _bait; // 미끼 데이터
-        public LootCatchType _lootCatchType; // 루트 잡기 타입
-        private const int THRESHOLD = 10;
+        public LootCatchType _lootCatchType; // 물고기 잡기 타입
         [HideInInspector]
-        public bool _showCatchEvent = false; // 루트 잡기 이벤트 표시 여부
+        public bool _showCatchEvent = false; // 물고기 잡기 이벤트 표시 여부
 
-        public LootCatchEvent _lootCatchEvent; // 루트 잡기 이벤트
+        public LootCatchEvent _lootCatchEvent; // 물고기 잡기 이벤트
 
         public GameObject _fishingFloatPrefab; // 낚싯대 프리팹
         public float _maxCastForce = 20f; // 최대 던지기 힘
-        public float _forceChargeRate = 4f; // 힘 충전 속도
+        public float _forceChargeRate = 6f; // 힘 충전 속도
         public float _currentCastForce; // 현재 던지기 힘
         public float _spawnFloatDelay = 0.3f; // 낚싯대 생성 지연 시간
         public float _catchDistance = 3.5f; // 잡기 최소 거리
@@ -71,8 +71,8 @@ namespace FishingGameTool.Fishing
         public AdvancedSettings _advanced; // 고급 설정 객체
 
         [HideInInspector]
-        private bool _attractInput; // 미끼 유도 입력 여부
-        public bool attractInput { get => _attractInput; } // 미끼 유도 입력 접근자
+        private bool _attractInput; // 미끼 당기기 입력 여부
+        public bool attractInput { get => _attractInput; } // 미끼 당기기 입력 접근자
         [HideInInspector]
         private bool _castInput = false; // 던지기 입력 여부
         public bool castInput { get => _castInput; } // 던지기 입력 접근자
@@ -84,12 +84,10 @@ namespace FishingGameTool.Fishing
 
         private Vector2 _startPos; // 시작 위치
         private Vector2 _endPos;
-        private float _castingPower; // 던지기 힘
 
         private InputSystem _inputSystem; // 입력 시스템
         private float _dragDistance = 0; // 드래그 거리
         public float dragDistance { get => _dragDistance; } // 드래그 거리 접근자
-        private Vector2 _latestTouchedPosition; //마우스가 화면위를 지나갈때의 좌표 저장
         private bool isCheckedMouseDraged =false;
         private float _lastPositionY = 0f; //드래그에서만 작동되게끔 마우스 포지션의 위치를 알기위한 필드
         #region PRIVATE VARIABLES
@@ -99,7 +97,9 @@ namespace FishingGameTool.Fishing
         private float _randomSpeedChanger = 1f; // 랜덤 속도 변경 값
         private float _finalSpeed; // 최종 속도
 
-        FishingFloatPathfinder _fishingFloatPathfinder = new FishingFloatPathfinder(); // 낚시 부표 경로 찾기 객체
+        [SerializeField] private Toggle _testToggle; 
+
+        FishingFloatPathfinder _fishingFloatPathfinder = new FishingFloatPathfinder(); // 낚시 찌 경로 찾기 객체
 
         #endregion
 
@@ -125,7 +125,7 @@ namespace FishingGameTool.Fishing
             _catchCheckIntervalTimer = _advanced._catchCheckInterval;
         }
 
-        // Update 메서드: 매 프레임마다 호출되며 부표 유도 및 던지기 동작 수행
+        // Update 메서드: 매 프레임마다 호출되며 찌 당기기 및 던지기 동작 수행
         private void Update()
         {
             if (_fishingRod != null)
@@ -137,7 +137,7 @@ namespace FishingGameTool.Fishing
 
         #region AttractFloat
 
-        // 부표 유도 메서드
+        // 찌 당기기 메서드
         private void AttractFloat()
         {
             // 낚시대의 낚시 찌가 null인지 확인하고 null이면 함수 종료
@@ -154,45 +154,45 @@ namespace FishingGameTool.Fishing
             // 낚시 줄의 길이를 제한하는 함수 호출
             LineLengthLimitation(_fishingRod._fishingFloat.gameObject, transform.position, _fishingRod._lineStatus, substrateType);
 
-            // 사용자가 유도 입력을 하였고, 표면 상태가 공중이며 loot을 잡지 못한 경우
+            // 사용자가 당기기 입력을 하였고, 표면 상태가 공중이며 loot을 잡지 못한 경우
             if (_attractInput && substrateType == SubstrateType.InAir && !_advanced._caughtLoot)
             {
-                // 낚시 찌를 파괴하고 유도 입력을 false로 설정, 낚시 찌를 null로 설정
+                // 낚시 찌를 파괴하고 당기기 입력을 false로 설정, 낚시 찌를 null로 설정
                 Destroy(_fishingRod._fishingFloat.gameObject);
                 _attractInput = false;
                 _fishingRod._fishingFloat = null;
                 return;
             }
-            // 사용자가 유도 입력을 하였고, 표면 상태가 땅이며 loot을 잡지 못한 경우
-            else if (_attractInput && substrateType == SubstrateType.Land && !_advanced._caughtLoot)
-            {
-                // 변환 위치와 낚시 찌의 위치 사이의 거리를 계산
-                float distance = Vector3.Distance(transform.position, _fishingRod._fishingFloat.position);
-                // 속도를 계산 (loot이 없을 때의 반환 속도에 120을 곱하고 deltaTime을 곱함)
-                float speed = _advanced._returnSpeedWithoutLoot * 120f * Time.deltaTime;
+            //// 사용자가 당기기 입력을 하였고, 표면 상태가 땅이며 loot을 잡지 못한 경우
+            //else if (_attractInput && substrateType == SubstrateType.Land && !_advanced._caughtLoot)
+            //{
+            //    // 변환 위치와 낚시 찌의 위치 사이의 거리를 계산
+            //    float distance = Vector3.Distance(transform.position, _fishingRod._fishingFloat.position);
+            //    // 속도를 계산 (loot이 없을 때의 반환 속도에 120을 곱하고 deltaTime을 곱함)
+            //    float speed = _advanced._returnSpeedWithoutLoot * 120f * Time.deltaTime;
 
-                // 방향을 계산
-                Vector3 direction = (transform.position - _fishingRod._fishingFloat.position).normalized;
+            //    // 방향을 계산
+            //    Vector3 direction = (transform.position - _fishingRod._fishingFloat.position).normalized;
 
-                // 낚시 찌의 Rigidbody 컴포넌트를 가져와서 속도 설정
-                Rigidbody fishingFloatRB = _fishingRod._fishingFloat.GetComponent<Rigidbody>();
-                fishingFloatRB.velocity = direction * speed;
+            //    // 낚시 찌의 Rigidbody 컴포넌트를 가져와서 속도 설정
+            //    Rigidbody fishingFloatRB = _fishingRod._fishingFloat.GetComponent<Rigidbody>();
+            //    fishingFloatRB.velocity = direction * speed;
 
-                // 거리가 설정된 거리 이하이면 낚시 찌를 파괴하고 null로 설정
-                if (distance <= _catchDistance)
-                {
-                    Destroy(_fishingRod._fishingFloat.gameObject);
-                    _fishingRod._fishingFloat = null;
-                    return;
-                }
-            }
-            // 사용자가 유도 입력을 하였고, 표면 상태가 물이며 loot을 잡지 못한 경우
+            //    // 거리가 설정된 거리 이하이면 낚시 찌를 파괴하고 null로 설정
+            //    if (distance <= _catchDistance)
+            //    {
+            //        Destroy(_fishingRod._fishingFloat.gameObject);
+            //        _fishingRod._fishingFloat = null;
+            //        return;
+            //    }
+            //}
+            // 사용자가 당기기 입력을 하였고, 표면 상태가 물이며 loot을 잡지 못한 경우
             else if (_attractInput && substrateType == SubstrateType.Water && !_advanced._caughtLoot)
             {
                 // 변환 위치와 낚시 찌의 위치 사이의 거리를 계산
                 float distance = Vector3.Distance(transform.position, _fishingRod._fishingFloat.position);
 
-                // 낚시 찌의 유도 동작을 설정
+                // 낚시 찌의 당기기 동작을 설정
                 _fishingFloatPathfinder.FloatBehavior(null, _fishingRod._fishingFloat, transform.position, _fishingRod._lineStatus._maxLineLength,
                    _advanced._returnSpeedWithoutLoot, _attractInput, _fishingLayer);
 
@@ -229,7 +229,7 @@ namespace FishingGameTool.Fishing
                     }
                 }
 
-                // loot이 있는 상태로 유도 동작 설정
+                // loot이 있는 상태로 당기기 동작 설정
                 AttractWithLoot(_advanced._caughtLootData, _fishingRod._fishingFloat, transform.position, _fishingLayer, _attractInput, _advanced._lootWeight, _fishingRod);
 
                 if (_attractInput && _fishingRod._fishingFloat != null)
@@ -282,7 +282,7 @@ namespace FishingGameTool.Fishing
 
         #region AttractWithLoot
 
-        // 루트를 잡고 있을 때의 부표 유도 메서드
+        // 물고기를 잡고 있을 때의 찌 당기기 메서드
         private void AttractWithLoot(FishingLootData lootData, Transform fishingFloatTransform, Vector3 transformPosition, LayerMask fishingLayer, bool attractInput,
             float lootWeight, FishingRod fishingRod)
         {
@@ -293,7 +293,7 @@ namespace FishingGameTool.Fishing
             _fishingFloatPathfinder.FloatBehavior(lootData, fishingFloatTransform, transformPosition, fishingRod._lineStatus._maxLineLength, _finalSpeed, attractInput, fishingLayer);
         }
 
-        // 루트 속도 계산
+        // 물고기 속도 계산
         private float CalculateLootSpeed(FishingLootData lootData, float lootWeight)
         {
             float[] speedMultipliersByTier = { 1.0f, 1.5f, 2.0f, 2.5f, 3.0f };
@@ -312,7 +312,7 @@ namespace FishingGameTool.Fishing
             return lootSpeed;
         }
 
-        // 유도 속도 계산
+        // 당기기 속도 계산
         private float CalculateAttractSpeed(FishingRod fishingRod, bool attractInput, float lootWeight, int lootTier)
         {
             FishingLineStatus fishingLineStatus = fishingRod.CalculateLineLoad(_attractInput, lootWeight, lootTier);
@@ -321,7 +321,7 @@ namespace FishingGameTool.Fishing
             return attractionSpeed;
         }
 
-        // 최종 유도 속도 계산
+        // 최종 당기기 속도 계산
         private float CalculateFinalAttractSpeed(float lootSpeed, float attractSpeed, FishingLootData lootData)
         {
             int tier = (int)lootData._lootTier;
@@ -336,7 +336,7 @@ namespace FishingGameTool.Fishing
         #endregion
 
         #region GrabLoot
-        // 루트를 잡는 메서드
+        // 물고기를 잡는 메서드
         private void GrabLoot(FishingLootData lootData, Vector3 fishingFloatPosition, Vector3 transformPosition)
         {
             switch (_lootCatchType)
@@ -359,7 +359,7 @@ namespace FishingGameTool.Fishing
             }
         }
 
-        // 루트 아이템 생성 메서드
+        // 물고기 아이템 생성 메서드
         private void SpawnLootItem(GameObject lootPrefab, Vector3 fishingFloatPosition, Vector3 transformPosition)
         {
             Vector3 direction = ((transformPosition - fishingFloatPosition) + (Vector3.up * 3f)).normalized;
@@ -379,10 +379,14 @@ namespace FishingGameTool.Fishing
 
         #region CheckingLoot
 
-        // 루트를 잡았는지 확인하는 메서드
+        // 물고기를 잡았는지 확인하는 메서드
         private bool CheckingLoot(bool caughtLoot, FishingBaitData baitData, CatchProbabilityData catchProbabilityData,
             Vector3 transformPosition, Vector3 fishingFloatPosition)
         {
+
+            if (_testToggle.isOn)
+                return true;
+
             if (caughtLoot)
                 return true;
 
@@ -399,7 +403,7 @@ namespace FishingGameTool.Fishing
             return caught;
         }
 
-        // 루트를 잡았는지 확인하는 세부 메서드
+        // 물고기를 잡았는지 확인하는 세부 메서드
         private bool CheckLootIsCatch(FishingBaitData baitData, CatchProbabilityData catchProbabilityData,
             Vector3 transformPosition, Vector3 fishingFloatPosition)
         {
@@ -409,10 +413,10 @@ namespace FishingGameTool.Fishing
             int chanceVal = UnityEngine.Random.Range(1, 100);
 
             int commonProbability = 1;
-            int uncommonProbability = 1;
-            int rareProbability = 1;
-            int epicProbability = 1;
-            int legendaryProbability = 1;
+            int uncommonProbability = 5;
+            int rareProbability = 10;
+            int epicProbability = 20;
+            int legendaryProbability = 45;
 
             if (catchProbabilityData != null)
             {
@@ -492,7 +496,7 @@ namespace FishingGameTool.Fishing
 
         #region ChooseFishingLoot
 
-        // 낚시 루트를 선택하는 메서드
+        // 낚시 물고기를 선택하는 메서드
         private FishingLootData ChooseFishingLoot(FishingBaitData baitData, List<FishingLootData> lootDataList)
         {
             for (int i = 0; i < lootDataList.Count; i++)
@@ -561,7 +565,7 @@ namespace FishingGameTool.Fishing
 
         #region CastFloat
 
-        // 부표 던지기 메서드
+        // 찌 던지기 메서드
         private void CastFloat()
         {
             // 낚싯대가 이미 던져졌거나, 낚싯대 던지기 동작이 이미 실행 중이거나, 낚싯줄이 끊어진 상태라면 동작하지 않음
@@ -597,7 +601,7 @@ namespace FishingGameTool.Fishing
             _castFloat = false; // 던지기 동작 완료
         }
 
-        // 부표 던지기 메서드
+        // 찌 던지기 메서드
         private Transform Cast(Vector3 castDirection, Vector3 spawnPoint, float castForce, GameObject fishingFloatPrefab)
         {
             // 낚싯대 프리팹을 지정된 위치에 생성
@@ -676,9 +680,9 @@ namespace FishingGameTool.Fishing
         public void OnPoint(InputAction.CallbackContext context)
         {
             Vector2 currentPos = context.ReadValue<Vector2>();
-            if (_fishingRod._fishingFloat != null && isCheckedMouseDraged) // 찌가 있고 마우스를 드래그 하는 중이라면
+            if (_fishingRod._fishingFloat != null && isCheckedMouseDraged&& currentPos.y < _startPos.y) // 찌가 있고 마우스를 드래그 하는 중이라면
             {
-                _attractInput = currentPos.y < _startPos.y;
+                _attractInput = _lastPositionY - currentPos.y > THRESHOLD;
                 _lastPositionY = currentPos.y;
             }
         }
