@@ -82,12 +82,13 @@ namespace FishingGameTool.Fishing
         public event Func<float> showPowerbarEvent; // 파워바 이벤트
 
         private Vector2 _startPos; // 시작 위치
+        private Vector2 _endPos;
         private float _castingPower; // 던지기 힘
 
         private InputSystem _inputSystem; // 입력 시스템
         private float _dragDistance = 0; // 드래그 거리
         public float dragDistance { get => _dragDistance; } // 드래그 거리 접근자
-
+        private Vector2 _latestTouchedPosition;
         #region PRIVATE VARIABLES
 
         private float _catchCheckIntervalTimer; // 잡기 확인 간격 타이머
@@ -404,11 +405,11 @@ namespace FishingGameTool.Fishing
 
             int chanceVal = UnityEngine.Random.Range(1, 100);
 
-            int commonProbability = 5;
-            int uncommonProbability = 12;
-            int rareProbability = 22;
-            int epicProbability = 35;
-            int legendaryProbability = 45;
+            int commonProbability = 1;
+            int uncommonProbability = 1;
+            int rareProbability = 1;
+            int epicProbability = 1;
+            int legendaryProbability = 1;
 
             if (catchProbabilityData != null)
             {
@@ -568,11 +569,11 @@ namespace FishingGameTool.Fishing
             if (_castInput)
             {
                 _currentCastForce = CalculateCastForce(_currentCastForce, _maxCastForce, _forceChargeRate);
-                Debug.Log("파워: " + _castingPower);
+                //Debug.Log("파워: " + _castingPower);
             }
             else if (!_castInput && _currentCastForce != 0f) // 던지기 입력이 비활성화되고 던지기 힘이 0이 아니라면 던지기 동작을 시작
             {
-                Debug.Log("파워가 남아있다면 여기로 들어옴");
+                //Debug.Log("파워가 남아있다면 여기로 들어옴");
                 Vector3 spawnPoint = _fishingRod._line._lineAttachment.position; // 낚싯대의 시작 위치
                 Vector3 castDirection = transform.forward + Vector3.up; // 던지는 방향
 
@@ -671,8 +672,12 @@ namespace FishingGameTool.Fishing
 
         public void OnPoint(InputAction.CallbackContext context)
         {
+            _latestTouchedPosition = context.ReadValue<Vector2>();
+            if (_fishingRod._fishingFloat != null)
+            {
+                _attractInput = _latestTouchedPosition.y < _startPos.y;
+            }
         }
-
         // 클릭 이벤트 처리 메서드
         public void OnClick(InputAction.CallbackContext context)
         {
@@ -685,20 +690,16 @@ namespace FishingGameTool.Fishing
             }
             else
             {
-                Vector2 endPos = Pointer.current.position.ReadValue();
-                _dragDistance = endPos.y - _startPos.y;
+                _endPos = Pointer.current.position.ReadValue();
+                _dragDistance = _endPos.y - _startPos.y;
+                _attractInput = false;
                 Debug.Log(_dragDistance);
-                if (_dragDistance >= 0 && _fishingRod._fishingFloat==null)//찌가 이미 있는 상태이고 정방향으로 슬라이더를 하면 찌를 힘만큼 던진다.
+                if (_dragDistance >= 0 && _fishingRod._fishingFloat==null && _advanced._caughtLoot == false)//찌가 이미 있는 상태이고 미끼가 안문 상태이면 정방향으로 슬라이더를 하면 찌를 힘만큼 던진다.
                 {
                     _castInput = false; // 마우스 버튼이 떼어졌을 때
                     _currentCastForce = showPowerbarEvent.Invoke();
                 }
-                else if(_fishingRod._fishingFloat != null && _dragDistance < 0)
-                {
-                    Debug.Log("여기 넘어옴");
-                    //찌 회수
-                    _attractInput = true;
-                }
+
             }
         }
 

@@ -286,7 +286,7 @@ public partial class @InputSystem: IInputActionCollection2, IDisposable
                     ""name"": ""Navigate"",
                     ""type"": ""PassThrough"",
                     ""id"": ""78125267-6cf2-47e6-9d39-dee7effd7fd1"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
