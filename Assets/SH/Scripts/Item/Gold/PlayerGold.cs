@@ -8,6 +8,7 @@ public class PlayerGold : MonoBehaviour
        set
        {
             _playerGold = value;
+            if (_playerGold <= 0) _playerGold = 0;
             _playerGoldText.text = _playerGold.ToString();
        }
     }

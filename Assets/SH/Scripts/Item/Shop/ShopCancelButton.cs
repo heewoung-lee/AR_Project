@@ -14,6 +14,6 @@ public class ShopCancelButton : MonoBehaviour
 
     private void Start()
     {
-        cancelButton.onClick.AddListener(() => ShopUI.enabled = false);
+        cancelButton.onClick.AddListener(() => { ShopOpenCloseButton._shopButton = !ShopOpenCloseButton._shopButton; ShopUI.enabled = ShopOpenCloseButton._shopButton; });
     }
 }

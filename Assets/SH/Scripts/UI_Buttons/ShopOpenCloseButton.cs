@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShopOpenButton : MonoBehaviour
+public class ShopOpenCloseButton : MonoBehaviour
 {
     Canvas ShopUI;
     Button cancelButton;
 
+
+    public static bool _shopButton = false;
     private void Awake()
     {
         cancelButton = GetComponent<Button>();
@@ -14,6 +16,6 @@ public class ShopOpenButton : MonoBehaviour
 
     private void Start()
     {
-        cancelButton.onClick.AddListener(() => ShopUI.enabled = true);
+        cancelButton.onClick.AddListener(() => { _shopButton = !_shopButton; ShopUI.enabled = _shopButton; });
     }
 }
