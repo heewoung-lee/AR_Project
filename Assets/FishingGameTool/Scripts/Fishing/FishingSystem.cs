@@ -15,6 +15,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.EnhancedTouch;
 using System;
 using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 
 namespace FishingGameTool.Fishing
 {
@@ -49,7 +50,7 @@ namespace FishingGameTool.Fishing
             public float _lootWeight; // 물고기의 무게
         }
 
-        private const int THRESHOLD = 5;
+        private const int THRESHOLD = 5; //드래그 민감도
         public FishingRod _fishingRod; // 낚싯대 객체
         public LayerMask _fishingLayer; // 낚시 레이어 마스크
         public FishingBaitData _bait; // 미끼 데이터
@@ -65,6 +66,7 @@ namespace FishingGameTool.Fishing
         public float _currentCastForce; // 현재 던지기 힘
         public float _spawnFloatDelay = 0.3f; // 낚싯대 생성 지연 시간
         public float _catchDistance = 3.5f; // 잡기 최소 거리
+        public float powerChaging = 2f;
 
         public bool _showAdvancedSettings = false; // 고급 설정 표시 여부
 
@@ -96,8 +98,10 @@ namespace FishingGameTool.Fishing
         private float _randomSpeedChangerTimer = 2f; // 랜덤 속도 변경 타이머
         private float _randomSpeedChanger = 1f; // 랜덤 속도 변경 값
         private float _finalSpeed; // 최종 속도
+        
 
-        [SerializeField] private Toggle _testToggle; 
+        [SerializeField] private Toggle _testToggle; //낚시대를 던지자마자 물고기들이 물어버리는 테스트용 토글
+        [SerializeField] private Toggle _testToggleCatch; //켜져 있으면 물었던 물고기가 바로잡히는 테스트용 토글
 
         FishingFloatPathfinder _fishingFloatPathfinder = new FishingFloatPathfinder(); // 낚시 찌 경로 찾기 객체
 
@@ -146,7 +150,6 @@ namespace FishingGameTool.Fishing
 
             // 낚시 찌의 표면 상태를 체크하여 substrateType에 저장
             SubstrateType substrateType = _fishingRod._fishingFloat.GetComponent<FishingFloat>().CheckSurface(_fishingLayer);
-
             // 만약 표면 상태가 물이면 낚시 찌의 위치와 변환 위치를 이용하여 loot을 체크
             if (substrateType == SubstrateType.Water)
                 _advanced._caughtLoot = CheckingLoot(_advanced._caughtLoot, _bait, _advanced._catchProbabilityData, transform.position, _fishingRod._fishingFloat.position);
@@ -234,13 +237,20 @@ namespace FishingGameTool.Fishing
 
                 if (_attractInput && _fishingRod._fishingFloat != null)
                 {
-                    // 변환 위치와 낚시 찌의 위치 사이의 거리를 계산
                     float distance = Vector3.Distance(transform.position, _fishingRod._fishingFloat.position);
+                    if (_testToggleCatch.isOn)
+                    {
+                        distance = _catchDistance;
+                    }
+                    // 변환 위치와 낚시 찌의 위치 사이의 거리를 계산
+                    
 
                     // 거리가 설정된 거리 이하이면 loot을 잡고 낚시 찌를 파괴
                     if (distance <= _catchDistance)
                     {
                         GrabLoot(_advanced._caughtLootData, _fishingRod._fishingFloat.position, transform.position);
+                        SceneManager.LoadScene("CatchFishMotion", LoadSceneMode.Additive);
+                        //ToDo:AR카메라를 끄고 시네머신 다른 카메라가 잡힌 물고기를 촬영
                         Destroy(_fishingRod._fishingFloat.gameObject);
                         _fishingRod._fishingFloat = null;
                         _advanced._caughtLoot = false;
@@ -287,7 +297,7 @@ namespace FishingGameTool.Fishing
             float lootWeight, FishingRod fishingRod)
         {
             float lootSpeed = CalculateLootSpeed(lootData, lootWeight);
-            float attractSpeed = CalculateAttractSpeed(fishingRod, attractInput, lootWeight, (int)lootData._lootTier);
+            float attractSpeed = CalculateAttractSpeed(fishingRod, attractInput, lootWeight, (int)lootData._lootTier) * powerChaging;
             _finalSpeed = Mathf.Lerp(_finalSpeed, attractInput == true ? CalculateFinalAttractSpeed(lootSpeed, attractSpeed, lootData) : lootSpeed, 3f * Time.deltaTime);
 
             _fishingFloatPathfinder.FloatBehavior(lootData, fishingFloatTransform, transformPosition, fishingRod._lineStatus._maxLineLength, _finalSpeed, attractInput, fishingLayer);
