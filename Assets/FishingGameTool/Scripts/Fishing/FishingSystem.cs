@@ -8,13 +8,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using FishingGameTool.CustomAttribute;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem.EnhancedTouch;
 using System;
-using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 
 namespace FishingGameTool.Fishing
@@ -98,7 +94,17 @@ namespace FishingGameTool.Fishing
         private float _randomSpeedChangerTimer = 2f; // 랜덤 속도 변경 타이머
         private float _randomSpeedChanger = 1f; // 랜덤 속도 변경 값
         private float _finalSpeed; // 최종 속도
-        
+        [SerializeField] private Camera _arMainCamera;
+        [SerializeField] private Camera _catchLootCamera;
+        [SerializeField]private Canvas _CharactorUI;
+
+
+
+        private bool _isCheckedLoadScene = false;
+
+
+        public bool isCheckedLoadScene { get => _isCheckedLoadScene; }
+
 
         [SerializeField] private Toggle _testToggle; //낚시대를 던지자마자 물고기들이 물어버리는 테스트용 토글
         [SerializeField] private Toggle _testToggleCatch; //켜져 있으면 물었던 물고기가 바로잡히는 테스트용 토글
@@ -125,7 +131,9 @@ namespace FishingGameTool.Fishing
             _inputSystem = new InputSystem();
             _inputSystem.UI.AddCallbacks(this);
             _inputSystem.Enable();
-
+            _arMainCamera = GetComponentInParent<Camera>();
+            _catchLootCamera = GameObject.Find("CatchLootCamera").GetComponent<Camera>();
+            _CharactorUI = GameObject.Find("CharacterUI").GetComponent<Canvas>();
             _catchCheckIntervalTimer = _advanced._catchCheckInterval;
         }
 
@@ -248,15 +256,13 @@ namespace FishingGameTool.Fishing
                     // 거리가 설정된 거리 이하이면 loot을 잡고 낚시 찌를 파괴
                     if (distance <= _catchDistance)
                     {
-                        GrabLoot(_advanced._caughtLootData, _fishingRod._fishingFloat.position, transform.position);
-                        SceneManager.LoadScene("CatchFishMotion", LoadSceneMode.Additive);
-                        //ToDo:AR카메라를 끄고 시네머신 다른 카메라가 잡힌 물고기를 촬영
+                        GrabLoot(_advanced._caughtLootData, _fishingRod._fishingFloat.position, transform.position,out GameObject lootprefab);
+                        CatchFishingScene(lootprefab, _catchLootCamera);//Todo: 카메라 연출 실행
                         Destroy(_fishingRod._fishingFloat.gameObject);
                         _fishingRod._fishingFloat = null;
                         _advanced._caughtLoot = false;
                         _advanced._caughtLootData = null;
                         _fishingRod.FinishFishing();
-
                         // 경로 데이터 초기화
                         _fishingFloatPathfinder.ClearPathData();
 
@@ -347,7 +353,7 @@ namespace FishingGameTool.Fishing
 
         #region GrabLoot
         // 물고기를 잡는 메서드
-        private void GrabLoot(FishingLootData lootData, Vector3 fishingFloatPosition, Vector3 transformPosition)
+        private void GrabLoot(FishingLootData lootData, Vector3 fishingFloatPosition, Vector3 transformPosition,out GameObject lootprefab)
         {
             switch (_lootCatchType)
             {
@@ -356,21 +362,27 @@ namespace FishingGameTool.Fishing
                     if (lootData._lootPrefab == null)
                     {
                         Debug.LogError("No loot prefab added!");
+                        lootprefab = null;
                         return;
                     }
-
-                    SpawnLootItem(lootData._lootPrefab, fishingFloatPosition, transformPosition);
+                    SpawnLootItem(lootData._lootPrefab, fishingFloatPosition, transformPosition,_catchLootCamera);
+                    lootprefab = lootData._lootPrefab;
                     return;
 
                 case LootCatchType.InvokeEvent:
 
                     Debug.LogWarning("이 기능은 개발 중입니다. 버전 1.0에서는 작동하지 않습니다.");
+                    lootprefab = null;
                     return;
+
+                default:
+                    lootprefab = null;
+                    break;
             }
         }
 
         // 물고기 아이템 생성 메서드
-        private void SpawnLootItem(GameObject lootPrefab, Vector3 fishingFloatPosition, Vector3 transformPosition)
+        private void SpawnLootItem(GameObject lootPrefab, Vector3 fishingFloatPosition, Vector3 transformPosition,Camera catchLootCamera)
         {
             Vector3 direction = ((transformPosition - fishingFloatPosition) + (Vector3.up * 3f)).normalized;
             Vector3 spawnPosition = fishingFloatPosition + new Vector3(0f, 1f, 0f);
@@ -381,7 +393,7 @@ namespace FishingGameTool.Fishing
             float desiredTime = 0.8f;
 
             float force = distance / desiredTime;
-
+            spawnedLootPrefab.transform.SetParent(catchLootCamera.transform);
             spawnedLootPrefab.GetComponent<Rigidbody>().AddForce(direction * force, ForceMode.Impulse);
         }
 
@@ -673,6 +685,21 @@ namespace FishingGameTool.Fishing
             if (_fishingRod._lineStatus._isLineBroken)
                 _fishingRod._lineStatus._isLineBroken = false;
         }
+
+        public void CatchFishingScene(GameObject lootObject, Camera catchLootCamera)
+        {
+            //1.AR카메라 비활성화,UI비활성화
+            _arMainCamera.enabled = false;
+            _CharactorUI.enabled = false;
+
+            //2.CatchlootCamera가 활성화 되면서 lootObject를 따라다니도록 설정
+            catchLootCamera.enabled = true;
+
+            //
+
+
+        }
+
 
         // InputSystem 인터페이스 구현 메서드
         public void OnNavigate(InputAction.CallbackContext context)

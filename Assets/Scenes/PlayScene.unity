@@ -479,6 +479,7 @@ MonoBehaviour:
     _returnSpeedWithoutLoot: 3
     _catchCheckInterval: 1
     _lootWeight: 0
+  _arMainCamera: {fileID: 0}
   _testToggle: {fileID: 1482564829}
   _testToggleCatch: {fileID: 709260037}
 --- !u!114 &62950710
@@ -1454,7 +1455,6 @@ GameObject:
   - component: {fileID: 250963187}
   - component: {fileID: 250963186}
   - component: {fileID: 250963185}
-  - component: {fileID: 250963191}
   m_Layer: 0
   m_Name: AR Camera
   m_TagString: MainCamera
@@ -1605,18 +1605,6 @@ Transform:
   m_Father: {fileID: 238435123}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &250963191
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 250963183}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &252194396
 GameObject:
   m_ObjectHideFlags: 0
