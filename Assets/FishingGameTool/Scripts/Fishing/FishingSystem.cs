@@ -12,6 +12,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 namespace FishingGameTool.Fishing
 {
@@ -79,6 +80,8 @@ namespace FishingGameTool.Fishing
         public bool castFloat { get => _castFloat; } // 던지기 동작 접근자
 
         public event Func<float> showPowerbarEvent; // 파워바 이벤트
+        //public event Action<Transform> setLootCamera;
+        public event Func<GameObject> setLineEndPoint;
 
         private Vector2 _startPos; // 시작 위치
         private Vector2 _endPos;
@@ -265,7 +268,6 @@ namespace FishingGameTool.Fishing
                         _fishingRod.FinishFishing();
                         // 경로 데이터 초기화
                         _fishingFloatPathfinder.ClearPathData();
-
                         return;
                     }
                 }
@@ -365,8 +367,8 @@ namespace FishingGameTool.Fishing
                         lootprefab = null;
                         return;
                     }
-                    SpawnLootItem(lootData._lootPrefab, fishingFloatPosition, transformPosition,_catchLootCamera);
-                    lootprefab = lootData._lootPrefab;
+                    SpawnLootItem(lootData._lootPrefab, fishingFloatPosition, transformPosition, out GameObject lootObject);
+                    lootprefab = lootObject;
                     return;
 
                 case LootCatchType.InvokeEvent:
@@ -382,18 +384,18 @@ namespace FishingGameTool.Fishing
         }
 
         // 물고기 아이템 생성 메서드
-        private void SpawnLootItem(GameObject lootPrefab, Vector3 fishingFloatPosition, Vector3 transformPosition,Camera catchLootCamera)
+        private void SpawnLootItem(GameObject lootPrefab, Vector3 fishingFloatPosition, Vector3 transformPosition,out GameObject lootObject)
         {
             Vector3 direction = ((transformPosition - fishingFloatPosition) + (Vector3.up * 3f)).normalized;
             Vector3 spawnPosition = fishingFloatPosition + new Vector3(0f, 1f, 0f);
 
-            GameObject spawnedLootPrefab = Instantiate(lootPrefab, spawnPosition, Quaternion.identity);
-
+            GameObject spawnedLootPrefab = Instantiate(lootPrefab, spawnPosition, lootPrefab.transform.localRotation);
+            lootObject = spawnedLootPrefab;
             float distance = Vector3.Distance(fishingFloatPosition, transformPosition);
             float desiredTime = 0.8f;
 
             float force = distance / desiredTime;
-            spawnedLootPrefab.transform.SetParent(catchLootCamera.transform);
+            
             spawnedLootPrefab.GetComponent<Rigidbody>().AddForce(direction * force, ForceMode.Impulse);
         }
 
@@ -689,14 +691,25 @@ namespace FishingGameTool.Fishing
         public void CatchFishingScene(GameObject lootObject, Camera catchLootCamera)
         {
             //1.AR카메라 비활성화,UI비활성화
-            _arMainCamera.enabled = false;
-            _CharactorUI.enabled = false;
-
+            //_arMainCamera.enabled = false;
+            //_CharactorUI.enabled = false;
+            //카메라 컬링 레이어를 통해 ARLayer를 가지고 있는 애들이면 렌더링 안하도록 설정
             //2.CatchlootCamera가 활성화 되면서 lootObject를 따라다니도록 설정
             catchLootCamera.enabled = true;
-            //
+            catchLootCamera.transform.position = new Vector3(lootObject.transform.position.x, lootObject.transform.position.y, lootObject.transform.position.z + 1);//카메라 위치선정
+            
+            Transform LinePoint = GameObject.Find("LinePoint").GetComponent<Transform>();
+            LinePoint.transform.position = new Vector3(lootObject.transform.position.x, lootObject.transform.position.y+4, lootObject.transform.position.z);
+            lootObject.transform.SetParent(LinePoint); //루트 카메라 밑에 LinePoint 자식으로 설정
+            lootObject.name = "CaughtFish";
+            LinePoint.AddComponent<FishingAnimation>(); //낚는 애니메이션 시작
 
-
+            //LinePoint.transform.localPosition = Vector3.zero;
+            //Transform FishMousePosition = lootObject.transform.Find("MousePosition").GetComponent<Transform>();
+            ////FishMousePosition.SetParent(lootObject.transform);
+            ////FishMousePosition.transform.localPosition = Vector3.zero;
+            ////FishMousePosition.transform.localRotation = Quaternion.identity;
+            ////lootObject.transform.Rotate(new Vector3(-90f, 0, -90f)); //물고기가 정면을 보게끔 수정
         }
 
 
@@ -715,6 +728,10 @@ namespace FishingGameTool.Fishing
 
         public void OnPoint(InputAction.CallbackContext context)
         {
+
+            if (_catchLootCamera.enabled)
+                return;
+
             Vector2 currentPos = context.ReadValue<Vector2>();
             if (_fishingRod._fishingFloat != null && isCheckedMouseDraged&& currentPos.y < _startPos.y) // 찌가 있고 마우스를 드래그 하는 중이라면
             {
@@ -726,6 +743,9 @@ namespace FishingGameTool.Fishing
         // 클릭 이벤트 처리 메서드
         public void OnClick(InputAction.CallbackContext context)
         {
+            if (_catchLootCamera.enabled)
+                return;
+
             if (context.ReadValueAsButton())
             {
                 _castInput = true; // 마우스 버튼이 눌렸을 때
