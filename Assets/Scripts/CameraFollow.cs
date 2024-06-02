@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class CameraFollow : MonoBehaviour
 {
@@ -8,11 +10,6 @@ public class CameraFollow : MonoBehaviour
     public Vector3 offset; // 카메라와 대상 간의 거리
     public float smoothSpeed = 0.125f; // 카메라 이동의 부드러움 정도
 
-    private void OnEnable()
-    {
-        target = transform.GetChild(0).GetComponent<Transform>();
-        offset = new Vector3(5, 5, 5);
-    }
     void LateUpdate()
     {
         if (target == null)
@@ -23,5 +20,10 @@ public class CameraFollow : MonoBehaviour
         transform.position = smoothedPosition; // 카메라 위치 설정
 
         transform.LookAt(target); // 대상 오브젝트를 바라보도록 설정 (옵션)
+    }
+public void Initalize()
+    {
+        target = transform.GetChild(0).GetComponent<Transform>();
+        offset = new Vector3(5, 5, 5);
     }
 }

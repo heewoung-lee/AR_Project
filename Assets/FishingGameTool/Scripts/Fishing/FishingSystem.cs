@@ -694,7 +694,6 @@ namespace FishingGameTool.Fishing
 
             //2.CatchlootCamera가 활성화 되면서 lootObject를 따라다니도록 설정
             catchLootCamera.enabled = true;
-
             //
 
 
