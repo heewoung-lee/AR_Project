@@ -82,6 +82,7 @@ namespace FishingGameTool.Fishing
         public event Func<float> showPowerbarEvent; // 파워바 이벤트
         //public event Action<Transform> setLootCamera;
         public event Func<GameObject> setLineEndPoint;
+        public event Action viewFishCaughtButtonEvent;
 
         private Vector2 _startPos; // 시작 위치
         private Vector2 _endPos;
@@ -703,7 +704,7 @@ namespace FishingGameTool.Fishing
             lootObject.transform.SetParent(LinePoint); //루트 카메라 밑에 LinePoint 자식으로 설정
             lootObject.name = "CaughtFish";
             LinePoint.AddComponent<FishingAnimation>(); //낚는 애니메이션 시작
-
+            viewFishCaughtButtonEvent?.Invoke();
             //LinePoint.transform.localPosition = Vector3.zero;
             //Transform FishMousePosition = lootObject.transform.Find("MousePosition").GetComponent<Transform>();
             ////FishMousePosition.SetParent(lootObject.transform);
