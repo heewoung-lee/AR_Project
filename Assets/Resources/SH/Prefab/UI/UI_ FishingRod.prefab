@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5505948426228070564}
   - component: {fileID: 5505948426228070565}
   - component: {fileID: 5505948426228070566}
+  - component: {fileID: 1508053228}
   m_Layer: 5
   m_Name: FishingRod_Button
   m_TagString: Untagged
@@ -122,6 +123,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1508053228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5505948426228070584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90a5bcf7a34a20244859ea98e2d24e08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5505948426829278929
 GameObject:
   m_ObjectHideFlags: 0

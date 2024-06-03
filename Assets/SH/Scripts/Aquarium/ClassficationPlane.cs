@@ -1,26 +1,79 @@
-using System.Collections;
-using System.Collections.Generic;
+Ôªøusing TMPro;
 using UnityEngine;
-
-using UnityEngine.XR.ARFoundation; //XR Ω√Ω∫≈€¿ª ªÁøÎ«œ±‚ ¿ß«— µŒ∞°¡ˆ ºº∆√
+using UnityEngine.XR.ARFoundation; //XR ÏãúÏä§ÌÖúÏùÑ ÏÇ¨Ïö©ÌïòÍ∏∞ ÏúÑÌïú ÎëêÍ∞ÄÏßÄ ÏÑ∏ÌåÖ
 using UnityEngine.XR.ARSubsystems;
+
 
 public class ClassficationPlane : MonoBehaviour
 {
     ARPlane _arPlane;
     MeshRenderer _planeMeshRenderer;
-    TextMesh _textMesh;
-    GameObject _textObj;
+    [SerializeField] TMP_Text _textMesh;
+    [SerializeField] GameObject _textObj;
     GameObject _mainCam;
+
 
     private void Awake()
     {
         _arPlane = GetComponent<ARPlane>();
         _planeMeshRenderer = GetComponent<MeshRenderer>();
-
-        // πÿ∫Œ∫–¿∫ ∞ÌπŒ?
-        _textMesh = GetComponent<TextMesh>();   
-        _textObj = GetComponent<GameObject>();
-        _mainCam = GetComponent<GameObject>();
+        _mainCam = FindObjectOfType<Camera>().gameObject;
     }
+
+    private void Update()
+    {
+        UpdateLabel();
+        UpdatePlaneColor();
+    }
+
+    private void UpdateLabel()
+    {
+        _textMesh.text = _arPlane.classification.ToString();
+        _textObj.transform.position = _arPlane.center; // Ï†ï Ï§ëÏïôÏóê Î∞∞Ïπò 
+        _textObj.transform.LookAt(_mainCam.transform); // Ï∫†Ïù¥ Î∞îÎùº Î≥¥Îäî ÏúÑÏπòÎ°ú 
+        _textObj.transform.Rotate(new Vector3(0, 180, 0));
+    }
+
+    void UpdatePlaneColor()
+    {
+        Color planeMatColor = Color.cyan;
+        switch(_arPlane.classification)
+        {
+            case PlaneClassification.None:
+                planeMatColor = Color.cyan;
+                break;
+
+            case PlaneClassification.Wall:
+                planeMatColor = Color.white;
+                break;
+
+            case PlaneClassification.Floor:
+                planeMatColor = Color.green;
+                break;
+
+            case PlaneClassification.Ceiling:
+                planeMatColor = Color.blue;
+                break;
+
+            case PlaneClassification.Table:
+                planeMatColor = Color.yellow;
+                break;
+
+            case PlaneClassification.Seat:
+                planeMatColor = Color.magenta;
+                break;
+
+            case PlaneClassification.Door:
+                planeMatColor = Color.red;
+                break;
+
+            case PlaneClassification.Window:
+                planeMatColor = Color.clear;
+                break;
+        }
+
+        planeMatColor.a = 0f;
+        _planeMeshRenderer.material.color = planeMatColor;
+    }
+
 }
