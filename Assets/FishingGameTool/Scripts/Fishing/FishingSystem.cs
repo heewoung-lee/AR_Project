@@ -92,6 +92,7 @@ namespace FishingGameTool.Fishing
         public float dragDistance { get => _dragDistance; } // 드래그 거리 접근자
         private bool isCheckedMouseDraged =false;
         private float _lastPositionY = 0f; //드래그에서만 작동되게끔 마우스 포지션의 위치를 알기위한 필드
+        [SerializeField]private GameObject _fishingrope;
         #region PRIVATE VARIABLES
 
         private float _catchCheckIntervalTimer; // 잡기 확인 간격 타이머
@@ -698,13 +699,17 @@ namespace FishingGameTool.Fishing
             //2.CatchlootCamera가 활성화 되면서 lootObject를 따라다니도록 설정
             catchLootCamera.enabled = true;
             catchLootCamera.transform.position = new Vector3(lootObject.transform.position.x, lootObject.transform.position.y, lootObject.transform.position.z + 1);//카메라 위치선정
-            
-            Transform LinePoint = GameObject.Find("LinePoint").GetComponent<Transform>();
-            LinePoint.transform.position = new Vector3(lootObject.transform.position.x, lootObject.transform.position.y+4, lootObject.transform.position.z);
-            lootObject.transform.SetParent(LinePoint); //루트 카메라 밑에 LinePoint 자식으로 설정
-            lootObject.name = "CaughtFish";
-            LinePoint.AddComponent<FishingAnimation>(); //낚는 애니메이션 시작
-            viewFishCaughtButtonEvent?.Invoke();
+
+            CatchingAnimation(lootObject, catchLootCamera.transform);
+
+            //Transform LinePoint = GameObject.Find("LinePoint").GetComponent<Transform>();
+            //LinePoint.transform.position = new Vector3(lootObject.transform.position.x, lootObject.transform.position.y+4, lootObject.transform.position.z);
+            //lootObject.transform.SetParent(LinePoint); //루트 카메라 밑에 LinePoint 자식으로 설정
+            //lootObject.name = "CaughtFish";
+            //LinePoint.AddComponent<FishingAnimation>(); //낚는 애니메이션 시작
+            //viewFishCaughtButtonEvent?.Invoke(); //Ok버튼 나오도록
+
+
             //LinePoint.transform.localPosition = Vector3.zero;
             //Transform FishMousePosition = lootObject.transform.Find("MousePosition").GetComponent<Transform>();
             ////FishMousePosition.SetParent(lootObject.transform);
@@ -713,7 +718,36 @@ namespace FishingGameTool.Fishing
             ////lootObject.transform.Rotate(new Vector3(-90f, 0, -90f)); //물고기가 정면을 보게끔 수정
         }
 
+        public void CatchingAnimation(GameObject lootobject,Transform catchLootCamera)
+        {
+            //로프의 끝을 물고기와 연결해야 함.
+            GameObject FishingLope = Instantiate(_fishingrope);
+            FishingLine fishingLine = FishingLope.GetComponent<FishingLine>();
 
+
+            fishingLine.startTransform = FishingLope.transform.Find("StartPoint").GetComponent<Transform>();
+            fishingLine.startTransform.transform.position = catchLootCamera.transform.position ;
+            fishingLine.startTransform.transform.position += Vector3.up * 2; //카메라 위로 올라가도록 설정
+            fishingLine.startTransform.transform.position += Vector3.right;
+            Debug.Log("물고기좌표"+lootobject.transform.position);
+
+            lootobject.transform.position += Vector3.back * 4;
+
+            fishingLine.endTransform = lootobject.transform.Find("MousePosition").GetComponent<Transform>();//입에 포지션을 설정
+
+            lootobject.transform.position += Vector3.forward * 4.5f;
+            lootobject.transform.rotation = Quaternion.Euler(new Vector3(-30f, 20f, -135f));
+
+
+
+            StartCoroutine(WaitScene());
+        }
+
+
+        IEnumerator WaitScene()
+        {
+            yield return new WaitForSeconds(2);
+        }
         // InputSystem 인터페이스 구현 메서드
         public void OnNavigate(InputAction.CallbackContext context)
         {
