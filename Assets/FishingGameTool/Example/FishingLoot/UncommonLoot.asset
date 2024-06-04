@@ -20,5 +20,5 @@ MonoBehaviour:
   _lootRarity: 50
   _lootName: Uncommon Fish
   _lootDescription: Example Uncommon Fish.
-  _lootPrefab: {fileID: 7310512217815026802, guid: 2aa8e22f46888d44b86f1acc6c617562,
+  _lootPrefab: {fileID: 7051504453143518379, guid: 9582bf9a16b02154091cff3fcc742b49,
     type: 3}

@@ -20,5 +20,5 @@ MonoBehaviour:
   _lootRarity: 25
   _lootName: Rare Item
   _lootDescription: Example Rare Item.
-  _lootPrefab: {fileID: 6886775904149126491, guid: 4af28fe4afa2f0449aff41f11f11d19f,
+  _lootPrefab: {fileID: 6893080666184531109, guid: bd8b9576be91e0c47b41a3bd9cc47044,
     type: 3}

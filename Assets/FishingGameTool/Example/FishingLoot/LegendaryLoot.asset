@@ -20,5 +20,5 @@ MonoBehaviour:
   _lootRarity: 3
   _lootName: Legendary Fish
   _lootDescription: Example Legendary Fish.
-  _lootPrefab: {fileID: 7310512217815026802, guid: 2aa8e22f46888d44b86f1acc6c617562,
+  _lootPrefab: {fileID: 3838286276255427657, guid: c2407186729111546bab46cb3fdf9230,
     type: 3}

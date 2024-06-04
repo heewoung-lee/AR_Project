@@ -147,8 +147,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineRenderer: {fileID: 3346138207831619285}
-  segmentCount: 30
-  constrainLoop: 50
+  segmentCount: 15
+  constrainLoop: 45
   segmentLength: 0.1
   ropeWidth: 0.005
   startTransform: {fileID: 3346138207897275433}

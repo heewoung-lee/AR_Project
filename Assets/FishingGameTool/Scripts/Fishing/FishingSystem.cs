@@ -12,7 +12,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System;
 using UnityEngine.SceneManagement;
-using Unity.VisualScripting;
+using DG.Tweening;
 
 namespace FishingGameTool.Fishing
 {
@@ -52,6 +52,7 @@ namespace FishingGameTool.Fishing
         public LayerMask _fishingLayer; // 낚시 레이어 마스크
         public FishingBaitData _bait; // 미끼 데이터
         public LootCatchType _lootCatchType; // 물고기 잡기 타입
+        public Ease FishingCompleteActionType;
         [HideInInspector]
         public bool _showCatchEvent = false; // 물고기 잡기 이벤트 표시 여부
 
@@ -82,7 +83,7 @@ namespace FishingGameTool.Fishing
         public event Func<float> showPowerbarEvent; // 파워바 이벤트
         //public event Action<Transform> setLootCamera;
         public event Func<GameObject> setLineEndPoint;
-        public event Action viewFishCaughtButtonEvent;
+        public event Action<GameObject,GameObject,Camera,Image,Image> viewFishCaughtButtonEvent;
 
         private Vector2 _startPos; // 시작 위치
         private Vector2 _endPos;
@@ -92,7 +93,9 @@ namespace FishingGameTool.Fishing
         public float dragDistance { get => _dragDistance; } // 드래그 거리 접근자
         private bool isCheckedMouseDraged =false;
         private float _lastPositionY = 0f; //드래그에서만 작동되게끔 마우스 포지션의 위치를 알기위한 필드
-        [SerializeField]private GameObject _fishingrope;
+        private GameObject _fishingrope;
+        private Transform _bigCatchWord;
+        
         #region PRIVATE VARIABLES
 
         private float _catchCheckIntervalTimer; // 잡기 확인 간격 타이머
@@ -129,16 +132,17 @@ namespace FishingGameTool.Fishing
         }
 
 #endif
-
-        // Awake 메서드: 초기화 작업 수행
+        
         private void Awake()
         {
             _inputSystem = new InputSystem();
             _inputSystem.UI.AddCallbacks(this);
             _inputSystem.Enable();
             _arMainCamera = GetComponentInParent<Camera>();
+            _fishingrope = Resources.Load<GameObject>("HW/Prefabs/Rope");
             _catchLootCamera = GameObject.Find("CatchLootCamera").GetComponent<Camera>();
             _CharactorUI = GameObject.Find("CharacterUI").GetComponent<Canvas>();
+            _bigCatchWord = _CharactorUI.transform.Find("Bigcatchword").GetComponent<Transform>();
             _catchCheckIntervalTimer = _advanced._catchCheckInterval;
         }
 
@@ -692,9 +696,6 @@ namespace FishingGameTool.Fishing
 
         public void CatchFishingScene(GameObject lootObject, Camera catchLootCamera)
         {
-            //1.AR카메라 비활성화,UI비활성화
-            //_arMainCamera.enabled = false;
-            //_CharactorUI.enabled = false;
             //카메라 컬링 레이어를 통해 ARLayer를 가지고 있는 애들이면 렌더링 안하도록 설정
             //2.CatchlootCamera가 활성화 되면서 lootObject를 따라다니도록 설정
             catchLootCamera.enabled = true;
@@ -725,29 +726,44 @@ namespace FishingGameTool.Fishing
             FishingLine fishingLine = FishingLope.GetComponent<FishingLine>();
 
 
-            fishingLine.startTransform = FishingLope.transform.Find("StartPoint").GetComponent<Transform>();
-            fishingLine.startTransform.transform.position = catchLootCamera.transform.position ;
-            fishingLine.startTransform.transform.position += Vector3.up * 2; //카메라 위로 올라가도록 설정
-            fishingLine.startTransform.transform.position += Vector3.right;
-            Debug.Log("물고기좌표"+lootobject.transform.position);
-
-            lootobject.transform.position += Vector3.back * 4;
-
-            fishingLine.endTransform = lootobject.transform.Find("MousePosition").GetComponent<Transform>();//입에 포지션을 설정
-
-            lootobject.transform.position += Vector3.forward * 4.5f;
-            lootobject.transform.rotation = Quaternion.Euler(new Vector3(-30f, 20f, -135f));
+            fishingLine.startTransform = FishingLope.transform.Find("StartPoint");
+            fishingLine.startTransform.transform.position = catchLootCamera.transform.position + Vector3.up * 2;
+            fishingLine.startTransform.transform.position += Vector3.right;//낚시줄 위치 조정
+            //fishingLine.endTransform = lootobject.transform.Find("MousePosition");//입에 포지션을 설정
+            fishingLine.endTransform = lootobject.GetComponentInChildren<FindMousePosition>().transform;
 
 
+            //ToDO: 물속에 박혀 있다가 물밖으로 끄집어내도록 물속-> 물밖 닷트윈 실행
+            lootobject.transform.position -= lootobject.transform.forward * 5f;
+            // DOTween 시퀀스를 사용하여 "월척" 애니메이션 실행
+            Image bigCatchWord_1 = _bigCatchWord.Find("Bigcatchword_1").GetComponent<Image>();
+            Image bigCatchWord_2 = _bigCatchWord.Find("Bigcatchword_2").GetComponent<Image>();
 
-            StartCoroutine(WaitScene());
+            // 시퀀스 생성
+            DG.Tweening.Sequence fishCompingUpSequence = DOTween.Sequence();
+
+            fishCompingUpSequence
+                .Append(lootobject.transform.DOMove(lootobject.transform.position + lootobject.transform.forward * 5f, 0.5f))
+                .SetEase(FishingCompleteActionType)
+                .Join(lootobject.transform.DORotate(new Vector3(0, 0, -90),2f))
+                .Append(fishingLine.startTransform.transform.DOMove(fishingLine.startTransform.transform.position -= Vector3.right, 1))
+                .AppendCallback(() => bigCatchWord_1.enabled = true)
+                .Append(bigCatchWord_1.transform.DOScale(12, 0))
+                .Append(bigCatchWord_1.transform.DOScale(4, 1))
+                .AppendCallback(() => bigCatchWord_2.enabled = true)
+                .Append(bigCatchWord_2.transform.DOScale(12, 0))
+                .Append(bigCatchWord_2.transform.DOScale(4, 1))
+                .AppendInterval(1f)
+                .AppendCallback(() => viewFishCaughtButtonEvent?.Invoke(lootobject, fishingLine.gameObject, catchLootCamera.GetComponent<Camera>(), bigCatchWord_1, bigCatchWord_2));
+                
+            fishCompingUpSequence.Play();
+
+
+
+
+
         }
 
-
-        IEnumerator WaitScene()
-        {
-            yield return new WaitForSeconds(2);
-        }
         // InputSystem 인터페이스 구현 메서드
         public void OnNavigate(InputAction.CallbackContext context)
         {

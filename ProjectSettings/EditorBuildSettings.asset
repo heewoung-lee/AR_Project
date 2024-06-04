@@ -6,9 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/CatchFishMotion.unity
-    guid: e367eb4aa7964e846881985c792e94c1
-  - enabled: 1
     path: Assets/Scenes/PlayScene.unity
     guid: c9cd41b035a1abc46879cb0df8bb969f
   m_configObjects:

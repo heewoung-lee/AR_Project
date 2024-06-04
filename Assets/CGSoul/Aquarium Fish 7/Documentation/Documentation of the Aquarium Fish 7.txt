@@ -1,0 +1,26 @@
+﻿Aquarium Fish 7
+
+
+This Pack “Aquarium Fish 7” will help you make your underwater world more realistic.
+This pack is the third pack of the series "Coral Fish 7". 
+
+
+This Aquarium Fish Pack includes 7 animated fish.
+The pack contains 7 animated tropical fish.
+Each of fish has an animation loop and three type of textures (Albedo, Metallic, Normal).
+
+
+Number of textures: 21
+Texture dimensions: 1024 x 1024 px
+Polygon count of Flame Angelfish: 2474 Tris
+Polygon count of Clownfish Black: 5478 Tris
+Polygon count of Purple Tang: 1586 Tris
+Polygon count of Copperband: 2118 Tris
+Polygon count of Blue Tang: 1338 Tris
+Polygon count of Fusilier: 1098 Tris
+Polygon count of Discus: 2610 Tris
+Number of meshes/prefabs: 2
+Rigging: Yes
+Animation count: 7
+Animation type list: One loop of each model.
+UV mapping: Yes
