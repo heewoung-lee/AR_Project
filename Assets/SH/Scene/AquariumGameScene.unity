@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 172188365}
   - component: {fileID: 172188364}
   m_Layer: 5
-  m_Name: AquariumBG
+  m_Name: AquariumFishInvenBG
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
