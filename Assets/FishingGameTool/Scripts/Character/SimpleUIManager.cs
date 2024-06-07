@@ -53,7 +53,7 @@ namespace FishingGameTool.Example
         private Slider _powerSlider;
         Color fillcolor = new Color(1, 0, 0,1);
         Color backgroundColor = new Color(1, 1, 1,1);
-
+        private Button _caughtFishButton;
 
         #region PRIVATE VARIABLES
 
@@ -70,8 +70,17 @@ namespace FishingGameTool.Example
             _powerSlider.value = 50;
             _lineStatus = _fishingSystem._fishingRod._lineStatus;   // 낚싯줄 상태 초기화
             _fishingSystem.showPowerbarEvent += ShowPowerBar;
+            _caughtFishButton = transform.Find("CaughtfishConfirmButton").GetComponent<Button>();
+            _caughtFishButton.gameObject.SetActive(false);
+            _caughtFishButton.onClick.AddListener(FishCaughtButtonClicked);
+            _fishingSystem.viewFishCaughtButtonEvent += () => { _caughtFishButton.gameObject.SetActive(true); };//물고기 잡으면 버튼 뜨도록 이벤트 실행
         }
 
+
+        public void FishCaughtButtonClicked()//물고기를 잡았을때 뜨는 버튼의 이벤트 구현
+        {
+
+        }
         private void Update()
         {
             ControlFishingLineLoadBar();   // 낚싯줄 상태 바 제어

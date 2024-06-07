@@ -5,21 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/GamePlayScene.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 0
+  - enabled: 1
+    path: Assets/Scenes/CatchFishMotion.unity
+    guid: e367eb4aa7964e846881985c792e94c1
+  - enabled: 1
     path: Assets/Scenes/PlayScene.unity
     guid: c9cd41b035a1abc46879cb0df8bb969f
-  - enabled: 1
-    path: Assets/SH/Scene/GameLoginScene.unity
-    guid: 97f2959d8e0a0404687c2b9fa93d7cc7
-  - enabled: 1
-    path: Assets/SH/Scene/SeungHyunScene.unity
-    guid: 9998dc75342a47d428806b58fe18b29f
-  - enabled: 1
-    path: Assets/SH/Scene/AquariumFurniture.unity
-    guid: d59574c29f4b84949ae106dd2521866a
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 60d4cad4dffaea64b9251876b0a8a286,
       type: 2}

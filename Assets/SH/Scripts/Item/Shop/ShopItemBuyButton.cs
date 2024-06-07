@@ -84,7 +84,6 @@ public class ShopItemBuyButton : MonoBehaviour
                                 return;
                             }
                         }
-                        return;
                     }
                 }
                 
