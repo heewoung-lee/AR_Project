@@ -51,9 +51,9 @@ namespace FishingGameTool.Example
         //public CastForceBar _castForceBar;   // 던지기 힘 바 설정
         [Space]
         private Slider _powerSlider;
-        Color fillcolor = new Color(1, 0, 0,1);
-        Color backgroundColor = new Color(1, 1, 1,1);
-
+        Color fillcolor = new Color(1, 0, 0, 1);
+        Color backgroundColor = new Color(1, 1, 1, 1);
+        private Button _caughtFishButton;
 
         #region PRIVATE VARIABLES
 
@@ -70,6 +70,26 @@ namespace FishingGameTool.Example
             _powerSlider.value = 50;
             _lineStatus = _fishingSystem._fishingRod._lineStatus;   // 낚싯줄 상태 초기화
             _fishingSystem.showPowerbarEvent += ShowPowerBar;
+            _caughtFishButton = transform.Find("CaughtfishConfirmButton").GetComponent<Button>();
+            _caughtFishButton.gameObject.SetActive(false);
+            _fishingSystem.viewFishCaughtButtonEvent += (loot, fishingLine, Camera, bigCatchWordImage1, bigCatchWordImage2) =>
+            {
+                _caughtFishButton.gameObject.SetActive(true);
+                _caughtFishButton.onClick.AddListener(() => FishCaughtButtonClicked(loot, fishingLine, Camera, bigCatchWordImage1, bigCatchWordImage2));
+            };//물고기 잡으면 버튼 뜨도록 이벤트 실행
+        }
+
+
+        public void FishCaughtButtonClicked(GameObject loot, GameObject fishingLine, Camera camera, Image bigCatchWordImage1, Image bigCatchWordImage2)//물고기를 잡았을때 뜨는 버튼의 이벤트 구현
+        {
+            Destroy(loot);
+            Destroy(fishingLine);
+            camera.enabled = false;
+            bigCatchWordImage1.enabled = false;
+            bigCatchWordImage2.enabled = false;
+            _caughtFishButton.gameObject.SetActive(false);
+
+            //TODO: 인벤토리에 잡은 물고기가 들어가게끔 수정
         }
 
         private void Update()
@@ -106,17 +126,17 @@ namespace FishingGameTool.Example
 
                 _powerSlider.fillRect.GetComponent<Image>().DOFade(0, 1).OnComplete(() =>
                 {
-                    setimage(_powerSlider.gameObject, _powerSlider.fillRect.GetComponent<Image>(),fillcolor);
+                    setimage(_powerSlider.gameObject, _powerSlider.fillRect.GetComponent<Image>(), fillcolor);
                 });
                 _powerSlider.GetComponentInChildren<Image>().DOFade(0, 1).OnComplete(() =>
                 {
-                    setimage(_powerSlider.gameObject, _powerSlider.GetComponentInChildren<Image>(),backgroundColor);
+                    setimage(_powerSlider.gameObject, _powerSlider.GetComponentInChildren<Image>(), backgroundColor);
                 });
             }
             return _powerSlider.value;
         }
 
-        public void setimage(GameObject gameobject, Image image,Color color)
+        public void setimage(GameObject gameobject, Image image, Color color)
         {
             gameobject.SetActive(false);
             image.color = color;

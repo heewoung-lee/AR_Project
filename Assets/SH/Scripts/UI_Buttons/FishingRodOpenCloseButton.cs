@@ -1,16 +1,21 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FishingRodOpenCloseButton : MonoBehaviour
 {
-    Canvas _fishingRod;
-    ButtonEventComponent buttonEventComponent;
+    Canvas _inventoryUI;
+    Button cancelButton;
 
+
+    public static bool _shopButton = false;
     private void Awake()
     {
-        buttonEventComponent = gameObject.AddComponent<ButtonEventComponent>();
-        _fishingRod = GameObject.Find("UI_FishingRod").GetComponent<Canvas>();
-        UI_Manager.Instance.RegisterUI("FishingRodUI", _fishingRod);
-        buttonEventComponent.ButtonAction(() => UI_Manager.Instance.ToggleUI("FishingRodUI"));
+        cancelButton = GetComponent<Button>();
+        _inventoryUI = GameObject.Find("UI_FishingRod").GetComponent<Canvas>();
     }
 
+    private void Start()
+    {
+        cancelButton.onClick.AddListener(() => { _shopButton = !_shopButton; _inventoryUI.enabled = _shopButton; });
+    }
 }

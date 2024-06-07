@@ -1,16 +1,20 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BaitOpenCloseButton : MonoBehaviour
 {
-    Canvas _baitUI;
-    ButtonEventComponent _buttonevent;
+    Canvas _inventoryUI;
+    Button cancelButton;
 
+    public static bool _shopButton = false;
     private void Awake()
     {
-        _buttonevent = gameObject.AddComponent<ButtonEventComponent>();
-        _baitUI = GameObject.Find("UI_Bait").GetComponent<Canvas>();
+        cancelButton = GetComponent<Button>();
+        _inventoryUI = GameObject.Find("UI_Bait").GetComponent<Canvas>();
+    }
 
-        UI_Manager.Instance.RegisterUI("BaitUI", _baitUI);
-        _buttonevent.ButtonAction(() => UI_Manager.Instance.ToggleUI("BaitUI"));
+    private void Start()
+    {
+        cancelButton.onClick.AddListener(() => { _shopButton = !_shopButton; _inventoryUI.enabled = _shopButton; });
     }
 }

@@ -46,6 +46,7 @@ namespace FishingGameTool.Fishing.Float
 
         private void Update()
         {
+           
             HandleFloatAnim();
         }
 
@@ -73,7 +74,6 @@ namespace FishingGameTool.Fishing.Float
         {
             Collider[] colliders = Physics.OverlapSphere(transform.position, _checkerRadius, ~_fishingFloatLayerMask);
             SubstrateType substrateType;
-
             if (colliders.Length != 0)
             {
                 if ((fishingLayer & (1 << colliders[0].gameObject.layer)) != 0)

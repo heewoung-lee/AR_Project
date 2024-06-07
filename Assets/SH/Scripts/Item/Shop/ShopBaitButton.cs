@@ -1,19 +1,18 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShopBaitButton : MonoBehaviour
 {
+    Button _shopBaitButton; // ¹Ì³¢ ¹öÆ°
     [SerializeField] GameObject _fishInventory;
     [SerializeField] GameObject _baitInventory;
     [SerializeField] GameObject _rodInventory;
 
-    ButtonEventComponent _buttonEvent;
-
     bool _shopBait = true;
     bool _shopOthers = false;
-
     private void Start()
     {
-        _buttonEvent = gameObject.AddComponent<ButtonEventComponent>();
-        _buttonEvent.ButtonAction(() => { _baitInventory.SetActive(_shopBait); _fishInventory.SetActive(_shopOthers); _rodInventory.SetActive(_shopOthers); });
+        _shopBaitButton = GetComponent<Button>();
+        _shopBaitButton.onClick.AddListener(() => { _baitInventory.SetActive(_shopBait); _fishInventory.SetActive(_shopOthers); _rodInventory.SetActive(_shopOthers); });
     }
 }

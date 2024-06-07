@@ -1,15 +1,21 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShopOpenCloseButton : MonoBehaviour
 {
-    Canvas _shopUI;
-    ButtonEventComponent _buttonEvent;
+    Canvas ShopUI;
+    Button cancelButton;
 
+
+    public static bool _shopButton = false;
     private void Awake()
     {
-        _buttonEvent = gameObject.AddComponent<ButtonEventComponent>();
-        _shopUI = GameObject.Find("UI_Shop").GetComponent<Canvas>();
-        UI_Manager.Instance.RegisterUI("ShopUI", _shopUI);
-        _buttonEvent.ButtonAction(() => UI_Manager.Instance.ToggleUI("ShopUI"));
+        cancelButton = GetComponent<Button>();
+        ShopUI = GameObject.Find("UI_Shop").GetComponent<Canvas>();
+    }
+
+    private void Start()
+    {
+        cancelButton.onClick.AddListener(() => { _shopButton = !_shopButton; ShopUI.enabled = _shopButton; });
     }
 }
