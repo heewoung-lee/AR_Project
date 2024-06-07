@@ -1234,8 +1234,9 @@ GameObject:
   - component: {fileID: 4269807253749819581}
   - component: {fileID: 4380839627780978961}
   - component: {fileID: -3428877763955078662}
+  - component: {fileID: 1954095039016803342}
   m_Layer: 0
-  m_Name: Clownfish Black
+  m_Name: Clownfish Black(GameScene)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1296,6 +1297,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &1954095039016803342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3461781297533596167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b31c3862fccf3e49977d844bcc6fe92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3633232439763419647
 GameObject:
   m_ObjectHideFlags: 0
@@ -2085,6 +2098,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8675138864788077832}
+  - component: {fileID: 1901528872318762671}
   m_Layer: 0
   m_Name: clownfishBlack_joint_spine_0
   m_TagString: Untagged
@@ -2114,6 +2128,18 @@ Transform:
   m_Father: {fileID: 8800471452740054541}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1901528872318762671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5975332479148266963}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13eb5885f82ce7546be1a4eb2b3f7011, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6085183875017452974
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,8 +10,6 @@ Material:
   m_Name: Water_mat_01
   m_Shader: {fileID: -6465566751694194690, guid: dd97de70edf8a4141bee758a2efe7ff8,
     type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 1
@@ -20,7 +18,6 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -68,8 +65,8 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - Color_36218622185947c6a5ae36366d8e21d8: {r: 0.029191881, g: 0.1509434, b: 0.105286576,
-        a: 0.9607843}
+    - Color_36218622185947c6a5ae36366d8e21d8: {r: 0.29156286, g: 0.5283019, b: 0.5283019,
+        a: 0.9019608}
     - Color_93e06cd551a5449091bcde90b46765a0: {r: 0.2746084, g: 0.38491085, b: 0.4811321,
         a: 0.19607843}
     - Vector2_4351ac2be1d74054986ec5378db9d578: {r: 29.14, g: 30, b: 0, a: 0}

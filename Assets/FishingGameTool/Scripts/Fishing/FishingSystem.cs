@@ -11,7 +11,6 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System;
-using UnityEngine.SceneManagement;
 using DG.Tweening;
 
 namespace FishingGameTool.Fishing
@@ -83,7 +82,7 @@ namespace FishingGameTool.Fishing
         public event Func<float> showPowerbarEvent; // 파워바 이벤트
         //public event Action<Transform> setLootCamera;
         public event Func<GameObject> setLineEndPoint;
-        public event Action<GameObject,GameObject,Camera,Image,Image> viewFishCaughtButtonEvent;
+        public event System.Action<GameObject, GameObject, Camera, Image, Image> viewFishCaughtButtonEvent;
 
         private Vector2 _startPos; // 시작 위치
         private Vector2 _endPos;
@@ -95,7 +94,8 @@ namespace FishingGameTool.Fishing
         private float _lastPositionY = 0f; //드래그에서만 작동되게끔 마우스 포지션의 위치를 알기위한 필드
         private GameObject _fishingrope;
         private Transform _bigCatchWord;
-        
+
+        public AnimationCurve _fishingCatchActionEase;
         #region PRIVATE VARIABLES
 
         private float _catchCheckIntervalTimer; // 잡기 확인 간격 타이머
@@ -699,8 +699,7 @@ namespace FishingGameTool.Fishing
             //카메라 컬링 레이어를 통해 ARLayer를 가지고 있는 애들이면 렌더링 안하도록 설정
             //2.CatchlootCamera가 활성화 되면서 lootObject를 따라다니도록 설정
             catchLootCamera.enabled = true;
-            catchLootCamera.transform.position = new Vector3(lootObject.transform.position.x, lootObject.transform.position.y, lootObject.transform.position.z + 1);//카메라 위치선정
-
+            catchLootCamera.GetComponent<LookatFish>().enabled = true;
             CatchingAnimation(lootObject, catchLootCamera.transform);
 
             //Transform LinePoint = GameObject.Find("LinePoint").GetComponent<Transform>();
@@ -734,19 +733,24 @@ namespace FishingGameTool.Fishing
 
 
             //ToDO: 물속에 박혀 있다가 물밖으로 끄집어내도록 물속-> 물밖 닷트윈 실행
-            lootobject.transform.position -= lootobject.transform.forward * 5f;
+            lootobject.transform.position -= lootobject.transform.forward * 9f;
             // DOTween 시퀀스를 사용하여 "월척" 애니메이션 실행
             Image bigCatchWord_1 = _bigCatchWord.Find("Bigcatchword_1").GetComponent<Image>();
             Image bigCatchWord_2 = _bigCatchWord.Find("Bigcatchword_2").GetComponent<Image>();
 
             // 시퀀스 생성
             DG.Tweening.Sequence fishCompingUpSequence = DOTween.Sequence();
+            DG.Tweening.Sequence typingSequnence = DOTween.Sequence();
+
 
             fishCompingUpSequence
-                .Append(lootobject.transform.DOMove(lootobject.transform.position + lootobject.transform.forward * 5f, 0.5f))
-                .SetEase(FishingCompleteActionType)
-                .Join(lootobject.transform.DORotate(new Vector3(0, 0, -90),2f))
-                .Append(fishingLine.startTransform.transform.DOMove(fishingLine.startTransform.transform.position -= Vector3.right, 1))
+                .Append(lootobject.transform.DOMove(lootobject.transform.position + lootobject.transform.forward * 9f, 0.5f))
+                .SetEase(_fishingCatchActionEase)
+                .Join(lootobject.transform.DORotate(new Vector3(0, 0, -90), 2f))
+                .Append(fishingLine.startTransform.transform.DOMove(fishingLine.startTransform.transform.position -= Vector3.right, 1));
+ 
+
+            typingSequnence
                 .AppendCallback(() => bigCatchWord_1.enabled = true)
                 .Append(bigCatchWord_1.transform.DOScale(12, 0))
                 .Append(bigCatchWord_1.transform.DOScale(4, 1))
@@ -755,9 +759,9 @@ namespace FishingGameTool.Fishing
                 .Append(bigCatchWord_2.transform.DOScale(4, 1))
                 .AppendInterval(1f)
                 .AppendCallback(() => viewFishCaughtButtonEvent?.Invoke(lootobject, fishingLine.gameObject, catchLootCamera.GetComponent<Camera>(), bigCatchWord_1, bigCatchWord_2));
-                
-            fishCompingUpSequence.Play();
 
+
+            fishCompingUpSequence.Play().Append(typingSequnence);
 
 
 

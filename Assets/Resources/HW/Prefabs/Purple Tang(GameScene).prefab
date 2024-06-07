@@ -655,8 +655,9 @@ GameObject:
   - component: {fileID: 4471939897120683763}
   - component: {fileID: 4144785938502586650}
   - component: {fileID: -3350737494805000599}
+  - component: {fileID: 8746467877410165643}
   m_Layer: 0
-  m_Name: Purple Tang
+  m_Name: Purple Tang(GameScene)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -717,6 +718,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &8746467877410165643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3838286276255427657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b31c3862fccf3e49977d844bcc6fe92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4115937484853941970
 GameObject:
   m_ObjectHideFlags: 0
@@ -1409,6 +1422,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7845254485070594702}
+  - component: {fileID: 8121711024287762287}
   m_Layer: 0
   m_Name: purpletang_spine_1
   m_TagString: Untagged
@@ -1435,3 +1449,15 @@ Transform:
   m_Father: {fileID: 3603630652853950167}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8121711024287762287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9148712690407875397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13eb5885f82ce7546be1a4eb2b3f7011, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

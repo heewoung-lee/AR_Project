@@ -182,6 +182,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7379051814929307285}
+  - component: {fileID: 6158140761762973964}
   m_Layer: 0
   m_Name: copperband_joint_spine_0
   m_TagString: Untagged
@@ -210,6 +211,18 @@ Transform:
   m_Father: {fileID: 762674928928906205}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6158140761762973964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1112687436252448237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13eb5885f82ce7546be1a4eb2b3f7011, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1271759345714088503
 GameObject:
   m_ObjectHideFlags: 0
@@ -1396,8 +1409,9 @@ GameObject:
   - component: {fileID: 5276160834536127917}
   - component: {fileID: 5670604974715158123}
   - component: {fileID: -4431061590170230334}
+  - component: {fileID: -1237656298888740718}
   m_Layer: 0
-  m_Name: Copperband
+  m_Name: Copperband(GameScene)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1412,8 +1426,8 @@ Transform:
   m_GameObject: {fileID: 4788277480293852951}
   m_LocalRotation: {x: -0.25250447, y: -0.17129686, z: -0.8616425, w: 0.4055504}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4716411282745750192}
   - {fileID: 4605893630694784200}
@@ -1458,6 +1472,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &-1237656298888740718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4788277480293852951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b31c3862fccf3e49977d844bcc6fe92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4874349703680168822
 GameObject:
   m_ObjectHideFlags: 0

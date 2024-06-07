@@ -20,5 +20,5 @@ MonoBehaviour:
   _lootRarity: 80
   _lootName: Common Fish
   _lootDescription: Example Common Fish.
-  _lootPrefab: {fileID: 2850968908253242291, guid: d9425b76880c7114fa1d0972b30b9006,
+  _lootPrefab: {fileID: 3049532309905063188, guid: 6a19a33b056991d48b3901a72bc90943,
     type: 3}

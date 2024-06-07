@@ -4,8 +4,4 @@ using UnityEngine;
 
 public class FishScripts : MonoBehaviour
 {
-    private void OnEnable()
-    {
-        Destroy(gameObject, 5f);
-    }
 }

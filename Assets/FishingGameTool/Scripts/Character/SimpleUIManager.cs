@@ -88,6 +88,7 @@ namespace FishingGameTool.Example
             bigCatchWordImage1.enabled = false;
             bigCatchWordImage2.enabled = false;
             _caughtFishButton.gameObject.SetActive(false);
+            camera.GetComponent<LookatFish>().enabled = false; 
 
             //TODO: 인벤토리에 잡은 물고기가 들어가게끔 수정
         }

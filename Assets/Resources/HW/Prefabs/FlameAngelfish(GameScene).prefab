@@ -782,6 +782,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7155932213316104587}
+  - component: {fileID: 8403554620843282808}
   m_Layer: 0
   m_Name: FlameAngelfish_spine_0
   m_TagString: Untagged
@@ -811,6 +812,18 @@ Transform:
   m_Father: {fileID: 3273780409226687139}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8403554620843282808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2690627074201522681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13eb5885f82ce7546be1a4eb2b3f7011, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2809440216776160716
 GameObject:
   m_ObjectHideFlags: 0
@@ -947,8 +960,9 @@ GameObject:
   - component: {fileID: 2385163797016340398}
   - component: {fileID: 2779693672928303123}
   - component: {fileID: 8647052883539974440}
+  - component: {fileID: 1093927979871024423}
   m_Layer: 0
-  m_Name: FlameAngelfish
+  m_Name: FlameAngelfish(GameScene)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1009,6 +1023,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &1093927979871024423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3049532309905063188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b31c3862fccf3e49977d844bcc6fe92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3251917464731330811
 GameObject:
   m_ObjectHideFlags: 0

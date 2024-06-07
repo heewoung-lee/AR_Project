@@ -1,0 +1,14 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: AC_BlueTang_anim
+  m_Controller: {fileID: 9100000, guid: e29660486074ddd48888d87ddc4e448f, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 1827226128182048838, guid: d181af71b895113419ff34c68462f7da,
+      type: 3}
+    m_OverrideClip: {fileID: 7400000, guid: 43e72047483bb6e49877ed2b3ebba7bc, type: 2}
