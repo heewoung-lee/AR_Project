@@ -166,7 +166,7 @@ namespace FishingGameTool.Fishing.Rod
         private void FishingLine()
         {
             // 낚싯줄이 끊어졌거나, 부표가 없는 경우 낚싯줄 포인트 수를 0으로 설정
-            if ( _fishingFloat == null)
+            if (_lineStatus._isLineBroken || _fishingFloat == null)
             {
                 _fishingLineRenderer.positionCount = 0;
                 return;
