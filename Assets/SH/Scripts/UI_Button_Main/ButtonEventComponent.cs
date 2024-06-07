@@ -7,9 +7,7 @@ using UnityEngine.EventSystems;
 // 해당 버튼이 선택이 안되었을때 하위 오브젝트를 모두 색을 바꾸는 자동화 코드도  
 //
 
-/// <summary>
-/// 추후에 이벤트 연결 다하면 됨
-/// </summary>
+
 public class ButtonEventComponent : MonoBehaviour 
 {
     // MonoBehavior 제외 -> 따로 버튼을 연결해줘야 하는데 
