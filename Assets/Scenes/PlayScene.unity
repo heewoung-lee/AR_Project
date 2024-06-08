@@ -2703,6 +2703,18 @@ Transform:
   m_Father: {fileID: 1214279030}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &449955156 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2021328540, guid: 914acc10564bf7741b38d33b413a676d,
+    type: 3}
+  m_PrefabInstance: {fileID: 1142501314}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77d4bcf04181c914e9108572e2fbd2db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &455526959
 GameObject:
   m_ObjectHideFlags: 0
@@ -4131,7 +4143,7 @@ PrefabInstance:
     - target: {fileID: 3451089104937634491, guid: c3fd169c18ecb8144930182af3535c75,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 909757.5
+      value: 942952.9
       objectReference: {fileID: 0}
     - target: {fileID: 3451089105561268282, guid: c3fd169c18ecb8144930182af3535c75,
         type: 3}
@@ -5577,7 +5589,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _playerFishInventoryList
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 449955156}
     - target: {fileID: 6670902189613411085, guid: c3fd169c18ecb8144930182af3535c75,
         type: 3}
       propertyPath: _playerRodInventoryList
@@ -5592,7 +5604,12 @@ PrefabInstance:
         type: 3}
       propertyPath: _playerFishInventoryList
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 449955156}
+    - target: {fileID: 6670902189749537188, guid: c3fd169c18ecb8144930182af3535c75,
+        type: 3}
+      propertyPath: _playerFishInventoryList
+      value: 
+      objectReference: {fileID: 449955156}
     - target: {fileID: 6670902189917173674, guid: c3fd169c18ecb8144930182af3535c75,
         type: 3}
       propertyPath: _playerRodInventoryList
@@ -5607,7 +5624,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _playerFishInventoryList
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 449955156}
     - target: {fileID: 6670902190086306011, guid: c3fd169c18ecb8144930182af3535c75,
         type: 3}
       propertyPath: _playerRodInventoryList
@@ -5622,7 +5639,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _playerFishInventoryList
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 449955156}
     - target: {fileID: 6670902190575342204, guid: c3fd169c18ecb8144930182af3535c75,
         type: 3}
       propertyPath: _playerRodInventoryList
@@ -5637,7 +5654,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _playerFishInventoryList
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 449955156}
     - target: {fileID: 6670902190606438220, guid: c3fd169c18ecb8144930182af3535c75,
         type: 3}
       propertyPath: _playerRodInventoryList
@@ -5652,7 +5669,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _playerFishInventoryList
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 449955156}
     - target: {fileID: 6670902190854514162, guid: c3fd169c18ecb8144930182af3535c75,
         type: 3}
       propertyPath: _playerRodInventoryList
@@ -5667,7 +5684,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _playerFishInventoryList
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 449955156}
     - target: {fileID: 6670902191067752685, guid: c3fd169c18ecb8144930182af3535c75,
         type: 3}
       propertyPath: _playerRodInventoryList
@@ -5682,7 +5699,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _playerFishInventoryList
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 449955156}
     - target: {fileID: 6670902191161832476, guid: c3fd169c18ecb8144930182af3535c75,
         type: 3}
       propertyPath: _playerRodInventoryList
@@ -5697,7 +5714,7 @@ PrefabInstance:
         type: 3}
       propertyPath: _playerFishInventoryList
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 449955156}
     - target: {fileID: 7057815272054661604, guid: c3fd169c18ecb8144930182af3535c75,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -7869,7 +7886,7 @@ PrefabInstance:
     - target: {fileID: 2178973243694160386, guid: 14ba91d4649aa724581b9511dbc6f1b1,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 518977.56
+      value: 536968.8
       objectReference: {fileID: 0}
     - target: {fileID: 2409094893471497758, guid: 14ba91d4649aa724581b9511dbc6f1b1,
         type: 3}

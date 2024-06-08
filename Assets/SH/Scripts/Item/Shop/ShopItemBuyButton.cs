@@ -15,7 +15,7 @@ public class ShopItemBuyButton : MonoBehaviour
     InventoryList _playerShopBaitInventoryList; // 상점 미끼 인벤 리스트
     InventoryList _playerShopRodInventoryList; // 상점 낚시대 인벤 리스트
 
-    [SerializeField] InventoryList _playerFishInventoryList; // Fish 인벤
+    [SerializeField] PlayerInvenList _playerFishInventoryList; // Fish 인벤
     [SerializeField] InventoryList _playerBaitInventoryList; // 미끼 인벤 
     [SerializeField] InventoryList _playerRodInventoryList; // 낚시대 인벤
 

@@ -9,6 +9,7 @@ public class ShopCheckButton : MonoBehaviour
     Image itemIcon;
     PlayerInvenList playerInvenList;
     PlayerInvenList shopInvenList;
+
     private void Start()
     {
         buttonEvent = GetComponent<ButtonEventComponent>();
