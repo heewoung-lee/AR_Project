@@ -662,7 +662,7 @@ GameObject:
   - component: {fileID: 3451089104477223449}
   - component: {fileID: 3451089104477223448}
   - component: {fileID: 3451089104477223450}
-  - component: {fileID: 3451089104477223451}
+  - component: {fileID: 3451089105359361686}
   m_Layer: 5
   m_Name: FishInvenGrid
   m_TagString: Untagged
@@ -800,7 +800,7 @@ MonoBehaviour:
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
---- !u!114 &3451089104477223451
+--- !u!114 &3451089105359361686
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -809,7 +809,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3451089104477223454}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e312afa842d15c4fb3ac8413c1bccc5, type: 3}
+  m_Script: {fileID: 11500000, guid: 77d4bcf04181c914e9108572e2fbd2db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryList:
@@ -1607,7 +1607,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 2012723.1}
+  m_AnchoredPosition: {x: 0, y: 2097398.8}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &3451089104937634436
