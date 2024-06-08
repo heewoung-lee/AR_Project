@@ -6,6 +6,7 @@ using FishingGameTool.CustomAttribute;
 using FishingGameTool.Fishing.LootData;
 using TMPro;
 using DG.Tweening;
+using System;
 
 namespace FishingGameTool.Example
 {
@@ -55,6 +56,14 @@ namespace FishingGameTool.Example
         Color backgroundColor = new Color(1, 1, 1, 1);
         private Button _caughtFishButton;
 
+        public int fishID = 500;
+        public event Action<int> FishInventoryIn;
+
+        GameObject loot;
+        GameObject fishingLine;
+        Camera _catchingCamera;
+        Image catchingWord1;
+        Image catchingWord2;
         #region PRIVATE VARIABLES
 
         private FishingLineStatus _lineStatus;   // 낚싯줄 상태
@@ -72,14 +81,35 @@ namespace FishingGameTool.Example
             _fishingSystem.showPowerbarEvent += ShowPowerBar;
             _caughtFishButton = transform.Find("CaughtfishConfirmButton").GetComponent<Button>();
             _caughtFishButton.gameObject.SetActive(false);
+
             _fishingSystem.viewFishCaughtButtonEvent += (loot, fishingLine, Camera, bigCatchWordImage1, bigCatchWordImage2) =>
             {
+                this.loot = loot;
+                this.fishingLine = fishingLine;
+                _catchingCamera = Camera;
+                catchingWord1 = bigCatchWordImage1;
+                catchingWord2 = bigCatchWordImage2;
                 _caughtFishButton.gameObject.SetActive(true);
-                _caughtFishButton.onClick.AddListener(() => FishCaughtButtonClicked(loot, fishingLine, Camera, bigCatchWordImage1, bigCatchWordImage2));
             };//물고기 잡으면 버튼 뜨도록 이벤트 실행
+
+            _caughtFishButton.onClick.AddListener(() =>
+            {
+                FishCaughtButtonClicked(loot, fishingLine, _catchingCamera, catchingWord1, catchingWord2);
+                FishInventoryIn?.Invoke(fishID);
+            });
         }
 
+        //물고기 정보 아이디 값 -> 번호가 1 정수형이니까 int만 넘겨 주면되는거 아닌가?
+        //public void FishData(int fishID)
+        //{
+        //    // 인벤토리 업데이트 햇으니까 
+        //    // 상점도 따라서 업데이트 해주고
+        //    this.inventorylist[0].GetComponent<Image>.sprite = ItemDataBase.ItemData[fishID].itemImage;
+        //    this inventorylist[0].itemID = fishID;
+        //    ShopFishUpdate.Invoke(fishID); // 상점에도 똑같이 들어갈거고 
+        //}
 
+        //                                   이 매개변수가 안에 받는 값이 바뀌는가 ? X 
         public void FishCaughtButtonClicked(GameObject loot, GameObject fishingLine, Camera camera, Image bigCatchWordImage1, Image bigCatchWordImage2)//물고기를 잡았을때 뜨는 버튼의 이벤트 구현
         {
             Destroy(loot);

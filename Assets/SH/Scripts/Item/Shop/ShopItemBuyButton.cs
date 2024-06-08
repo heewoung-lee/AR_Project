@@ -3,9 +3,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-
-
-
 /// <summary>
 /// TODO: 추후 피드백 적용 정리
 /// </summary>

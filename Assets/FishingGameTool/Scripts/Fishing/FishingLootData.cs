@@ -29,6 +29,7 @@ namespace FishingGameTool.Fishing.LootData
     [CreateAssetMenu(fileName = "Fishing Loot Data", menuName = "Fishing Game Tool/New Fishing Loot")]
     public class FishingLootData : ScriptableObject
     {
+        public int FishNumber;
         [BetterHeader("Fishing Loot Settings", 20), Space]
         public LootTier _lootTier;
 

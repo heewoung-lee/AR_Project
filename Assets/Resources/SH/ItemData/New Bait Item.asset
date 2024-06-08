@@ -9,12 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e43b5e05e994b543997753d0eab0c13, type: 3}
-  m_Name: EpicBait
+  m_Script: {fileID: 11500000, guid: b13dda281772297448bd6fc4fd0d74ef, type: 3}
+  m_Name: New Bait Item
   m_EditorClassIdentifier: 
-  fishID: 10
-  _baitTier: 2
-  _baitName: 
-  _baitDescription: 
-  _baitPrefab: {fileID: 5238331070711694125, guid: 0d60fa801f5198842adc665c65047ac5,
-    type: 3}
+  itemType: 0
+  itemID: 111
+  itemImage: {fileID: 0}
+  itemInfo: 
+  itemPrice: 0
+  itmeEffect: 0
+  baitType: 0

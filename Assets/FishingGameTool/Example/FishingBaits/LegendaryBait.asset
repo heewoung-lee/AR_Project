@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e43b5e05e994b543997753d0eab0c13, type: 3}
   m_Name: LegendaryBait
   m_EditorClassIdentifier: 
+  fishID: 15
   _baitTier: 3
   _baitName: 
   _baitDescription: 

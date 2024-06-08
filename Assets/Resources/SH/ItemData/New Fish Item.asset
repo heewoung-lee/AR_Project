@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: New Fish Item
   m_EditorClassIdentifier: 
   itemType: 2
-  itemID: 0
-  itemImage: {fileID: 0}
+  itemID: 11
+  itemImage: {fileID: 21300000, guid: ddf0c84adeefe4c2aa0c204320188af8, type: 3}
   itemInfo: 
   itemPrice: 0
   itmeEffect: 0
