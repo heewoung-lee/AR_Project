@@ -12,6 +12,7 @@ using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using System;
 using DG.Tweening;
+using UnityEngine.EventSystems;
 
 namespace FishingGameTool.Fishing
 {
@@ -374,6 +375,7 @@ namespace FishingGameTool.Fishing
                         return;
                     }
                     SpawnLootItem(lootData._lootPrefab, fishingFloatPosition, transformPosition, out GameObject lootObject);
+                    lootObject.GetComponent<FishScripts>().fishNumber = lootData.FishNumber;
                     lootprefab = lootObject;
                     return;
 
@@ -787,6 +789,9 @@ namespace FishingGameTool.Fishing
             if (_catchLootCamera.enabled)
                 return;
 
+            if (EventSystem.current.IsPointerOverGameObject())//UI에서는 반응안하게 설정
+                return;
+
             Vector2 currentPos = context.ReadValue<Vector2>();
             if (_fishingRod._fishingFloat != null && isCheckedMouseDraged&& currentPos.y < _startPos.y) // 찌가 있고 마우스를 드래그 하는 중이라면
             {
@@ -798,7 +803,11 @@ namespace FishingGameTool.Fishing
         // 클릭 이벤트 처리 메서드
         public void OnClick(InputAction.CallbackContext context)
         {
+          
             if (_catchLootCamera.enabled)
+                return;
+
+            if (EventSystem.current.IsPointerOverGameObject())//UI에서는 반응안하게 설정
                 return;
 
             if (context.ReadValueAsButton())

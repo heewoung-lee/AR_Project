@@ -4,4 +4,5 @@ using UnityEngine;
 
 public class FishScripts : MonoBehaviour
 {
+    public int fishNumber;
 }

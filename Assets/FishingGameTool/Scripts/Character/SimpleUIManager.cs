@@ -95,7 +95,7 @@ namespace FishingGameTool.Example
             _caughtFishButton.onClick.AddListener(() =>
             {
                 FishCaughtButtonClicked(loot, fishingLine, _catchingCamera, catchingWord1, catchingWord2);
-                FishInventoryIn?.Invoke(fishID);
+                FishInventoryIn?.Invoke(loot.GetComponent<FishScripts>().fishNumber);
             });
         }
 
@@ -109,7 +109,7 @@ namespace FishingGameTool.Example
         //    ShopFishUpdate.Invoke(fishID); // 상점에도 똑같이 들어갈거고 
         //}
 
-        //                                   이 매개변수가 안에 받는 값이 바뀌는가 ? X 
+        //이 매개변수가 안에 받는 값이 바뀌는가 ? X 
         public void FishCaughtButtonClicked(GameObject loot, GameObject fishingLine, Camera camera, Image bigCatchWordImage1, Image bigCatchWordImage2)//물고기를 잡았을때 뜨는 버튼의 이벤트 구현
         {
             Destroy(loot);
