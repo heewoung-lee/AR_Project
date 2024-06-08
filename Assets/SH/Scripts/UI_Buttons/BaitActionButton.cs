@@ -9,7 +9,8 @@ public class BaitActionButton : MonoBehaviour
 
     private void Start()
     {
+        _baitID = GetComponent<InvenItemSlot>().ItemsID;
         buttonEvent = GetComponent<ButtonEventComponent>();
-        buttonEvent.ButtonAction(() => BaitButtonAction.Invoke(_baitID));
+        buttonEvent.ButtonAction(() => BaitButtonAction?.Invoke(_baitID));
     }
 }

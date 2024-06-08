@@ -19,6 +19,7 @@ public class ShopItemBuyButton : MonoBehaviour
     [SerializeField] InventoryList _playerBaitInventoryList; // 미끼 인벤 
     [SerializeField] InventoryList _playerRodInventoryList; // 낚시대 인벤
 
+
     Button _shopItemBuyButton;
     //public int ShopItemPrice
     //{
@@ -70,19 +71,38 @@ public class ShopItemBuyButton : MonoBehaviour
                     {
                         item.transform.GetChild(0).GetComponent<Image>().sprite = ItemDataBase.ItemData[_shopItemID].itemImage;
                         item.GetComponent<InvenItemSlot>().IsEmpty = false;
-                       
+                        item.GetComponent<InvenItemSlot>().ItemsID = _shopItemID;
+
+
                         foreach (var inven in _playerBaitInventoryList.InventoryLists)
                         {
-                            if (inven.GetComponent<InvenItemSlot>().IsEmpty)
+                            if (!inven.GetComponent<InvenItemSlot>().IsEmpty && inven.GetComponent<InvenItemSlot>().ItemsID == _shopItemID)
                             {
-                                inven.transform.GetChild(0).GetComponent<Image>().sprite = ItemDataBase.ItemData[_shopItemID].itemImage;
-                                inven.GetComponent<InvenItemSlot>().IsEmpty = false;
+                                inven.transform.GetChild(0).GetChild(0).GetComponent<BaitCount>().BaitCounts++;
+                                inven.GetComponent<InvenItemSlot>().ItemsID = _shopItemID;
+
                                 if (PlayerGold.PlayerGolds >= ItemDataBase.ItemData[_shopItemID].itemPrice)
                                 {
                                     PlayerGold.PlayerGolds -= ItemDataBase.ItemData[_shopItemID].itemPrice;
                                 }
+
+
                                 return;
                             }
+                            
+                            inven.transform.GetChild(0).GetComponent<Image>().sprite = ItemDataBase.ItemData[_shopItemID].itemImage;
+                            inven.GetComponent<InvenItemSlot>().IsEmpty = false;
+                            inven.transform.GetChild(0).GetChild(0).GetComponent<BaitCount>().BaitCounts++;
+                            inven.GetComponent<InvenItemSlot>().ItemsID = _shopItemID;
+                           
+                             
+                           
+                             if (PlayerGold.PlayerGolds >= ItemDataBase.ItemData[_shopItemID].itemPrice)
+                             {
+                                 PlayerGold.PlayerGolds -= ItemDataBase.ItemData[_shopItemID].itemPrice;
+                             }
+                                return;
+                            
                         }
                         return;
                     }
@@ -122,6 +142,7 @@ public class ShopItemBuyButton : MonoBehaviour
                     {
                         item.transform.GetChild(0).GetComponent<Image>().sprite = ItemDataBase.ItemData[_shopItemID].itemImage;
                         item.GetComponent<InvenItemSlot>().IsEmpty = false;
+                        item.GetComponent<InvenItemSlot>().ItemsID = _shopItemID;
 
                         foreach (var inven in _playerFishInventoryList.InventoryLists)
                         {
@@ -129,6 +150,7 @@ public class ShopItemBuyButton : MonoBehaviour
                             {
                                 inven.transform.GetChild(0).GetComponent<Image>().sprite = ItemDataBase.ItemData[_shopItemID].itemImage;
                                 inven.GetComponent<InvenItemSlot>().IsEmpty = false;
+                                inven.GetComponent<InvenItemSlot>().ItemsID = _shopItemID;
                                 if (PlayerGold.PlayerGolds >= ItemDataBase.ItemData[_shopItemID].itemPrice)
                                 {
                                     PlayerGold.PlayerGolds -= ItemDataBase.ItemData[_shopItemID].itemPrice;
