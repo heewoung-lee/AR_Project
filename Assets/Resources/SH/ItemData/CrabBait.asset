@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97060e425cb975e41938ee45b1ba5204, type: 3}
-  m_Name: TestFish
+  m_Script: {fileID: 11500000, guid: b13dda281772297448bd6fc4fd0d74ef, type: 3}
+  m_Name: CrabBait
   m_EditorClassIdentifier: 
-  itemType: 2
-  itemID: 500
-  itemImage: {fileID: 21300000, guid: 5296d3fe6f4b84fe985a11090b3206d7, type: 3}
-  itemInfo: Delicious Meat
+  itemType: 0
+  itemID: 101
+  itemImage: {fileID: 21300000, guid: 5bd88918ee819e54fa781ef907df0ca0, type: 3}
+  itemInfo: Crab
   itemPrice: 500
   itmeEffect: 0
-  fishType: 0
+  baitType: 1
