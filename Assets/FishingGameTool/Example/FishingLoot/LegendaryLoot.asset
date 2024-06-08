@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1530bb86e5fd16742a966934f52c2c2f, type: 3}
   m_Name: LegendaryLoot
   m_EditorClassIdentifier: 
+  FishNumber: 12
   _lootTier: 4
   _lootType: 0
   _weightRange:
