@@ -11,11 +11,11 @@ using UnityEngine.UI;
 /// </summary>
 public class ShopItemBuyButton : MonoBehaviour
 {
-    InventoryList _playerShopFishInventoryList; // 상점 Fish 인벤 리스트
+    PlayerInvenList _playerShopFishInventoryList; // 상점 Fish 인벤 리스트
     InventoryList _playerShopBaitInventoryList; // 상점 미끼 인벤 리스트
     InventoryList _playerShopRodInventoryList; // 상점 낚시대 인벤 리스트
 
-    [SerializeField] InventoryList _playerFishInventoryList; // Fish 인벤
+    [SerializeField] PlayerInvenList _playerFishInventoryList; // Fish 인벤
     [SerializeField] InventoryList _playerBaitInventoryList; // 미끼 인벤 
     [SerializeField] InventoryList _playerRodInventoryList; // 낚시대 인벤
 
@@ -43,7 +43,7 @@ public class ShopItemBuyButton : MonoBehaviour
 
     private void Start()
     {
-        _playerShopFishInventoryList = this.transform.root.Find("MyInven /FishInvenGrid").GetComponent<InventoryList>();
+        _playerShopFishInventoryList = this.transform.root.Find("MyInven /FishInvenGrid").GetComponent<PlayerInvenList>();
         _playerShopBaitInventoryList = this.transform.root.Find("MyInven /BaitInvenGrid ").GetComponent<InventoryList>();
         _playerShopRodInventoryList = this.transform.root.Find("MyInven /RodInvenGrid").GetComponent<InventoryList>();
         _shopItemBuyButton.onClick.AddListener(() => BuyItem());

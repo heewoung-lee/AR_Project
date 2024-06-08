@@ -42,6 +42,8 @@ public class UI_Manager : MonoBehaviour
         }
     }
 
+
+
     public void ToggleUI(string name)
     {
         if (_uiElements[name].enabled) { _uiElements[name].enabled = false;  return; }
