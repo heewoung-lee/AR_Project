@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -73,38 +74,66 @@ public class ShopItemBuyButton : MonoBehaviour
                         item.GetComponent<InvenItemSlot>().IsEmpty = false;
                         item.GetComponent<InvenItemSlot>().ItemsID = _shopItemID;
 
-
-                        foreach (var inven in _playerBaitInventoryList.InventoryLists)
+                        for (int i = 0; i <= _playerBaitInventoryList.InventoryLists.Count; i++)
                         {
-                            if (!inven.GetComponent<InvenItemSlot>().IsEmpty && inven.GetComponent<InvenItemSlot>().ItemsID == _shopItemID)
+                            List<GameObject> inven = _playerBaitInventoryList.InventoryLists;
+                            if (inven[i].GetComponent<InvenItemSlot>().IsEmpty)
                             {
-                                inven.transform.GetChild(0).GetChild(0).GetComponent<BaitCount>().BaitCounts++;
-                                inven.GetComponent<InvenItemSlot>().ItemsID = _shopItemID;
+                                inven[i].transform.GetChild(0).GetComponent<Image>().sprite = ItemDataBase.ItemData[_shopItemID].itemImage;
+                                inven[i].GetComponent<InvenItemSlot>().IsEmpty = false;
+                                inven[i].transform.GetChild(0).GetChild(0).GetComponent<BaitCount>().BaitCounts++;
+                                inven[i].GetComponent<InvenItemSlot>().ItemsID = _shopItemID;
 
                                 if (PlayerGold.PlayerGolds >= ItemDataBase.ItemData[_shopItemID].itemPrice)
                                 {
                                     PlayerGold.PlayerGolds -= ItemDataBase.ItemData[_shopItemID].itemPrice;
+                                    return;
                                 }
-
-
-                                return;
                             }
-                            
-                            inven.transform.GetChild(0).GetComponent<Image>().sprite = ItemDataBase.ItemData[_shopItemID].itemImage;
-                            inven.GetComponent<InvenItemSlot>().IsEmpty = false;
-                            inven.transform.GetChild(0).GetChild(0).GetComponent<BaitCount>().BaitCounts++;
-                            inven.GetComponent<InvenItemSlot>().ItemsID = _shopItemID;
-                           
-                             
-                           
-                             if (PlayerGold.PlayerGolds >= ItemDataBase.ItemData[_shopItemID].itemPrice)
-                             {
-                                 PlayerGold.PlayerGolds -= ItemDataBase.ItemData[_shopItemID].itemPrice;
-                             }
-                                return;
-                            
+
+                            else if (!inven[i].GetComponent<InvenItemSlot>().IsEmpty && inven[i].GetComponent<InvenItemSlot>().ItemsID == _shopItemID)
+                            {
+                                inven[i].transform.GetChild(0).GetChild(0).GetComponent<BaitCount>().BaitCounts++;
+                                inven[i].GetComponent<InvenItemSlot>().ItemsID = _shopItemID;
+                                if (PlayerGold.PlayerGolds >= ItemDataBase.ItemData[_shopItemID].itemPrice)
+                                {
+                                    PlayerGold.PlayerGolds -= ItemDataBase.ItemData[_shopItemID].itemPrice;
+                                    return;
+                                }
+                            }
                         }
-                        return;
+                        //foreach (var inven in _playerBaitInventoryList.InventoryLists)
+                        //{
+
+                        //    if (inven.GetComponent<InvenItemSlot>().IsEmpty)
+                        //    {
+                        //        inven.transform.GetChild(0).GetComponent<Image>().sprite = ItemDataBase.ItemData[_shopItemID].itemImage;
+                        //        inven.GetComponent<InvenItemSlot>().IsEmpty = false;
+                        //        inven.transform.GetChild(0).GetChild(0).GetComponent<BaitCount>().BaitCounts++;
+                        //        inven.GetComponent<InvenItemSlot>().ItemsID = _shopItemID;
+                        //    }
+                        //    // 해당 아이템이 같은게 아니라고 판단 하는거임 
+                        //    else if (!inven.GetComponent<InvenItemSlot>().IsEmpty && inven.GetComponent<InvenItemSlot>().ItemsID == _shopItemID)
+                        //    {
+                        //        inven.transform.GetChild(0).GetChild(0).GetComponent<BaitCount>().BaitCounts++;
+                        //        inven.GetComponent<InvenItemSlot>().ItemsID = _shopItemID;
+
+                        //        if (PlayerGold.PlayerGolds >= ItemDataBase.ItemData[_shopItemID].itemPrice)
+                        //        {
+                        //            PlayerGold.PlayerGolds -= ItemDataBase.ItemData[_shopItemID].itemPrice;
+                        //        }
+
+
+                        //    }
+                            
+                           
+                        //     if (PlayerGold.PlayerGolds >= ItemDataBase.ItemData[_shopItemID].itemPrice)
+                        //     {
+                        //         PlayerGold.PlayerGolds -= ItemDataBase.ItemData[_shopItemID].itemPrice;
+                        //     }
+                        //     return;
+                            
+                        //}
                     }
                 }
                 
