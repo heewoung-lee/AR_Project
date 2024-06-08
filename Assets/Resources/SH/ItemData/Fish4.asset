@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6419d60fbccb1994992c2acfb119b58c, type: 3}
-  m_Name: TestRod
+  m_Script: {fileID: 11500000, guid: 97060e425cb975e41938ee45b1ba5204, type: 3}
+  m_Name: Fish4
   m_EditorClassIdentifier: 
-  itemType: 1
-  itemID: 20
-  itemImage: {fileID: 21300000, guid: 5eec0cf9e8ff94ee38a599e54bdc32b6, type: 3}
-  itemInfo: Bad Rod
-  itemPrice: 5000
+  itemType: 2
+  itemID: 13
+  itemImage: {fileID: 21300000, guid: dcd312606da9b47e8b1acb372b00b4ac, type: 3}
+  itemInfo: 
+  itemPrice: 0
   itmeEffect: 0
-  rodType: 0
+  fishType: 0

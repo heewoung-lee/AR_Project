@@ -12,7 +12,13 @@ public class ItemDataBase : MonoBehaviour
         AddItemToDataBase(1000, "SH/ItemData/TestBait");
         AddItemToDataBase(500, "SH/ItemData/TestFish");
         AddItemToDataBase(0, "SH/ItemData/DefaultItem");
-        AddItemToDataBase(10, "SH/ItemData/TestRod");
+        AddItemToDataBase(20, "SH/ItemData/TestRod");
+        AddItemToDataBase(10, "SH/ItemData/Fish1");
+        AddItemToDataBase(11, "SH/ItemData/Fish2");
+        AddItemToDataBase(12, "SH/ItemData/Fish3");
+        AddItemToDataBase(13, "SH/ItemData/Fish4");
+        AddItemToDataBase(14, "SH/ItemData/Fish5");
+
     }
 
     private void AddItemToDataBase(int key, string resourcePath)
