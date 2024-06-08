@@ -26,7 +26,7 @@ namespace FishingGameTool.Fishing.Rod
             public float _simulateGravity = -1f;
             [Space]
             // ≥¨ΩÀ¡Ÿ ªˆªÛ
-            public Color _color = new Color32(255, 255, 255, 255);
+            public Color _color = new Color32(0, 0, 0, 255);
             // ≥¨ΩÀ¡Ÿ¿« ≥ ∫Ò
             public float _width = 0.005f;
         }

@@ -4155,7 +4155,7 @@ PrefabInstance:
     - target: {fileID: 3451089104937634491, guid: c3fd169c18ecb8144930182af3535c75,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1716899.2
+      value: 1998462.2
       objectReference: {fileID: 0}
     - target: {fileID: 3451089105561268282, guid: c3fd169c18ecb8144930182af3535c75,
         type: 3}
@@ -7015,7 +7015,7 @@ MonoBehaviour:
     _lineAttachment: {fileID: 1163786462}
     _resolutionRange: {x: 40, y: 10}
     _simulateGravity: -1
-    _color: {r: 0.26415092, g: 0.26415092, b: 0.26415092, a: 1}
+    _color: {r: 1, g: 1, b: 1, a: 1}
     _width: 0.005
   _lineStatus:
     _maxLineLoad: 20
@@ -8157,7 +8157,7 @@ PrefabInstance:
     - target: {fileID: 2178973243694160386, guid: 14ba91d4649aa724581b9511dbc6f1b1,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 930564.25
+      value: 1081961.1
       objectReference: {fileID: 0}
     - target: {fileID: 2409094893471497758, guid: 14ba91d4649aa724581b9511dbc6f1b1,
         type: 3}
@@ -12040,6 +12040,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1163786462}
+  - component: {fileID: 1163786463}
   m_Layer: 6
   m_Name: Line Attachment
   m_TagString: Untagged
@@ -12062,6 +12063,18 @@ Transform:
   m_Father: {fileID: 317226530}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1163786463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1163786461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9295b3e13465f3458450b7c65a5eb93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1172409249
 GameObject:
   m_ObjectHideFlags: 0
