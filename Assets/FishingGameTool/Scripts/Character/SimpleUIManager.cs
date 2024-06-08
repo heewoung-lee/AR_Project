@@ -58,6 +58,7 @@ namespace FishingGameTool.Example
 
         public int fishID = 500;
         public event Action<int> FishInventoryIn;
+        public event Action FishLoadLineEnable;
 
         GameObject loot;
         GameObject fishingLine;
@@ -96,6 +97,7 @@ namespace FishingGameTool.Example
             {
                 FishCaughtButtonClicked(loot, fishingLine, _catchingCamera, catchingWord1, catchingWord2);
                 FishInventoryIn?.Invoke(loot.GetComponent<FishScripts>().fishNumber);
+                FishLoadLineEnable?.Invoke();//낚시줄 다시 생성
             });
         }
 
