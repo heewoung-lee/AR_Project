@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 2
   itemID: 12
-  itemImage: {fileID: 21300000, guid: ba3b3da58b23848d2bbf3baf384ca766, type: 3}
+  itemImage: {fileID: 21300000, guid: b1ab2e454818b834193efe12174fabcd, type: 3}
   itemInfo: 
   itemPrice: 0
   itmeEffect: 0

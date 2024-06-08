@@ -97,6 +97,7 @@ namespace FishingGameTool.Fishing
         private Transform _bigCatchWord;
 
         public AnimationCurve _fishingCatchActionEase;
+        public event Action castingMontion;
         #region PRIVATE VARIABLES
 
         private float _catchCheckIntervalTimer; // 잡기 확인 간격 타이머
@@ -145,6 +146,7 @@ namespace FishingGameTool.Fishing
             _CharactorUI = GameObject.Find("CharacterUI").GetComponent<Canvas>();
             _bigCatchWord = _CharactorUI.transform.Find("Bigcatchword").GetComponent<Transform>();
             _catchCheckIntervalTimer = _advanced._catchCheckInterval;
+
         }
 
         // Update 메서드: 매 프레임마다 호출되며 찌 당기기 및 던지기 동작 수행
@@ -615,10 +617,9 @@ namespace FishingGameTool.Fishing
                 //Debug.Log("파워가 남아있다면 여기로 들어옴");
                 Vector3 spawnPoint = _fishingRod._line._lineAttachment.position; // 낚싯대의 시작 위치
                 Vector3 castDirection = transform.forward + Vector3.up; // 던지는 방향
-
                 // 던지기 지연을 시작
                 StartCoroutine(CastingDelay(_spawnFloatDelay, castDirection, spawnPoint, _currentCastForce, _fishingFloatPrefab));
-
+                castingMontion?.Invoke();
                 _currentCastForce = 0f; // 던지기 힘 초기화
             }
         }

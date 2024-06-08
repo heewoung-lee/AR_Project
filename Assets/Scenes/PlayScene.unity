@@ -4193,7 +4193,7 @@ PrefabInstance:
     - target: {fileID: 3451089104937634491, guid: c3fd169c18ecb8144930182af3535c75,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1561586.5
+      value: 1820236.8
       objectReference: {fileID: 0}
     - target: {fileID: 3451089105561268282, guid: c3fd169c18ecb8144930182af3535c75,
         type: 3}
@@ -6692,7 +6692,7 @@ MonoBehaviour:
     _lineAttachment: {fileID: 1163786462}
     _resolutionRange: {x: 40, y: 10}
     _simulateGravity: -1
-    _color: {r: 0.26415092, g: 0.26415092, b: 0.26415092, a: 1}
+    _color: {r: 1, g: 1, b: 1, a: 1}
     _width: 0.005
   _lineStatus:
     _maxLineLoad: 20
@@ -7830,7 +7830,7 @@ PrefabInstance:
     - target: {fileID: 2178973243694160386, guid: 14ba91d4649aa724581b9511dbc6f1b1,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 870012
+      value: 1006886.8
       objectReference: {fileID: 0}
     - target: {fileID: 2409094893471497758, guid: 14ba91d4649aa724581b9511dbc6f1b1,
         type: 3}
