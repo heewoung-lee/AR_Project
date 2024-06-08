@@ -18,7 +18,7 @@ MonoBehaviour:
   _weightRange:
     _minWeight: 5
     _maxWeight: 10
-  _lootRarity: 3
+  _lootRarity: 10
   _lootName: Legendary Fish
   _lootDescription: Example Legendary Fish.
   _lootPrefab: {fileID: 3838286276255427657, guid: c2407186729111546bab46cb3fdf9230,

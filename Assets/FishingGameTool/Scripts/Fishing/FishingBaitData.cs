@@ -15,7 +15,7 @@ namespace FishingGameTool.Fishing.BaitData
     public class FishingBaitData : ScriptableObject
     {
         [BetterHeader("Fishing Bait Settings", 20), Space]
-        public int fishID; 
+        public int baitID; 
         public BaitTier _baitTier;
         public string _baitName;
         [TextArea(10,40)]

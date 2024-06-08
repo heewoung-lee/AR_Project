@@ -18,7 +18,7 @@ MonoBehaviour:
   _weightRange:
     _minWeight: 1
     _maxWeight: 3
-  _lootRarity: 80
+  _lootRarity: 30
   _lootName: Common Fish
   _lootDescription: Example Common Fish.
   _lootPrefab: {fileID: 3049532309905063188, guid: 6a19a33b056991d48b3901a72bc90943,
