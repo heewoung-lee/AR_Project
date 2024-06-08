@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,7 +15,6 @@ public class ShopCheckButton : MonoBehaviour
         playerInvenList = GameObject.Find("UI_Inventory").GetComponent<PlayerInvenList>();
         shopInvenList = GetComponentInParent<PlayerInvenList>();
 
-        Debug.Log(playerInvenList);
         slot = GetComponent<InvenItemSlot>();
         itemIcon = transform.GetChild(0).GetComponent<Image>();
 
@@ -31,6 +29,8 @@ public class ShopCheckButton : MonoBehaviour
                 playerInvenList.InventoryLists[i].transform.GetChild(0).GetComponent<Image>().sprite = shopInvenList.InventoryLists[i].transform.GetChild(0).GetComponent<Image>().sprite;
                 i++;
             }
+
+            PlayerGold.PlayerGolds += (int)(ItemDataBase.ItemData[slot.ItemsID].itemPrice * 0.7f);
 
         }
         );
