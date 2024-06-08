@@ -4135,6 +4135,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3451089104937634437, guid: c3fd169c18ecb8144930182af3535c75,
+        type: 3}
+      propertyPath: ShopItemLists.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: be8fb2e2dbf64ed4bac8a992caf9ffb7,
+        type: 2}
+    - target: {fileID: 3451089104937634437, guid: c3fd169c18ecb8144930182af3535c75,
+        type: 3}
+      propertyPath: ShopItemLists.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 78da97bd6ebba8e4599f053ee537e02c,
+        type: 2}
     - target: {fileID: 3451089104937634491, guid: c3fd169c18ecb8144930182af3535c75,
         type: 3}
       propertyPath: m_SizeDelta.y
@@ -4143,7 +4155,7 @@ PrefabInstance:
     - target: {fileID: 3451089104937634491, guid: c3fd169c18ecb8144930182af3535c75,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 1434540.6
+      value: 1716899.2
       objectReference: {fileID: 0}
     - target: {fileID: 3451089105561268282, guid: c3fd169c18ecb8144930182af3535c75,
         type: 3}
@@ -8145,7 +8157,7 @@ PrefabInstance:
     - target: {fileID: 2178973243694160386, guid: 14ba91d4649aa724581b9511dbc6f1b1,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 784712.75
+      value: 930564.25
       objectReference: {fileID: 0}
     - target: {fileID: 2409094893471497758, guid: 14ba91d4649aa724581b9511dbc6f1b1,
         type: 3}

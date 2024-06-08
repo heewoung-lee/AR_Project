@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6419d60fbccb1994992c2acfb119b58c, type: 3}
-  m_Name: TestRod
+  m_Script: {fileID: 11500000, guid: b13dda281772297448bd6fc4fd0d74ef, type: 3}
+  m_Name: WarmBait
   m_EditorClassIdentifier: 
-  itemType: 1
-  itemID: 20
-  itemImage: {fileID: 21300000, guid: 5eec0cf9e8ff94ee38a599e54bdc32b6, type: 3}
-  itemInfo: Bad Rod
-  itemPrice: 5000
+  itemType: 0
+  itemID: 102
+  itemImage: {fileID: 21300000, guid: cd473c2ebae93cd4aabf4447096d2cee, type: 3}
+  itemInfo: Warm
+  itemPrice: 200
   itmeEffect: 0
-  rodType: 0
+  baitType: 1

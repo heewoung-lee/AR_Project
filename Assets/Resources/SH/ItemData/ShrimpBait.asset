@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b13dda281772297448bd6fc4fd0d74ef, type: 3}
-  m_Name: TestBait
+  m_Name: ShrimpBait
   m_EditorClassIdentifier: 
   itemType: 0
-  itemID: 1000
-  itemImage: {fileID: 21300000, guid: dcd312606da9b47e8b1acb372b00b4ac, type: 3}
-  itemInfo: GreatMeat
+  itemID: 100
+  itemImage: {fileID: 21300000, guid: 31671189d5f441847bb68af96468e78a, type: 3}
+  itemInfo: Shrimp
   itemPrice: 1000
   itmeEffect: 0
   baitType: 1
