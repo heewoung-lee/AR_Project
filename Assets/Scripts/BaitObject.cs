@@ -14,12 +14,10 @@ public class BaitObject : MonoBehaviour
     public Material[] _materials;
     private Dictionary<string, int> _materialDictionary;
     public Dictionary<string, int> MaterialDictionary => _materialDictionary;
-    public IButtonAction baitButton;
     void Start()
     {
         _fishingLine = GetComponent<FishingLine>();
         _materials = Resources.LoadAll<Material>("HW/BaitMetarials");
-
         _materialDictionary = new Dictionary<string, int>();
         for (int i = 0; i < _materials.Length; i++)
         {
@@ -36,14 +34,21 @@ public class BaitObject : MonoBehaviour
         _bait = Instantiate(Resources.Load("HW/Prefabs/BaitPrefab") as GameObject);
         _fishFloat = Instantiate(Resources.Load("HW/Prefabs/FishingFloat") as GameObject);
         _bait.GetComponent<MeshRenderer>().material = GetMaterialByName("Null");
-        baitButton.BaitChangeAction += ChangedBaitObject;
+        SubscribeToBaitButtonAction();
     }
     private void Update()
     {
         _fishFloat.GetComponentInChildren<StartPoint>().transform.position = _fishingLine.Segments[_fishingLine.Segments.Count - 1].position;
         _bait.transform.position = _fishFloat.GetComponentInChildren<EndPoint>().transform.position;
     }
-
+    private void SubscribeToBaitButtonAction()
+    {
+        BaitButtonAction[] baitButtonActions = FindObjectsOfType<BaitButtonAction>();
+        foreach (var baitButtonAction in baitButtonActions)
+        {
+            baitButtonAction.BaitChangeAction += ChangedBaitObject;
+        }
+    }
     public void DestroyObject()
     {
         _bait.SetActive(false);
@@ -70,6 +75,7 @@ public class BaitObject : MonoBehaviour
         Debug.Log("버튼눌림");
         Debug.Log(biteNumber);
         Debug.Log(count);
+        _bait.GetComponent<MeshRenderer>().material = _materials[biteNumber - BAITNUMBER];
     }
 
 }
