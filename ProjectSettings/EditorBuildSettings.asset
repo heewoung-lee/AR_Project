@@ -8,6 +8,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PlayScene.unity
     guid: c9cd41b035a1abc46879cb0df8bb969f
+  - enabled: 1
+    path: Assets/SH/Scene/AquariumGameScene.unity
+    guid: f374e19c562aff545863ef8df6b059d6
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: f12500bd4a2a12d4c8f941457e339394,
       type: 2}

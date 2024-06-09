@@ -31,6 +31,7 @@ public class ButtonEventComponent : MonoBehaviour
 
     public void ButtonAction(UnityAction action)
     {
+
         testAction = action;
     }
 
