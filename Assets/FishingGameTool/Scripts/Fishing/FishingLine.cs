@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,8 @@ public class FishingLine : MonoBehaviour
     public Vector3 gravity = new Vector3(0, -9.8f, 0); // 중력 벡터
 
     private List<Segment> segments = new List<Segment>(); // 세그먼트 리스트
+    public List<Segment> Segments => segments;
+
 
     // 초기 설정을 재설정하는 메서드
     private void Reset()

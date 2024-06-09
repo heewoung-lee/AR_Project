@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3346138207831619284}
   - component: {fileID: 3346138207831619285}
   - component: {fileID: 3346138207831619287}
+  - component: {fileID: -6689949686634270059}
   m_Layer: 0
   m_Name: LoadRope
   m_TagString: Untagged
@@ -26,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3346138207831619283}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.041966, y: -11.972871, z: -19.208614}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -153,6 +154,18 @@ MonoBehaviour:
   startTransform: {fileID: 3346138207897275433}
   endTransform: {fileID: 0}
   gravity: {x: 0, y: -9.8, z: 0}
+--- !u!114 &-6689949686634270059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3346138207831619283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de753c97c32e2f341840b0787cf9ae42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3346138207897275478
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,8 +189,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3346138207897275478}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.041966, y: 11.972871, z: 19.208614}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

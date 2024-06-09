@@ -619,11 +619,17 @@ namespace FishingGameTool.Fishing
                 Vector3 castDirection = transform.forward + Vector3.up; // 던지는 방향
                 // 던지기 지연을 시작
                 StartCoroutine(CastingDelay(_spawnFloatDelay, castDirection, spawnPoint, _currentCastForce, _fishingFloatPrefab));
-                castingMontion?.Invoke();
+                StartCoroutine(waitDestroyRope());
                 _currentCastForce = 0f; // 던지기 힘 초기화
             }
         }
 
+
+        IEnumerator waitDestroyRope()
+        {
+           yield return new WaitForSeconds(0.5f);
+            castingMontion?.Invoke();
+        }
         // 던지기 지연 메서드
         private IEnumerator CastingDelay(float delay, Vector3 castDirection, Vector3 spawnPoint, float castForce, GameObject fishingFloatPrefab)
         {
