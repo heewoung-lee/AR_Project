@@ -1,6 +1,6 @@
 using System;
 
-interface IButtonAction
+public interface IButtonAction
 {
-    public event Action<int,int, BaitButtonAction> BaitChangeAction;
+    public event Action<int,int> BaitChangeAction;
 }

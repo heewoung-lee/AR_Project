@@ -14,7 +14,7 @@ public class BaitObject : MonoBehaviour
     public Material[] _materials;
     private Dictionary<string, int> _materialDictionary;
     public Dictionary<string, int> MaterialDictionary => _materialDictionary;
-    IButtonAction baitButton = new BaitButtonAction();
+    public IButtonAction baitButton;
     void Start()
     {
         _fishingLine = GetComponent<FishingLine>();
@@ -26,7 +26,6 @@ public class BaitObject : MonoBehaviour
             string materialName = _materials[i].name.Replace("Bait-", "");
             _materials[i].name = materialName;
             _materialDictionary[materialName] =i+BAITNUMBER;
-
         }
 
         foreach(var MaterialDictionary in MaterialDictionary)
@@ -39,7 +38,6 @@ public class BaitObject : MonoBehaviour
         _bait.GetComponent<MeshRenderer>().material = GetMaterialByName("Null");
         baitButton.BaitChangeAction += ChangedBaitObject;
     }
-
     private void Update()
     {
         _fishFloat.GetComponentInChildren<StartPoint>().transform.position = _fishingLine.Segments[_fishingLine.Segments.Count - 1].position;
@@ -67,15 +65,11 @@ public class BaitObject : MonoBehaviour
         return null;
     }
 
-    public void ChangedBaitObject(int biteNumber,int count,BaitButtonAction buttonAction)
+    public void ChangedBaitObject(int biteNumber,int count)
     {
-        baitButton = buttonAction;
-
         Debug.Log("버튼눌림");
-        //미끼 버튼을 누르면 여기서 미끼 머테리얼 바뀌도록 수정하는 함수 작성
-        //미끼 버튼을 누르면 _fishingBaitData도 바뀌어야함
-        //미끼를 던지는 순간, 마지막에 낀 미끼가 -되도록 수정 Null은 제외
-
+        Debug.Log(biteNumber);
+        Debug.Log(count);
     }
 
 }
