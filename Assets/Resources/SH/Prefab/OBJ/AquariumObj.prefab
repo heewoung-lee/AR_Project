@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4773781378420964730}
   - component: {fileID: 4773781378420964733}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: Respawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 4773781378733199440}
   - component: {fileID: 4773781378733199443}
   m_Layer: 0
-  m_Name: Sphere (3)
+  m_Name: Respawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -207,7 +207,7 @@ GameObject:
   - component: {fileID: 4773781379346030589}
   - component: {fileID: 4773781379346030588}
   m_Layer: 0
-  m_Name: Sphere (2)
+  m_Name: Respawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -304,7 +304,7 @@ GameObject:
   - component: {fileID: 4773781380065796322}
   - component: {fileID: 4773781380065796325}
   m_Layer: 0
-  m_Name: Sphere (1)
+  m_Name: Respawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -400,6 +400,7 @@ GameObject:
   - component: {fileID: 4773781380165599608}
   - component: {fileID: 4773781380165599611}
   - component: {fileID: 4773781380165599610}
+  - component: {fileID: 4773781380509126652}
   m_Layer: 0
   m_Name: AquariumObj
   m_TagString: Untagged
@@ -489,3 +490,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4773781380509126652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4773781380165599613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f97f82abe329d44aa8adba2b99966e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  respawnPos:
+  - {fileID: 4773781378420964732}
+  - {fileID: 4773781380065796324}
+  - {fileID: 4773781379346030591}
+  - {fileID: 4773781378733199442}

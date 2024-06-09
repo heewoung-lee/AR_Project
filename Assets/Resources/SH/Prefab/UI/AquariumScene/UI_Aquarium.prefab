@@ -122,7 +122,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2845201273332445475}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9995457
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -228,6 +228,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2845201272449156743}
   - component: {fileID: 2845201272449156742}
+  - component: {fileID: 560041924}
+  - component: {fileID: 599514713}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -300,7 +302,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.000021665324}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2845201272449156742
@@ -327,6 +329,79 @@ MonoBehaviour:
   m_Spacing: {x: 0, y: 5}
   m_Constraint: 0
   m_ConstraintCount: 2
+--- !u!114 &560041924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2845201272449156740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6026b73233e88e42a7444277a872fe0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &599514713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2845201272449156740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e312afa842d15c4fb3ac8413c1bccc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryList:
+  - {fileID: 2845201273298222978}
+  - {fileID: 8963204544290097524}
+  - {fileID: 8963204544393944491}
+  - {fileID: 8963204544415803014}
+  - {fileID: 8963204544468114490}
+  - {fileID: 8963204544609289944}
+  - {fileID: 8963204543805099825}
+  - {fileID: 8963204543551390911}
+  - {fileID: 8963204545146704586}
+  - {fileID: 8963204543422719209}
+  - {fileID: 8963204543796864937}
+  - {fileID: 8963204543948447743}
+  - {fileID: 8963204545318431834}
+  - {fileID: 8963204543730514815}
+  - {fileID: 8963204543532564230}
+  - {fileID: 8963204545226967653}
+  - {fileID: 8963204543848872123}
+  - {fileID: 8963204545121370082}
+  - {fileID: 8963204544719231390}
+  - {fileID: 8963204545118982247}
+  - {fileID: 8963204543825410702}
+  - {fileID: 8963204544096638301}
+  - {fileID: 8963204544424205778}
+  - {fileID: 8963204543922888683}
+  - {fileID: 8963204544815604552}
+  - {fileID: 8963204543286445385}
+  - {fileID: 8963204543572661069}
+  - {fileID: 8963204543736362672}
+  - {fileID: 8963204544483646524}
+  - {fileID: 8963204545292405317}
+  - {fileID: 8963204543261089288}
+  - {fileID: 8963204543640117583}
+  - {fileID: 8963204543924713148}
+  - {fileID: 8963204544810676498}
+  - {fileID: 8963204544859270810}
+  - {fileID: 8963204544723061226}
+  - {fileID: 8963204544192732184}
+  - {fileID: 8963204544030730134}
+  - {fileID: 8963204543662509811}
+  - {fileID: 8963204544208363205}
+  - {fileID: 8963204545156013288}
+  - {fileID: 8963204545298933148}
+  - {fileID: 8963204543336366161}
+  - {fileID: 8963204543903148291}
+  - {fileID: 8963204545107762016}
+  - {fileID: 8963204544012340741}
+  - {fileID: 8963204544808981025}
+  - {fileID: 8963204543751356247}
 --- !u!1 &2845201272726149079
 GameObject:
   m_ObjectHideFlags: 0
@@ -674,7 +749,6 @@ GameObject:
   - component: {fileID: 2845201273435030711}
   - component: {fileID: 2845201273435030708}
   - component: {fileID: 2845201273435030709}
-  - component: {fileID: 2845201273435030705}
   m_Layer: 5
   m_Name: UI_Aquarium
   m_TagString: Untagged
@@ -766,67 +840,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &2845201273435030705
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2845201273435030714}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e312afa842d15c4fb3ac8413c1bccc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventoryList:
-  - {fileID: 2845201273298222978}
-  - {fileID: 8963204544290097524}
-  - {fileID: 8963204544393944491}
-  - {fileID: 8963204544415803014}
-  - {fileID: 8963204544468114490}
-  - {fileID: 8963204544609289944}
-  - {fileID: 8963204543805099825}
-  - {fileID: 8963204543551390911}
-  - {fileID: 8963204545146704586}
-  - {fileID: 8963204543422719209}
-  - {fileID: 8963204543796864937}
-  - {fileID: 8963204543948447743}
-  - {fileID: 8963204545318431834}
-  - {fileID: 8963204543730514815}
-  - {fileID: 8963204543532564230}
-  - {fileID: 8963204545226967653}
-  - {fileID: 8963204543848872123}
-  - {fileID: 8963204545121370082}
-  - {fileID: 8963204544719231390}
-  - {fileID: 8963204545118982247}
-  - {fileID: 8963204543825410702}
-  - {fileID: 8963204544096638301}
-  - {fileID: 8963204544424205778}
-  - {fileID: 8963204543922888683}
-  - {fileID: 8963204544815604552}
-  - {fileID: 8963204543286445385}
-  - {fileID: 8963204543572661069}
-  - {fileID: 8963204543736362672}
-  - {fileID: 8963204544483646524}
-  - {fileID: 8963204545292405317}
-  - {fileID: 8963204543261089288}
-  - {fileID: 8963204543640117583}
-  - {fileID: 8963204543924713148}
-  - {fileID: 8963204544810676498}
-  - {fileID: 8963204544859270810}
-  - {fileID: 8963204544723061226}
-  - {fileID: 8963204544192732184}
-  - {fileID: 8963204544030730134}
-  - {fileID: 8963204543662509811}
-  - {fileID: 8963204544208363205}
-  - {fileID: 8963204545156013288}
-  - {fileID: 8963204545298933148}
-  - {fileID: 8963204543336366161}
-  - {fileID: 8963204543903148291}
-  - {fileID: 8963204545107762016}
-  - {fileID: 8963204544012340741}
-  - {fileID: 8963204544808981025}
-  - {fileID: 8963204543751356247}
 --- !u!1 &2845201273454587671
 GameObject:
   m_ObjectHideFlags: 0

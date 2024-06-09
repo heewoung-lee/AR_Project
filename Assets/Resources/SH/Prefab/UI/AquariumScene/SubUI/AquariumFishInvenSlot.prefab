@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 6566138788963194823}
   - component: {fileID: 6566138788963194816}
   - component: {fileID: 6566138788963194817}
+  - component: {fileID: 1375131421337725010}
+  - component: {fileID: 5203831419097035861}
   m_Layer: 5
   m_Name: FishSettingButton
   m_TagString: Untagged
@@ -122,6 +124,30 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1375131421337725010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6566138788963194819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 548e44bcd8ddaed4f8c9d69718051c09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5203831419097035861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6566138788963194819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b355e4bf46d59b4da9b4d0ac99ba921, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6566138789028659512
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,7 +659,8 @@ GameObject:
   - component: {fileID: 6566138790849697603}
   - component: {fileID: 6566138790849697601}
   - component: {fileID: 6566138790849697602}
-  - component: {fileID: 8121584169633658265}
+  - component: {fileID: -1677329643673376544}
+  - component: {fileID: -5288391600363235951}
   m_Layer: 5
   m_Name: AquariumFishInvenSlot
   m_TagString: Untagged
@@ -702,7 +729,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8121584169633658265
+--- !u!114 &-1677329643673376544
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -711,6 +738,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 6566138790849697660}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12f52a183a325cf4c8732b6f94e08534, type: 3}
+  m_Script: {fileID: 11500000, guid: 9383ee5ebde402d488b99dc950ff4dff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-5288391600363235951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6566138790849697660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9fb78c05c3bb0542b08d23f88c80c44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

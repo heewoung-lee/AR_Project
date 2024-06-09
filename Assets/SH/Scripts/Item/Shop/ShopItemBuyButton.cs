@@ -102,38 +102,7 @@ public class ShopItemBuyButton : MonoBehaviour
                                 }
                             }
                         }
-                        //foreach (var inven in _playerBaitInventoryList.InventoryLists)
-                        //{
-
-                        //    if (inven.GetComponent<InvenItemSlot>().IsEmpty)
-                        //    {
-                        //        inven.transform.GetChild(0).GetComponent<Image>().sprite = ItemDataBase.ItemData[_shopItemID].itemImage;
-                        //        inven.GetComponent<InvenItemSlot>().IsEmpty = false;
-                        //        inven.transform.GetChild(0).GetChild(0).GetComponent<BaitCount>().BaitCounts++;
-                        //        inven.GetComponent<InvenItemSlot>().ItemsID = _shopItemID;
-                        //    }
-                        //    // 해당 아이템이 같은게 아니라고 판단 하는거임 
-                        //    else if (!inven.GetComponent<InvenItemSlot>().IsEmpty && inven.GetComponent<InvenItemSlot>().ItemsID == _shopItemID)
-                        //    {
-                        //        inven.transform.GetChild(0).GetChild(0).GetComponent<BaitCount>().BaitCounts++;
-                        //        inven.GetComponent<InvenItemSlot>().ItemsID = _shopItemID;
-
-                        //        if (PlayerGold.PlayerGolds >= ItemDataBase.ItemData[_shopItemID].itemPrice)
-                        //        {
-                        //            PlayerGold.PlayerGolds -= ItemDataBase.ItemData[_shopItemID].itemPrice;
-                        //        }
-
-
-                        //    }
-                            
-                           
-                        //     if (PlayerGold.PlayerGolds >= ItemDataBase.ItemData[_shopItemID].itemPrice)
-                        //     {
-                        //         PlayerGold.PlayerGolds -= ItemDataBase.ItemData[_shopItemID].itemPrice;
-                        //     }
-                        //     return;
-                            
-                        //}
+                       
                     }
                 }
                 

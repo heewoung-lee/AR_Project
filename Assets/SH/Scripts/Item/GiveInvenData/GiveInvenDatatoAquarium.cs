@@ -1,28 +1,33 @@
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class GiveInvenDatatoAquarium : MonoBehaviour
 {
     [SerializeField] GameObject PlayerInventory;
+    [SerializeField] MainGotoAquarium MainGotoAquarium;
     public InvenFishData InvenFishData;
-    GiveInvenDatatoAquarium Instance;
 
     private void Awake()
     {
-        if (Instance != null) 
-        {
-            Instance = this;
-            DontDestroyOnLoad(this);
-        }
+        //InvenFishData = (InvenFishData)Resources.Load("SH/GiveInvenFishData");
+        MainGotoAquarium.OnAquariumClick += GiveData;
     }
-
 
     public void GiveData()
     {
-        int i = 0;
-        foreach (var item in PlayerInventory.GetComponent<InventoryList>().InventoryLists) 
+        for (int i = 0; i < PlayerInventory.GetComponent<PlayerInvenList>().InventoryLists.Count; i++)
         {
-            InvenFishData.fishItems[i] = item.GetComponent<InvenItemSlot>().ItemsID;
-            i++;
+            if (!PlayerInventory.GetComponent<PlayerInvenList>().InventoryLists[i].GetComponent<InvenItemSlot>().IsEmpty)
+            {
+                Debug.Log($"{i}¹øÂ° {PlayerInventory.GetComponent<PlayerInvenList>().InventoryLists[i].GetComponent<InvenItemSlot>().ItemsID}");
+                InvenFishData.fishItems[i] = PlayerInventory.GetComponent<PlayerInvenList>().InventoryLists[i].GetComponent<InvenItemSlot>().ItemsID;
+            }
+            else
+            {
+                InvenFishData.fishItems[i] = 0;
+            }
+            
         }
     }
 }
+
