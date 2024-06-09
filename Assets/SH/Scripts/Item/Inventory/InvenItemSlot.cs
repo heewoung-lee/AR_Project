@@ -1,11 +1,14 @@
+using System;
 using UnityEngine;
 
 public class InvenItemSlot : MonoBehaviour
 {
+    public event Action BaitIDChanged;
+
     public int ItemsID
     {
         get => _itemID;
-        set => _itemID = value; 
+        set { _itemID = value; BaitIDChanged?.Invoke(); } 
     }
     
     public bool IsEmpty

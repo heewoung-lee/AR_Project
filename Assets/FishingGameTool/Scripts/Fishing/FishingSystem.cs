@@ -57,7 +57,6 @@ namespace FishingGameTool.Fishing
         public bool _showCatchEvent = false; // 물고기 잡기 이벤트 표시 여부
 
         public LootCatchEvent _lootCatchEvent; // 물고기 잡기 이벤트
-
         public GameObject _fishingFloatPrefab; // 낚싯대 프리팹
         public float _maxCastForce = 20f; // 최대 던지기 힘
         public float _forceChargeRate = 6f; // 힘 충전 속도
@@ -680,7 +679,9 @@ namespace FishingGameTool.Fishing
         public void AddBait(FishingBaitData baitData)
         {
             if (_bait == null)
+            {
                 _bait = baitData;
+            }
             else
             {
                 Vector3 spawnPos = transform.position + transform.forward + Vector3.up;

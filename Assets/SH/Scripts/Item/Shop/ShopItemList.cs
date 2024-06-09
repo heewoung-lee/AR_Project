@@ -13,7 +13,6 @@ public class ShopItemList : MonoBehaviour
         {
             item.GetComponent<ShopItemSetting>().ShopItemID = ShopItemLists[i].itemID;
             i++;
-            Debug.Log(item.GetComponent<ShopItemSetting>().ShopItemID);
         }
     }
 

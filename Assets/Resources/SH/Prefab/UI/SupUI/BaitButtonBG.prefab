@@ -240,8 +240,8 @@ GameObject:
   - component: {fileID: 7174020354193377633}
   - component: {fileID: 6126347611924122689}
   - component: {fileID: 965569190039690580}
-  - component: {fileID: 5738203272719594952}
   - component: {fileID: 1770444321953704342}
+  - component: {fileID: -3305057846586093727}
   m_Layer: 5
   m_Name: BaitButtonBG
   m_TagString: Untagged
@@ -364,18 +364,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12f52a183a325cf4c8732b6f94e08534, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5738203272719594952
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7174020354193377647}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 353ef81253f7950479e231772ba23cd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1770444321953704342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386,5 +374,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b355e4bf46d59b4da9b4d0ac99ba921, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-3305057846586093727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7174020354193377647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f3ed3a5f3a228141a44556b4034c1cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
