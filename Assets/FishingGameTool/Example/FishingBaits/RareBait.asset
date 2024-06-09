@@ -16,5 +16,5 @@ MonoBehaviour:
   _baitTier: 1
   _baitName: 
   _baitDescription: 
-  _baitPrefab: {fileID: 5238331070711694125, guid: 0d60fa801f5198842adc665c65047ac5,
+  _baitPrefab: {fileID: 5238331070711694125, guid: 015cecefe9fd1f34abb77ae35a2f0e84,
     type: 3}

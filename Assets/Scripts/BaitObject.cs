@@ -14,7 +14,7 @@ public class BaitObject : MonoBehaviour
     public Material[] _materials;
     private Dictionary<string, int> _materialDictionary;
     public Dictionary<string, int> MaterialDictionary => _materialDictionary;
-    IButtonAction baitButton;
+    IButtonAction baitButton = new BaitButtonAction();
     void Start()
     {
         _fishingLine = GetComponent<FishingLine>();
@@ -37,7 +37,6 @@ public class BaitObject : MonoBehaviour
         _bait = Instantiate(Resources.Load("HW/Prefabs/BaitPrefab") as GameObject);
         _fishFloat = Instantiate(Resources.Load("HW/Prefabs/FishingFloat") as GameObject);
         _bait.GetComponent<MeshRenderer>().material = GetMaterialByName("Null");
-        baitButton = new BaitButtonAction();
         baitButton.BaitChangeAction += ChangedBaitObject;
     }
 
@@ -71,6 +70,8 @@ public class BaitObject : MonoBehaviour
     public void ChangedBaitObject(int biteNumber,int count,BaitButtonAction buttonAction)
     {
         baitButton = buttonAction;
+
+        Debug.Log("버튼눌림");
         //미끼 버튼을 누르면 여기서 미끼 머테리얼 바뀌도록 수정하는 함수 작성
         //미끼 버튼을 누르면 _fishingBaitData도 바뀌어야함
         //미끼를 던지는 순간, 마지막에 낀 미끼가 -되도록 수정 Null은 제외
