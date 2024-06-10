@@ -82,7 +82,7 @@ namespace FishingGameTool.Fishing
         public event Func<float> showPowerbarEvent; // 파워바 이벤트
         //public event Action<Transform> setLootCamera;
         public event Func<GameObject> setLineEndPoint;
-        public event System.Action<GameObject, GameObject, Camera, Image, Image> viewFishCaughtButtonEvent;
+        public event System.Action<GameObject, GameObject, Camera, Image> viewFishCaughtButtonEvent;
 
         private Vector2 _startPos; // 시작 위치
         private Vector2 _endPos;
@@ -90,10 +90,11 @@ namespace FishingGameTool.Fishing
         private InputSystem _inputSystem; // 입력 시스템
         private float _dragDistance = 0; // 드래그 거리
         public float dragDistance { get => _dragDistance; } // 드래그 거리 접근자
-        private bool isCheckedMouseDraged =false;
+        private bool isCheckedMouseDraged = false;
         private float _lastPositionY = 0f; //드래그에서만 작동되게끔 마우스 포지션의 위치를 알기위한 필드
         private GameObject _fishingrope;
         private Transform _bigCatchWord;
+        private FishLoadEndPosition _fishLoadEndPosition;
 
         public AnimationCurve _fishingCatchActionEase;
         public event Action castingMontion;
@@ -107,7 +108,7 @@ namespace FishingGameTool.Fishing
         private float _finalSpeed; // 최종 속도
         [SerializeField] private Camera _arMainCamera;
         [SerializeField] private Camera _catchLootCamera;
-        [SerializeField]private Canvas _CharactorUI;
+        [SerializeField] private Canvas _CharactorUI;
 
 
 
@@ -134,7 +135,7 @@ namespace FishingGameTool.Fishing
         }
 
 #endif
-        
+
         private void Awake()
         {
             _inputSystem = new InputSystem();
@@ -145,6 +146,7 @@ namespace FishingGameTool.Fishing
             _catchLootCamera = GameObject.Find("CatchLootCamera").GetComponent<Camera>();
             _CharactorUI = GameObject.Find("CharacterUI").GetComponent<Canvas>();
             _bigCatchWord = _CharactorUI.transform.Find("Bigcatchword").GetComponent<Transform>();
+            _fishLoadEndPosition = GetComponentInChildren<FishLoadEndPosition>();
             _catchCheckIntervalTimer = _advanced._catchCheckInterval;
         }
 
@@ -159,7 +161,7 @@ namespace FishingGameTool.Fishing
         }
 
         #region AttractFloat
-       
+
         // 찌 당기기 메서드
         private void AttractFloat()
         {
@@ -223,6 +225,7 @@ namespace FishingGameTool.Fishing
                 {
                     Destroy(_fishingRod._fishingFloat.gameObject);
                     _fishingRod._fishingFloat = null;
+                    _fishLoadEndPosition.CreateFishingRope();
                     return;
                 }
             }
@@ -265,12 +268,12 @@ namespace FishingGameTool.Fishing
                         distance = _catchDistance;
                     }
                     // 변환 위치와 낚시 찌의 위치 사이의 거리를 계산
-                    
+
 
                     // 거리가 설정된 거리 이하이면 loot을 잡고 낚시 찌를 파괴
                     if (distance <= _catchDistance)
                     {
-                        GrabLoot(_advanced._caughtLootData, _fishingRod._fishingFloat.position, transform.position,out GameObject lootprefab);
+                        GrabLoot(_advanced._caughtLootData, _fishingRod._fishingFloat.position, transform.position, out GameObject lootprefab);
                         CatchFishingScene(lootprefab, _catchLootCamera);//Todo: 카메라 연출 실행
                         Destroy(_fishingRod._fishingFloat.gameObject);
                         _fishingRod._fishingFloat = null;
@@ -366,7 +369,7 @@ namespace FishingGameTool.Fishing
 
         #region GrabLoot
         // 물고기를 잡는 메서드
-        private void GrabLoot(FishingLootData lootData, Vector3 fishingFloatPosition, Vector3 transformPosition,out GameObject lootprefab)
+        private void GrabLoot(FishingLootData lootData, Vector3 fishingFloatPosition, Vector3 transformPosition, out GameObject lootprefab)
         {
             switch (_lootCatchType)
             {
@@ -396,7 +399,7 @@ namespace FishingGameTool.Fishing
         }
 
         // 물고기 아이템 생성 메서드
-        private void SpawnLootItem(GameObject lootPrefab, Vector3 fishingFloatPosition, Vector3 transformPosition,out GameObject lootObject)
+        private void SpawnLootItem(GameObject lootPrefab, Vector3 fishingFloatPosition, Vector3 transformPosition, out GameObject lootObject)
         {
             Vector3 direction = ((transformPosition - fishingFloatPosition) + (Vector3.up * 3f)).normalized;
             Vector3 spawnPosition = fishingFloatPosition + new Vector3(0f, 1f, 0f);
@@ -407,7 +410,7 @@ namespace FishingGameTool.Fishing
             float desiredTime = 0.8f;
 
             float force = distance / desiredTime;
-            
+
             spawnedLootPrefab.GetComponent<Rigidbody>().AddForce(direction * force, ForceMode.Impulse);
         }
 
@@ -629,7 +632,7 @@ namespace FishingGameTool.Fishing
 
         IEnumerator waitDestroyRope()
         {
-           yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.5f);
             castingMontion?.Invoke();
         }
         // 던지기 지연 메서드
@@ -715,7 +718,7 @@ namespace FishingGameTool.Fishing
             ////lootObject.transform.Rotate(new Vector3(-90f, 0, -90f)); //물고기가 정면을 보게끔 수정
         }
 
-        public void CatchingAnimation(GameObject lootobject,Transform catchLootCamera)
+        public void CatchingAnimation(GameObject lootobject, Transform catchLootCamera)
         {
             //로프의 끝을 물고기와 연결해야 함.
             GameObject FishingLope = Instantiate(_fishingrope);
@@ -732,9 +735,7 @@ namespace FishingGameTool.Fishing
             //ToDO: 물속에 박혀 있다가 물밖으로 끄집어내도록 물속-> 물밖 닷트윈 실행
             lootobject.transform.position -= lootobject.transform.forward * 9f;
             // DOTween 시퀀스를 사용하여 "월척" 애니메이션 실행
-            Image bigCatchWord_1 = _bigCatchWord.Find("Bigcatchword_1").GetComponent<Image>();
-            Image bigCatchWord_2 = _bigCatchWord.Find("Bigcatchword_2").GetComponent<Image>();
-
+            Image yatchaWord = _bigCatchWord.Find("Yatchaword").GetComponent<Image>();
             // 시퀀스 생성
             DG.Tweening.Sequence fishCompingUpSequence = DOTween.Sequence();
             DG.Tweening.Sequence typingSequnence = DOTween.Sequence();
@@ -745,18 +746,26 @@ namespace FishingGameTool.Fishing
                 .SetEase(_fishingCatchActionEase)
                 .Join(lootobject.transform.DORotate(new Vector3(0, 0, -90), 2f))
                 .Append(fishingLine.startTransform.transform.DOMove(fishingLine.startTransform.transform.position -= Vector3.right, 1));
- 
+
 
             typingSequnence
-                .AppendCallback(() => bigCatchWord_1.enabled = true)
-                .Append(bigCatchWord_1.transform.DOScale(12, 0))
-                .Append(bigCatchWord_1.transform.DOScale(4, 1))
-                .AppendCallback(() => bigCatchWord_2.enabled = true)
-                .Append(bigCatchWord_2.transform.DOScale(12, 0))
-                .Append(bigCatchWord_2.transform.DOScale(4, 1))
+                .AppendCallback(() => yatchaWord.enabled = true)
+                .Append(yatchaWord.transform.DOScale(12, 0))
+                .Append(yatchaWord.transform.DOScale(1.7f, 1))
                 .AppendInterval(1f)
-                .AppendCallback(() => viewFishCaughtButtonEvent?.Invoke(lootobject, fishingLine.gameObject, catchLootCamera.GetComponent<Camera>(), bigCatchWord_1, bigCatchWord_2))
-                .AppendCallback(()=> afterCatchingAFishEvent?.Invoke());
+                .AppendCallback(() => viewFishCaughtButtonEvent?.Invoke(lootobject, fishingLine.gameObject, catchLootCamera.GetComponent<Camera>(), yatchaWord))
+                .AppendCallback(() => afterCatchingAFishEvent?.Invoke()); // 낚시하고나서 미끼 초기화
+
+
+            //.AppendCallback(() => bigCatchWord_1.enabled = true)
+            //.Append(bigCatchWord_1.transform.DOScale(12, 0))
+            //.Append(bigCatchWord_1.transform.DOScale(4, 1))
+            //.AppendCallback(() => bigCatchWord_2.enabled = true)
+            //.Append(bigCatchWord_2.transform.DOScale(12, 0))
+            //.Append(bigCatchWord_2.transform.DOScale(4, 1))
+            //.AppendInterval(1f)
+            //.AppendCallback(() => viewFishCaughtButtonEvent?.Invoke(lootobject, fishingLine.gameObject, catchLootCamera.GetComponent<Camera>(), bigCatchWord_1, bigCatchWord_2))
+            //.AppendCallback(()=> afterCatchingAFishEvent?.Invoke());
 
 
             fishCompingUpSequence.Play().Append(typingSequnence);
@@ -764,10 +773,6 @@ namespace FishingGameTool.Fishing
 
 
 
-        }
-        public int FishingCatch(int count)
-        {
-            return count--;
         }
         // InputSystem 인터페이스 구현 메서드
         public void OnNavigate(InputAction.CallbackContext context)
@@ -792,7 +797,7 @@ namespace FishingGameTool.Fishing
                 return;
 
             Vector2 currentPos = context.ReadValue<Vector2>();
-            if (_fishingRod._fishingFloat != null && isCheckedMouseDraged&& currentPos.y < _startPos.y) // 찌가 있고 마우스를 드래그 하는 중이라면
+            if (_fishingRod._fishingFloat != null && isCheckedMouseDraged && currentPos.y < _startPos.y) // 찌가 있고 마우스를 드래그 하는 중이라면
             {
                 _attractInput = _lastPositionY - currentPos.y > THRESHOLD;
                 _lastPositionY = currentPos.y;
@@ -802,7 +807,7 @@ namespace FishingGameTool.Fishing
         // 클릭 이벤트 처리 메서드
         public void OnClick(InputAction.CallbackContext context)
         {
-          
+
             if (_catchLootCamera.enabled)
                 return;
 
