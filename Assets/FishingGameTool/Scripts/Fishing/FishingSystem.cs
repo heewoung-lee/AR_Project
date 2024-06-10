@@ -100,6 +100,7 @@ namespace FishingGameTool.Fishing
         public event Action castingMontion;
         public event Action afterCatchingAFishEvent;
         public Action BaitCountDecreaseEvent; //낚시대 던질때 껴진 미끼의 갯수 감소 이벤트
+        public Action BaitInventoryDeleteEvent;
         #region PRIVATE VARIABLES
 
         private float _catchCheckIntervalTimer; // 잡기 확인 간격 타이머
@@ -253,6 +254,7 @@ namespace FishingGameTool.Fishing
                         _bait = null;
 
                         BaitCountDecreaseEvent?.Invoke();
+                        BaitInventoryDeleteEvent?.Invoke();
                         //TODO : BaitObject에 넣었던 미끼의 카운터를 --할것; --해서 0이 되면 그자리를 Null로 설정
                     }
                 }
