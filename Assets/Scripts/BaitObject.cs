@@ -111,13 +111,14 @@ public class BaitObject : MonoBehaviour
         _fishingSystem._bait = _fishingBaitData;
         _baitCount = baitCount;
         _fishingSystem.BaitCountDecreaseEvent = DecreaseBait;
-        //미끼를 끼면 캐릭터에 있는 미끼 필드에 미끼가 끼워지게 수정
-        //던지면 카운트가 --되게끔 수정.
 
     }
 
     public void DecreaseBait()
     {
+        if (_baitCount.BaitCounts == 0)
+            return;
+
         _baitCount.BaitCounts--;
         if (_baitCount.BaitCounts == 0)
         {
