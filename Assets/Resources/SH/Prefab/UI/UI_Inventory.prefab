@@ -1009,6 +1009,7 @@ GameObject:
   - component: {fileID: 8047235435038431703}
   - component: {fileID: 8047235435038431702}
   - component: {fileID: 8047235435038431705}
+  - component: {fileID: 5895454497109545338}
   m_Layer: 5
   m_Name: InventoryOutButton
   m_TagString: Untagged
@@ -1118,6 +1119,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5895454497109545338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8047235435038431707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0aa4e5517347ef84289266095b180733, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8047235435047993935
 GameObject:
   m_ObjectHideFlags: 0
