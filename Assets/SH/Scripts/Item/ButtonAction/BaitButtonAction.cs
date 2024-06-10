@@ -5,18 +5,20 @@ public class BaitButtonAction : MonoBehaviour
 {
     InvenItemSlot invenitemslot;
     ButtonEventComponent buttonEvent;
-    BaitObject baitobject;
+    BaitCount baitcount;
     int BaitID;
     int count;
-    public event Action<int,int> BaitChangeAction;
+    public event Action<int,BaitCount> BaitChangeAction;
     private void Awake()
     {
         invenitemslot = GetComponent<InvenItemSlot>();
+        baitcount = GetComponentInChildren<BaitCount>();
         buttonEvent = GetComponent<ButtonEventComponent>();
         buttonEvent.ButtonAction(() =>
         {
-            BaitChangeAction?.Invoke(BaitID, count);
+            BaitChangeAction?.Invoke(BaitID,baitcount);
         });
-        invenitemslot.BaitIDChanged += (() => BaitID = GetComponent<InvenItemSlot>().ItemsID);
+        invenitemslot.BaitIDChanged += (() => BaitID = invenitemslot.ItemsID);
+        baitcount.baitCountEvent += (() => count = baitcount.BaitCounts);
     }
 }

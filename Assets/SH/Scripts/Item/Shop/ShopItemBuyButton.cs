@@ -93,6 +93,7 @@ public class ShopItemBuyButton : MonoBehaviour
 
                             else if (!inven[i].GetComponent<InvenItemSlot>().IsEmpty && inven[i].GetComponent<InvenItemSlot>().ItemsID == _shopItemID)
                             {
+                                inven[i].transform.GetChild(0).GetComponent<Image>().sprite = ItemDataBase.ItemData[_shopItemID].itemImage;
                                 inven[i].transform.GetChild(0).GetChild(0).GetComponent<BaitCount>().BaitCounts++;
                                 inven[i].GetComponent<InvenItemSlot>().ItemsID = _shopItemID;
                                 if (PlayerGold.PlayerGolds >= ItemDataBase.ItemData[_shopItemID].itemPrice)

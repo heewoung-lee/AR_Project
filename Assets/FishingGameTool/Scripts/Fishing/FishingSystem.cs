@@ -97,6 +97,8 @@ namespace FishingGameTool.Fishing
 
         public AnimationCurve _fishingCatchActionEase;
         public event Action castingMontion;
+        public event Action afterCatchingAFishEvent;
+        public Action BaitCountDecreaseEvent; //낚시대 던질때 껴진 미끼의 갯수 감소 이벤트
         #region PRIVATE VARIABLES
 
         private float _catchCheckIntervalTimer; // 잡기 확인 간격 타이머
@@ -121,7 +123,6 @@ namespace FishingGameTool.Fishing
         FishingFloatPathfinder _fishingFloatPathfinder = new FishingFloatPathfinder(); // 낚시 찌 경로 찾기 객체
 
         #endregion
-
 #if UNITY_EDITOR
 
         private void OnDrawGizmosSelected()
@@ -145,7 +146,6 @@ namespace FishingGameTool.Fishing
             _CharactorUI = GameObject.Find("CharacterUI").GetComponent<Canvas>();
             _bigCatchWord = _CharactorUI.transform.Find("Bigcatchword").GetComponent<Transform>();
             _catchCheckIntervalTimer = _advanced._catchCheckInterval;
-
         }
 
         // Update 메서드: 매 프레임마다 호출되며 찌 당기기 및 던지기 동작 수행
@@ -159,7 +159,7 @@ namespace FishingGameTool.Fishing
         }
 
         #region AttractFloat
-
+       
         // 찌 당기기 메서드
         private void AttractFloat()
         {
@@ -248,6 +248,9 @@ namespace FishingGameTool.Fishing
 
                         // bait을 null로 설정
                         _bait = null;
+
+                        BaitCountDecreaseEvent?.Invoke();
+                        //TODO : BaitObject에 넣었던 미끼의 카운터를 --할것; --해서 0이 되면 그자리를 Null로 설정
                     }
                 }
 
@@ -675,22 +678,6 @@ namespace FishingGameTool.Fishing
             _fishingFloatPathfinder.ClearPathData();
         }
 
-        // 미끼 추가 메서드
-        public void AddBait(FishingBaitData baitData)
-        {
-            if (_bait == null)
-            {
-                _bait = baitData;
-            }
-            else
-            {
-                Vector3 spawnPos = transform.position + transform.forward + Vector3.up;
-                Instantiate(_bait._baitPrefab, spawnPos, Quaternion.identity);
-
-                _bait = baitData;
-            }
-        }
-
         // 사용자 정의 잡기 확률 데이터 추가 메서드
         public void AddCustomCatchProbabilityData(CatchProbabilityData catchProbabilityData)
         {
@@ -768,7 +755,8 @@ namespace FishingGameTool.Fishing
                 .Append(bigCatchWord_2.transform.DOScale(12, 0))
                 .Append(bigCatchWord_2.transform.DOScale(4, 1))
                 .AppendInterval(1f)
-                .AppendCallback(() => viewFishCaughtButtonEvent?.Invoke(lootobject, fishingLine.gameObject, catchLootCamera.GetComponent<Camera>(), bigCatchWord_1, bigCatchWord_2));
+                .AppendCallback(() => viewFishCaughtButtonEvent?.Invoke(lootobject, fishingLine.gameObject, catchLootCamera.GetComponent<Camera>(), bigCatchWord_1, bigCatchWord_2))
+                .AppendCallback(()=> afterCatchingAFishEvent?.Invoke());
 
 
             fishCompingUpSequence.Play().Append(typingSequnence);
@@ -777,7 +765,10 @@ namespace FishingGameTool.Fishing
 
 
         }
-
+        public int FishingCatch(int count)
+        {
+            return count--;
+        }
         // InputSystem 인터페이스 구현 메서드
         public void OnNavigate(InputAction.CallbackContext context)
         {
