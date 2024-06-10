@@ -9,23 +9,29 @@ public class FishLoadEndPosition : MonoBehaviour
     FishingSystem _fishingSystem;
     SimpleUIManager _simpleUIManeger;
     BaitObject _bateObject;
+    GameObject lopeObject;
 
     private void Start()
     {
         _simpleUIManeger = FindObjectOfType<SimpleUIManager>();
         _fishingSystem = FindObjectOfType<FishingSystem>();
-        GameObject lopeObject = Instantiate(Resources.Load<GameObject>("HW/Prefabs/LoadRope"), this.transform);
+        lopeObject = Instantiate(Resources.Load<GameObject>("HW/Prefabs/LoadRope"), this.transform);
         _bateObject = lopeObject.transform.GetComponent<BaitObject>();
-        _fishingSystem.castingMontion += (() =>
-        {
-                lopeObject.GetComponent<LineRenderer>().enabled = false;
-                _bateObject.DestroyObject();
-        });
+        _fishingSystem.castingMontion += DestroyFishingRope;
+        _simpleUIManeger.FishLoadLineEnable += CreateFishingRope;
+    }
 
-        _simpleUIManeger.FishLoadLineEnable += (() => 
-        {
-            lopeObject.GetComponent<LineRenderer>().enabled = true;
-            _bateObject.On_Object();
-         });
+
+
+    public void DestroyFishingRope()
+    {
+        lopeObject.GetComponent<LineRenderer>().enabled = false;
+        _bateObject.DestroyObject();
+    }
+
+    public void CreateFishingRope()
+    {
+        lopeObject.GetComponent<LineRenderer>().enabled = true;
+        _bateObject.On_Object();
     }
 }

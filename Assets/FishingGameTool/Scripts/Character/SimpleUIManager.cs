@@ -63,8 +63,7 @@ namespace FishingGameTool.Example
         GameObject loot;
         GameObject fishingLine;
         Camera _catchingCamera;
-        Image catchingWord1;
-        Image catchingWord2;
+        Image catchingWord;
         #region PRIVATE VARIABLES
 
         private FishingLineStatus _lineStatus;   // 낚싯줄 상태
@@ -83,20 +82,19 @@ namespace FishingGameTool.Example
             _caughtFishButton = transform.Find("CaughtfishConfirmButton").GetComponent<Button>();
             _caughtFishButton.gameObject.SetActive(false);
 
-            _fishingSystem.viewFishCaughtButtonEvent += (loot, fishingLine, Camera, bigCatchWordImage1, bigCatchWordImage2) =>
+            _fishingSystem.viewFishCaughtButtonEvent += (loot, fishingLine, Camera, CatchWordImage) =>
             {
                 this.loot = loot;
                 this.fishingLine = fishingLine;
                 _catchingCamera = Camera;
-                catchingWord1 = bigCatchWordImage1;
-                catchingWord2 = bigCatchWordImage2;
+                catchingWord = CatchWordImage;
                 _caughtFishButton.gameObject.SetActive(true);
             };//물고기 잡으면 버튼 뜨도록 이벤트 실행
 
             _caughtFishButton.onClick.AddListener(() =>
             {
-                FishCaughtButtonClicked(loot, fishingLine, _catchingCamera, catchingWord1, catchingWord2);
-                FishInventoryIn?.Invoke(loot.GetComponent<FishScripts>().fishNumber);
+                FishCaughtButtonClicked(loot, fishingLine, _catchingCamera, catchingWord);
+                FishInventoryIn?.Invoke(loot.GetComponent<FishScripts>().fishNumber);//인벤에 물고기 생성
                 FishLoadLineEnable?.Invoke();//낚시줄 다시 생성
             });
         }
@@ -112,17 +110,15 @@ namespace FishingGameTool.Example
         //}
 
         //이 매개변수가 안에 받는 값이 바뀌는가 ? X 
-        public void FishCaughtButtonClicked(GameObject loot, GameObject fishingLine, Camera camera, Image bigCatchWordImage1, Image bigCatchWordImage2)//물고기를 잡았을때 뜨는 버튼의 이벤트 구현
+        public void FishCaughtButtonClicked(GameObject loot, GameObject fishingLine, Camera camera, Image CatchWordImage)//물고기를 잡았을때 뜨는 버튼의 이벤트 구현
         {
             Destroy(loot);
             Destroy(fishingLine);
             camera.enabled = false;
-            bigCatchWordImage1.enabled = false;
-            bigCatchWordImage2.enabled = false;
+            CatchWordImage.enabled = false;
             _caughtFishButton.gameObject.SetActive(false);
             camera.GetComponent<LookatFish>().enabled = false; 
 
-            //TODO: 인벤토리에 잡은 물고기가 들어가게끔 수정
         }
 
         private void Update()
