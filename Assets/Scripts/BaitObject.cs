@@ -17,7 +17,7 @@ public class BaitObject : MonoBehaviour
     FishingSystem _fishingSystem;
     FishingLine _fishingLine;
     BaitCount _baitCount;
-    public Material[] _materials;
+    private Material[] _materials;
     private Dictionary<string, int> _materialDictionary;
     public Dictionary<string, int> MaterialDictionary => _materialDictionary;
     void Start()
@@ -106,13 +106,14 @@ public class BaitObject : MonoBehaviour
 
             _bait.GetComponent<MeshRenderer>().material = _materials[baitType - BAITNUMBER];
         }
-
-
         _fishingSystem._bait = _fishingBaitData;
         _baitCount = baitCount;
         _fishingSystem.BaitCountDecreaseEvent = DecreaseBait;
-
-    }
+        _fishingSystem.BaitInventoryDeleteEvent = (() =>
+        {
+            //baitType
+        });
+       }
 
     public void DecreaseBait()
     {
