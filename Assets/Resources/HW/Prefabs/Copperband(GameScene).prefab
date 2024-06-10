@@ -1434,7 +1434,7 @@ Transform:
   - {fileID: 762674928928906205}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -30, y: 20, z: -135}
 --- !u!95 &5670604974715158123
 Animator:
   serializedVersion: 5
@@ -1484,6 +1484,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b31c3862fccf3e49977d844bcc6fe92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fishNumber: 0
 --- !u!1 &4874349703680168822
 GameObject:
   m_ObjectHideFlags: 0
