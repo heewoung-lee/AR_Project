@@ -8,6 +8,6 @@ public class LoginGotoMain : MonoBehaviour
     private void Start()
     {
         _buttonEvent = gameObject.AddComponent<ButtonEventComponent>();
-        _buttonEvent.ButtonAction(() => SceneManager.LoadScene("SeungHyunScene"));
+        _buttonEvent.ButtonAction(() => SceneManager.LoadScene("PlayScene"));
     }
 }

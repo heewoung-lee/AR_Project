@@ -10,6 +10,6 @@ public class MainGotoAquarium : MonoBehaviour
     private void Start()
     {
         _buttonevent = gameObject.AddComponent<ButtonEventComponent>();
-        _buttonevent.ButtonAction(() => { SceneManager.LoadScene("AquariumGameScene"); OnAquariumClick?.Invoke(); });
+        _buttonevent.ButtonAction(() => { SceneManager.LoadScene("ARAquarium"); OnAquariumClick?.Invoke(); });
     }
 }
