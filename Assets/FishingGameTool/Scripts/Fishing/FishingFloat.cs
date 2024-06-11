@@ -81,6 +81,13 @@ namespace FishingGameTool.Fishing.Float
                     this.gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0f, this.gameObject.GetComponent<Rigidbody>().velocity.y, 0f);
                     _waterObject = colliders[0].gameObject;
                     substrateType = SubstrateType.Water;
+                    bool isCheckLureRand = false;
+                    if (GameObject.Find("CastingSound") && isCheckLureRand == false)
+                    {
+                        StartCoroutine(SoundManager.instance.SFXPlay("LureRand", SoundManager.instance.audioClips[(int)SoundClip.LureRand]));
+                        Destroy(GameObject.Find("CastingSound").gameObject);
+                        isCheckLureRand = true;
+                    }
 
                     return substrateType;
                 }
