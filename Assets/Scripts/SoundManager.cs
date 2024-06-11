@@ -28,12 +28,13 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    public IEnumerator SFXPlay(string sfxName, AudioClip clip, float deley = 0f)
+    public IEnumerator SFXPlay(string sfxName, AudioClip clip, float volume = 1f,float deley = 0f)
     {
         yield return new WaitForSeconds(deley);
         GameObject go = new GameObject(sfxName+"Sound");
         AudioSource source = go.AddComponent<AudioSource>();
         source.clip = clip;
+        source.volume = volume;
         source.Play();
         Destroy(go,clip.length);
     }

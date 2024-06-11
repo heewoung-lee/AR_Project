@@ -628,7 +628,7 @@ namespace FishingGameTool.Fishing
                 Vector3 spawnPoint = _fishingRod._line._lineAttachment.position; // 낚싯대의 시작 위치
                 Vector3 castDirection = transform.forward + Vector3.up; // 던지는 방향
                                                                         // 던지기 지연을 시작
-                StartCoroutine(SoundManager.instance.SFXPlay("Casting", SoundManager.instance.audioClips[(int)SoundClip.Casting], 0.3f));
+                StartCoroutine(SoundManager.instance.SFXPlay("Casting", SoundManager.instance.audioClips[(int)SoundClip.Casting],0.1f, 0.3f));
                 StartCoroutine(CastingDelay(_spawnFloatDelay, castDirection, spawnPoint, _currentCastForce, _fishingFloatPrefab));
                 StartCoroutine(waitDestroyRope());
                 _currentCastForce = 0f; // 던지기 힘 초기화
@@ -782,7 +782,7 @@ namespace FishingGameTool.Fishing
             {
                 Debug.Log(dragSoundCoroutine == null && castFloat);
                 if (dragSoundCoroutine == null&&FindAnyObjectByType<StartPoint>()==false)
-                    dragSoundCoroutine = StartCoroutine(SoundManager.instance.SFXPlay("Drag", SoundManager.instance.audioClips[(int)SoundClip.Drag]));
+                    dragSoundCoroutine = StartCoroutine(SoundManager.instance.SFXPlay("Drag", SoundManager.instance.audioClips[(int)SoundClip.Drag],0.1f));
             }
             else
             {
