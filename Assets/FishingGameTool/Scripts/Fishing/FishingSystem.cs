@@ -835,8 +835,12 @@ namespace FishingGameTool.Fishing
             if (_catchLootCamera.enabled)
                 return;
 
-            if (EventSystem.current.IsPointerOverGameObject())//UI에서는 반응안하게 설정
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                _attractInput = false;
+                isCheckedMouseDraged = false;
                 return;
+            }
 
             if (context.ReadValueAsButton())
             {
