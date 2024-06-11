@@ -747,6 +747,7 @@ namespace FishingGameTool.Fishing
             DG.Tweening.Sequence typingSequnence = DOTween.Sequence();
 
 
+            StartCoroutine(FishCatchingSound());
             fishCompingUpSequence
                 .Append(lootobject.transform.DOMove(lootobject.transform.position + lootobject.transform.forward * 9f, 0.5f))
                 .SetEase(_fishingCatchActionEase)
@@ -764,18 +765,19 @@ namespace FishingGameTool.Fishing
                 .AppendCallback(() => afterCatchingAFishEvent?.Invoke()); // 낚시하고나서 미끼 초기화
                 
 
-            //.AppendCallback(() => bigCatchWord_1.enabled = true)
-            //.Append(bigCatchWord_1.transform.DOScale(12, 0))
-            //.Append(bigCatchWord_1.transform.DOScale(4, 1))
-            //.AppendCallback(() => bigCatchWord_2.enabled = true)
-            //.Append(bigCatchWord_2.transform.DOScale(12, 0))
-            //.Append(bigCatchWord_2.transform.DOScale(4, 1))
-            //.AppendInterval(1f)
-            //.AppendCallback(() => viewFishCaughtButtonEvent?.Invoke(lootobject, fishingLine.gameObject, catchLootCamera.GetComponent<Camera>(), bigCatchWord_1, bigCatchWord_2))
-            //.AppendCallback(()=> afterCatchingAFishEvent?.Invoke());
             fishCompingUpSequence.Play().Append(typingSequnence);
 
         }
+ 
+        IEnumerator FishCatchingSound()
+        {
+            StartCoroutine(SoundManager.instance.SFXPlay("Fish_Splash_Below_01", SoundManager.instance.audioClips[(int)SoundClip.Fish_Splash_Below_01]));
+            yield return new WaitForSeconds(1.3f);
+            StartCoroutine(SoundManager.instance.SFXPlay("Fish_Splash_Below_02", SoundManager.instance.audioClips[(int)SoundClip.Fish_Splash_Below_02]));
+            yield return new WaitForSeconds(1.5f);
+            StartCoroutine(SoundManager.instance.SFXPlay("Fish_Splash_Surface", SoundManager.instance.audioClips[(int)SoundClip.Fish_Splash_Surface]));
+        }
+
         public void DragSound()
         {
             if (_attractInput && _isCheckedRootFishingCamera == false && substrateType == SubstrateType.Water)

@@ -6,7 +6,10 @@ enum SoundClip
     Casting,
     Drag,
     Tada,
-    LureRand
+    LureRand,
+    Fish_Splash_Below_01,
+    Fish_Splash_Below_02,
+    Fish_Splash_Surface
 }
 public class SoundManager : MonoBehaviour
 {
