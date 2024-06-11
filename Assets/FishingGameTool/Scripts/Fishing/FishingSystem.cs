@@ -100,13 +100,15 @@ namespace FishingGameTool.Fishing
         public event Action castingMontion;
         public event Action afterCatchingAFishEvent;
         public Action BaitCountDecreaseEvent; //낚시대 던질때 껴진 미끼의 갯수 감소 이벤트
-        public Action BaitInventoryDeleteEvent;
         #region PRIVATE VARIABLES
 
         private float _catchCheckIntervalTimer; // 잡기 확인 간격 타이머
         private float _randomSpeedChangerTimer = 2f; // 랜덤 속도 변경 타이머
         private float _randomSpeedChanger = 1f; // 랜덤 속도 변경 값
         private float _finalSpeed; // 최종 속도
+
+        private Coroutine dragSoundCoroutine;
+        SubstrateType substrateType;
         [SerializeField] private Camera _arMainCamera;
         [SerializeField] private Camera _catchLootCamera;
         [SerializeField] private Canvas _CharactorUI;
@@ -114,7 +116,7 @@ namespace FishingGameTool.Fishing
 
 
         private bool _isCheckedLoadScene = false;
-
+        public bool _isCheckedRootFishingCamera = false;
 
         public bool isCheckedLoadScene { get => _isCheckedLoadScene; }
 
@@ -156,6 +158,7 @@ namespace FishingGameTool.Fishing
         {
             if (_fishingRod != null)
             {
+                DragSound();
                 AttractFloat();
                 CastFloat();
             }
@@ -171,10 +174,12 @@ namespace FishingGameTool.Fishing
                 return;
 
             // 낚시 찌의 표면 상태를 체크하여 substrateType에 저장
-            SubstrateType substrateType = _fishingRod._fishingFloat.GetComponent<FishingFloat>().CheckSurface(_fishingLayer);
+            substrateType = _fishingRod._fishingFloat.GetComponent<FishingFloat>().CheckSurface(_fishingLayer);
             // 만약 표면 상태가 물이면 낚시 찌의 위치와 변환 위치를 이용하여 loot을 체크
             if (substrateType == SubstrateType.Water)
+            {
                 _advanced._caughtLoot = CheckingLoot(_advanced._caughtLoot, _bait, _advanced._catchProbabilityData, transform.position, _fishingRod._fishingFloat.position);
+            }
 
             // 낚시 줄의 길이를 제한하는 함수 호출
             LineLengthLimitation(_fishingRod._fishingFloat.gameObject, transform.position, _fishingRod._lineStatus, substrateType);
@@ -254,7 +259,6 @@ namespace FishingGameTool.Fishing
                         _bait = null;
 
                         BaitCountDecreaseEvent?.Invoke();
-                        BaitInventoryDeleteEvent?.Invoke();
                         //TODO : BaitObject에 넣었던 미끼의 카운터를 --할것; --해서 0이 되면 그자리를 Null로 설정
                     }
                 }
@@ -621,10 +625,10 @@ namespace FishingGameTool.Fishing
             }
             else if (!_castInput && _currentCastForce != 0f) // 던지기 입력이 비활성화되고 던지기 힘이 0이 아니라면 던지기 동작을 시작
             {
-                //Debug.Log("파워가 남아있다면 여기로 들어옴");
                 Vector3 spawnPoint = _fishingRod._line._lineAttachment.position; // 낚싯대의 시작 위치
                 Vector3 castDirection = transform.forward + Vector3.up; // 던지는 방향
-                // 던지기 지연을 시작
+                                                                        // 던지기 지연을 시작
+                StartCoroutine(SoundManager.instance.SFXPlay("Casting", SoundManager.instance.audioClips[(int)SoundClip.Casting], 0.3f));
                 StartCoroutine(CastingDelay(_spawnFloatDelay, castDirection, spawnPoint, _currentCastForce, _fishingFloatPrefab));
                 StartCoroutine(waitDestroyRope());
                 _currentCastForce = 0f; // 던지기 힘 초기화
@@ -641,7 +645,6 @@ namespace FishingGameTool.Fishing
         private IEnumerator CastingDelay(float delay, Vector3 castDirection, Vector3 spawnPoint, float castForce, GameObject fishingFloatPrefab)
         {
             _castFloat = true; // 던지기 동작 중임을 표시
-
             yield return new WaitForSeconds(delay); // 지정된 지연 시간 동안 대기
             _fishingRod._fishingFloat = Cast(castDirection, spawnPoint, castForce, fishingFloatPrefab); // 던지기 실행
             _castFloat = false; // 던지기 동작 완료
@@ -700,6 +703,7 @@ namespace FishingGameTool.Fishing
         {
             //카메라 컬링 레이어를 통해 ARLayer를 가지고 있는 애들이면 렌더링 안하도록 설정
             //2.CatchlootCamera가 활성화 되면서 lootObject를 따라다니도록 설정
+            _isCheckedRootFishingCamera = true;
             catchLootCamera.enabled = true;
             catchLootCamera.GetComponent<LookatFish>().enabled = true;
             CatchingAnimation(lootObject, catchLootCamera.transform);
@@ -753,11 +757,12 @@ namespace FishingGameTool.Fishing
             typingSequnence
                 .AppendCallback(() => yatchaWord.enabled = true)
                 .Append(yatchaWord.transform.DOScale(12, 0))
+                .AppendCallback(() => StartCoroutine(SoundManager.instance.SFXPlay("Tada", SoundManager.instance.audioClips[(int)SoundClip.Tada])))
                 .Append(yatchaWord.transform.DOScale(1.7f, 1))
                 .AppendInterval(1f)
                 .AppendCallback(() => viewFishCaughtButtonEvent?.Invoke(lootobject, fishingLine.gameObject, catchLootCamera.GetComponent<Camera>(), yatchaWord))
                 .AppendCallback(() => afterCatchingAFishEvent?.Invoke()); // 낚시하고나서 미끼 초기화
-
+                
 
             //.AppendCallback(() => bigCatchWord_1.enabled = true)
             //.Append(bigCatchWord_1.transform.DOScale(12, 0))
@@ -768,13 +773,26 @@ namespace FishingGameTool.Fishing
             //.AppendInterval(1f)
             //.AppendCallback(() => viewFishCaughtButtonEvent?.Invoke(lootobject, fishingLine.gameObject, catchLootCamera.GetComponent<Camera>(), bigCatchWord_1, bigCatchWord_2))
             //.AppendCallback(()=> afterCatchingAFishEvent?.Invoke());
-
-
             fishCompingUpSequence.Play().Append(typingSequnence);
 
-
-
-
+        }
+        public void DragSound()
+        {
+            if (_attractInput && _isCheckedRootFishingCamera == false && substrateType == SubstrateType.Water)
+            {
+                Debug.Log(dragSoundCoroutine == null && castFloat);
+                if (dragSoundCoroutine == null&&FindAnyObjectByType<StartPoint>()==false)
+                    dragSoundCoroutine = StartCoroutine(SoundManager.instance.SFXPlay("Drag", SoundManager.instance.audioClips[(int)SoundClip.Drag]));
+            }
+            else
+            {
+                if (dragSoundCoroutine != null)
+                {
+                    StopCoroutine(dragSoundCoroutine);
+                    dragSoundCoroutine = null;
+                    SoundManager.instance.StopSFX("Drag");
+                }
+            }
         }
         // InputSystem 인터페이스 구현 메서드
         public void OnNavigate(InputAction.CallbackContext context)
@@ -791,11 +809,10 @@ namespace FishingGameTool.Fishing
 
         public void OnPoint(InputAction.CallbackContext context)
         {
-
             if (_catchLootCamera.enabled)
                 return;
 
-            if (EventSystem.current.IsPointerOverGameObject())//UI에서는 반응안하게 설정
+            if (EventSystem.current.IsPointerOverGameObject()) // UI에서는 반응안하게 설정
                 return;
 
             Vector2 currentPos = context.ReadValue<Vector2>();
@@ -804,8 +821,11 @@ namespace FishingGameTool.Fishing
                 _attractInput = _lastPositionY - currentPos.y > THRESHOLD;
                 _lastPositionY = currentPos.y;
             }
+            else
+            {
+                _attractInput = false; // 드래그 중이 아니면 _attractInput을 false로 설정
+            }
         }
-
         // 클릭 이벤트 처리 메서드
         public void OnClick(InputAction.CallbackContext context)
         {
@@ -829,7 +849,6 @@ namespace FishingGameTool.Fishing
                 _dragDistance = _endPos.y - _startPos.y;
                 _attractInput = false;
                 isCheckedMouseDraged = false; // 마우스 버튼을 뗐을 때
-                Debug.Log(_dragDistance);
                 if (_dragDistance >= 0 && _fishingRod._fishingFloat == null && _advanced._caughtLoot == false) // 찌가 이미 있는 상태이고 미끼가 안문 상태이면 정방향으로 슬라이더를 하면 찌를 힘만큼 던진다.
                 {
                     _castInput = false; // 마우스 버튼이 떼어졌을 때

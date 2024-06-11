@@ -17,7 +17,9 @@ public class BaitObject : MonoBehaviour
     FishingSystem _fishingSystem;
     FishingLine _fishingLine;
     BaitCount _baitCount;
+    InventoryList _shopBaitInventoryList;
     private Material[] _materials;
+    private int _baitType;
     private Dictionary<string, int> _materialDictionary;
     public Dictionary<string, int> MaterialDictionary => _materialDictionary;
     void Start()
@@ -25,6 +27,7 @@ public class BaitObject : MonoBehaviour
         _fishingSystem = transform.GetComponentInParent<FishingSystem>();
         _fishingLine = GetComponent<FishingLine>();
         _materials = Resources.LoadAll<Material>("HW/BaitMetarials");
+        _shopBaitInventoryList = GameObject.Find("UI_Shop/MyInven /BaitInvenGrid ").GetComponent<InventoryList>();
         _materialDictionary = new Dictionary<string, int>();
         for (int i = 0; i < _materials.Length; i++)
         {
@@ -81,6 +84,9 @@ public class BaitObject : MonoBehaviour
 
     public void ChangedBaitObject(int baitType, BaitCount baitCount)
     {
+
+        _baitType = baitType;
+
         if (baitCount.BaitCounts == 0)
         {
             _fishingBaitData = Resources.Load<FishingBaitData>("Hw/BaitScriptableObject/Bait-Null");
@@ -109,10 +115,6 @@ public class BaitObject : MonoBehaviour
         _fishingSystem._bait = _fishingBaitData;
         _baitCount = baitCount;
         _fishingSystem.BaitCountDecreaseEvent = DecreaseBait;
-        _fishingSystem.BaitInventoryDeleteEvent = (() =>
-        {
-            //baitType
-        });
        }
 
     public void DecreaseBait()
@@ -125,6 +127,19 @@ public class BaitObject : MonoBehaviour
         {
             _baitCount.GetComponentInParent<Image>().sprite = null;
         }
+
+       
+        foreach (var item in _shopBaitInventoryList.InventoryLists)
+        {
+            if (_baitType == item.GetComponent<InvenItemSlot>().ItemsID)
+            {
+                item.GetComponent<InvenItemSlot>().IsEmpty = true;
+                item.transform.GetChild(0).GetComponent<Image>().sprite = null;
+            }
+
+        }
+        
+       
     }
 
 }

@@ -96,6 +96,7 @@ namespace FishingGameTool.Example
                 FishCaughtButtonClicked(loot, fishingLine, _catchingCamera, catchingWord);
                 FishInventoryIn?.Invoke(loot.GetComponent<FishScripts>().fishNumber);//인벤에 물고기 생성
                 FishLoadLineEnable?.Invoke();//낚시줄 다시 생성
+                _fishingSystem._isCheckedRootFishingCamera = false;
             });
         }
 
