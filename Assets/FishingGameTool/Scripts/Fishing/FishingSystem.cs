@@ -159,9 +159,6 @@ namespace FishingGameTool.Fishing
             _inputSystem = new InputSystem();
             _inputSystem.UI.AddCallbacks(this);
             _inputSystem.Enable();
-
-
-            Debug.Log($"ar세션 포지션{GetComponentInParent<ARSessionOrigin>().transform.position}\n ar카메라 포지션{_arMainCamera.transform.position}\n 현재포지션{transform.position}");
         }
 
         // Update 메서드: 매 프레임마다 호출되며 찌 당기기 및 던지기 동작 수행
@@ -182,6 +179,9 @@ namespace FishingGameTool.Fishing
                 CastFloat();
             }
             _isPointerOverUI = EventSystem.current.IsPointerOverGameObject();
+
+
+            Debug.Log(_arMainCamera.transform.position);
         }
 
         #region AttractFloat
