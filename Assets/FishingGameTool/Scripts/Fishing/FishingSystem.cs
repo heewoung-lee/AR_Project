@@ -128,6 +128,11 @@ namespace FishingGameTool.Fishing
         FishingFloatPathfinder _fishingFloatPathfinder = new FishingFloatPathfinder(); // 낚시 찌 경로 찾기 객체
         private bool _isPointerOverUI;
 
+
+        private bool _ignoreInput = true; // 입력을 무시하는 플래그
+        private float _ignoreInputDuration = 1f; // 입력을 무시하는 시간 (1초)
+        private float _ignoreInputTimer; // 입력 무시 타이머
+
         #endregion
 #if UNITY_EDITOR
 
@@ -142,6 +147,7 @@ namespace FishingGameTool.Fishing
 #endif
         private void Awake()
         {
+            _ignoreInputTimer = _ignoreInputDuration;
             _arMainCamera = GetComponentInParent<Camera>();
             _fishingrope = Resources.Load<GameObject>("HW/Prefabs/Rope");
             _catchLootCamera = GameObject.Find("CatchLootCamera").GetComponent<Camera>();
@@ -162,6 +168,14 @@ namespace FishingGameTool.Fishing
         // Update 메서드: 매 프레임마다 호출되며 찌 당기기 및 던지기 동작 수행
         private void Update()
         {
+            if (_ignoreInput)
+            {
+                _ignoreInputTimer -= Time.deltaTime;
+                if (_ignoreInputTimer <= 0)
+                {
+                    _ignoreInput = false;
+                }
+            }
             if (_fishingRod != null)
             {
                 DragSound();
@@ -176,6 +190,7 @@ namespace FishingGameTool.Fishing
         // 찌 당기기 메서드
         private void AttractFloat()
         {
+
             // 낚시대의 낚시 찌가 null인지 확인하고 null이면 함수 종료
             if (_fishingRod._fishingFloat == null)
                 return;
@@ -819,7 +834,7 @@ namespace FishingGameTool.Fishing
 
         public void OnPoint(InputAction.CallbackContext context)
         {
-            if (SceneManager.GetActiveScene().name != "PlayScene")
+            if (_ignoreInput) 
                 return;
 
             if (_catchLootCamera == null)
@@ -845,7 +860,7 @@ namespace FishingGameTool.Fishing
         // 클릭 이벤트 처리 메서드
         public void OnClick(InputAction.CallbackContext context)
         {
-            if (SceneManager.GetActiveScene().name != "PlayScene")
+            if (_ignoreInput) 
                 return;
 
             if (_catchLootCamera == null)
