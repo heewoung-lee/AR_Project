@@ -14,6 +14,8 @@ using System;
 using DG.Tweening;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR.ARCore;
+using UnityEngine.XR.ARFoundation;
 
 namespace FishingGameTool.Fishing
 {
@@ -643,9 +645,10 @@ namespace FishingGameTool.Fishing
             else if (!_castInput && _currentCastForce != 0f) // 던지기 입력이 비활성화되고 던지기 힘이 0이 아니라면 던지기 동작을 시작
             {
                 Vector3 spawnPoint = _fishingRod._line._lineAttachment.position; // 낚싯대의 시작 위치
-                Vector3 castDirection = _arMainCamera.transform.forward + Vector3.up;// 던지는 방향
+                Vector3 castDirection = _arMainCamera.transform.forward;// 던지는 방향
 
                 Debug.Log(_arMainCamera.transform.forward + "\n뒤에는 포지션"+_arMainCamera.transform.position);// 던지기 지연을 시작
+
                 Debug.Log(castDirection);
                 StartCoroutine(SoundManager.instance.SFXPlay("Casting", SoundManager.instance.audioClips[(int)SoundClip.Casting],0.1f, 0.3f));
                 StartCoroutine(CastingDelay(_spawnFloatDelay, castDirection, spawnPoint, _currentCastForce, _fishingFloatPrefab));
