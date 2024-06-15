@@ -150,6 +150,10 @@ namespace FishingGameTool.Fishing
             _bigCatchWord = _CharactorUI.transform.Find("Bigcatchword").GetComponent<Transform>();
             _fishLoadEndPosition = GetComponentInChildren<FishLoadEndPosition>();
             _catchCheckIntervalTimer = _advanced._catchCheckInterval;
+
+            Debug.Log("처음 캐치카메라 좌표:"+_catchLootCamera.transform.position);
+            Debug.Log("처음 카메라 좌표:" + _arMainCamera.transform.position);
+            Debug.Log("낚시대 좌표:" + _fishingRod.transform.position);
         }
 
         // Update 메서드: 매 프레임마다 호출되며 찌 당기기 및 던지기 동작 수행
