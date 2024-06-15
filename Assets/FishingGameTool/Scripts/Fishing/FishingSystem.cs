@@ -84,7 +84,6 @@ namespace FishingGameTool.Fishing
 
         public event Func<float> showPowerbarEvent; // 파워바 이벤트
         //public event Action<Transform> setLootCamera;
-        public event Func<GameObject> setLineEndPoint;
         public event System.Action<GameObject, GameObject, Camera, Image> viewFishCaughtButtonEvent;
 
         private Vector2 _startPos; // 시작 위치
