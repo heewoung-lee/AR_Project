@@ -650,6 +650,7 @@ namespace FishingGameTool.Fishing
                 Vector3 spawnPoint = _fishingRod._line._lineAttachment.position; // 낚싯대의 시작 위치
                 Vector3 castDirection = GetComponentInParent<CameraBobbing>().transform.forward+ Vector3.up;// 던지는 방향
 
+                Debug.Log(GetComponentInParent<CameraBobbing>().transform.forward + "aaa"+ castDirection);
                 StartCoroutine(SoundManager.instance.SFXPlay("Casting", SoundManager.instance.audioClips[(int)SoundClip.Casting],0.1f, 0.3f));
                 StartCoroutine(CastingDelay(_spawnFloatDelay, castDirection, spawnPoint, _currentCastForce, _fishingFloatPrefab));
                 StartCoroutine(waitDestroyRope());
