@@ -27,19 +27,19 @@ public class AquariumSettingButton : MonoBehaviour
         switch (fishID)
         {
             case 10:
-                fishPrefab = (GameObject)Resources.Load("SH/Prefab/Fish/Blue Tang");
+                fishPrefab = (GameObject)Resources.Load("SH/Prefab/Fish/FlameAngelfish");
                 break;
             case 11:
                 fishPrefab = (GameObject)Resources.Load("SH/Prefab/Fish/Clownfish Black");
                 break;
             case 12:
-                fishPrefab = (GameObject)Resources.Load("SH/Prefab/Fish/Discus");
+                fishPrefab = (GameObject)Resources.Load("SH/Prefab/Fish/Purple Tang");
                 break;
             case 13:
-                fishPrefab = (GameObject)Resources.Load("SH/Prefab/Fish/FlameAngelfish");
+                fishPrefab = (GameObject)Resources.Load("SH/Prefab/Fish/Fusilier");
                 break;
             case 14:
-                fishPrefab = (GameObject)Resources.Load("SH/Prefab/Fish/Purple Tang");
+                fishPrefab = (GameObject)Resources.Load("SH/Prefab/Fish/Blue Tang");
 
                 break;
             
