@@ -145,7 +145,7 @@ namespace FishingGameTool.Fishing
         }
 
 #endif
-        private void Awake()
+        private void Start()
         {
             _ignoreInputTimer = _ignoreInputDuration;
             _arMainCamera = GetComponentInParent<Camera>();
@@ -156,7 +156,7 @@ namespace FishingGameTool.Fishing
             _fishLoadEndPosition = GetComponentInChildren<FishLoadEndPosition>();
             _catchCheckIntervalTimer = _advanced._catchCheckInterval;
 
-            Debug.Log("처음 캐치카메라 좌표:"+_catchLootCamera.transform.position);
+            Debug.Log("처음 캐치카메라 좌표:" + _catchLootCamera.transform.position);
             Debug.Log("처음 카메라 좌표:" + _arMainCamera.transform.position);
             Debug.Log("낚시대 좌표:" + _fishingRod.transform.position);
 
