@@ -866,7 +866,6 @@ namespace FishingGameTool.Fishing
                 _castInput = true; // 마우스 버튼이 눌렸을 때
                 isCheckedMouseDraged = true; // 드래그 기능을 사용 중일 때
                 _startPos = Pointer.current.position.ReadValue();
-                Debug.Log("처음지점 좌표" + _startPos.ToString());
             }
             else
             {
