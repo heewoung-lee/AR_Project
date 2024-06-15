@@ -142,9 +142,6 @@ namespace FishingGameTool.Fishing
 #endif
         private void Awake()
         {
-            _inputSystem = new InputSystem();
-            _inputSystem.UI.AddCallbacks(this);
-            _inputSystem.Enable();
             _arMainCamera = GetComponentInParent<Camera>();
             _fishingrope = Resources.Load<GameObject>("HW/Prefabs/Rope");
             _catchLootCamera = GameObject.Find("CatchLootCamera").GetComponent<Camera>();
@@ -156,6 +153,10 @@ namespace FishingGameTool.Fishing
             Debug.Log("처음 캐치카메라 좌표:"+_catchLootCamera.transform.position);
             Debug.Log("처음 카메라 좌표:" + _arMainCamera.transform.position);
             Debug.Log("낚시대 좌표:" + _fishingRod.transform.position);
+
+            _inputSystem = new InputSystem();
+            _inputSystem.UI.AddCallbacks(this);
+            _inputSystem.Enable();
         }
 
         // Update 메서드: 매 프레임마다 호출되며 찌 당기기 및 던지기 동작 수행
@@ -789,7 +790,6 @@ namespace FishingGameTool.Fishing
         {
             if (_attractInput && _isCheckedRootFishingCamera == false && substrateType == SubstrateType.Water)
             {
-                Debug.Log(dragSoundCoroutine == null && castFloat);
                 if (dragSoundCoroutine == null&&FindAnyObjectByType<StartPoint>()==false)
                     dragSoundCoroutine = StartCoroutine(SoundManager.instance.SFXPlay("Drag", SoundManager.instance.audioClips[(int)SoundClip.Drag],0.1f));
             }
