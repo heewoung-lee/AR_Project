@@ -100,8 +100,6 @@ namespace FishingGameTool.Fishing
         public event Action castingMontion;
         public event Action afterCatchingAFishEvent;
         public Action BaitCountDecreaseEvent; //낚시대 던질때 껴진 미끼의 갯수 감소 이벤트
-        private Vector3 spawnPoint;
-        private Vector3 castDirection;
         #region PRIVATE VARIABLES
 
         private float _catchCheckIntervalTimer; // 잡기 확인 간격 타이머
@@ -627,8 +625,8 @@ namespace FishingGameTool.Fishing
             else if (!_castInput && _currentCastForce != 0f) // 던지기 입력이 비활성화되고 던지기 힘이 0이 아니라면 던지기 동작을 시작
             {
                 Vector3 spawnPoint = _fishingRod._line._lineAttachment.position; // 낚싯대의 시작 위치
-                Vector3 castDirection = _fishingRod.transform.forward + Vector3.up; // 던지는 방향
-                                                                        // 던지기 지연을 시작
+                Vector3 castDirection = _fishingRod.transform.forward + _arMainCamera.transform.forward; // 던지는 방향
+                                                        // 던지기 지연을 시작
                 Debug.Log(castDirection);
                 StartCoroutine(SoundManager.instance.SFXPlay("Casting", SoundManager.instance.audioClips[(int)SoundClip.Casting],0.1f, 0.3f));
                 StartCoroutine(CastingDelay(_spawnFloatDelay, castDirection, spawnPoint, _currentCastForce, _fishingFloatPrefab));
