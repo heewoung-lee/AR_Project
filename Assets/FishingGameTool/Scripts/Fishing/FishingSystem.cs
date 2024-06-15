@@ -125,6 +125,7 @@ namespace FishingGameTool.Fishing
         [SerializeField] private Toggle _testToggleCatch; //켜져 있으면 물었던 물고기가 바로잡히는 테스트용 토글
 
         FishingFloatPathfinder _fishingFloatPathfinder = new FishingFloatPathfinder(); // 낚시 찌 경로 찾기 객체
+        private bool _isPointerOverUI;
 
         #endregion
 #if UNITY_EDITOR
@@ -165,6 +166,7 @@ namespace FishingGameTool.Fishing
                 AttractFloat();
                 CastFloat();
             }
+            _isPointerOverUI = EventSystem.current.IsPointerOverGameObject();
         }
 
         #region AttractFloat
@@ -821,7 +823,7 @@ namespace FishingGameTool.Fishing
             if (_catchLootCamera.enabled)
                 return;
 
-            if (EventSystem.current.IsPointerOverGameObject()) // UI에서는 반응안하게 설정
+            if (_isPointerOverUI) // UI에서는 반응안하게 설정
                 return;
 
             Vector2 currentPos = context.ReadValue<Vector2>();
@@ -841,10 +843,10 @@ namespace FishingGameTool.Fishing
             if (_catchLootCamera == null)
                 return;
 
-            if (_catchLootCamera.enabled )
+            if (_catchLootCamera.enabled)
                 return;
 
-            if (EventSystem.current.IsPointerOverGameObject())
+            if (_isPointerOverUI)
             {
                 _attractInput = false;
                 isCheckedMouseDraged = false;
@@ -871,6 +873,7 @@ namespace FishingGameTool.Fishing
                 }
             }
         }
+
         public void OnScrollWheel(InputAction.CallbackContext context)
         {
         }
