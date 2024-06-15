@@ -626,8 +626,8 @@ namespace FishingGameTool.Fishing
             }
             else if (!_castInput && _currentCastForce != 0f) // 던지기 입력이 비활성화되고 던지기 힘이 0이 아니라면 던지기 동작을 시작
             {
-                spawnPoint = _fishingRod._line._lineAttachment.position; // 낚싯대의 시작 위치
-                castDirection = _fishingRod.transform.forward + Vector3.up; // 던지는 방향
+                Vector3 spawnPoint = _fishingRod._line._lineAttachment.position; // 낚싯대의 시작 위치
+                Vector3 castDirection = _fishingRod.transform.forward + Vector3.up; // 던지는 방향
                                                                         // 던지기 지연을 시작
                 Debug.Log(castDirection);
                 StartCoroutine(SoundManager.instance.SFXPlay("Casting", SoundManager.instance.audioClips[(int)SoundClip.Casting],0.1f, 0.3f));
@@ -655,12 +655,12 @@ namespace FishingGameTool.Fishing
         // 찌 던지기 메서드
         private Transform Cast(Vector3 castDirection, Vector3 spawnPoint, float castForce, GameObject fishingFloatPrefab)
         {
-            // 낚싯대 프리팹을 지정된 위치에 생성
+            // 찌 프리팹을 지정된 위치에 생성
             GameObject spawnedFishingFloat = Instantiate(fishingFloatPrefab, spawnPoint, Quaternion.identity);
-            // 생성된 낚싯대에 힘을 가하여 던지기 동작 수행
+            // 생성된 찌 힘을 가하여 던지기 동작 수행
             spawnedFishingFloat.GetComponent<Rigidbody>().AddForce(castDirection * castForce, ForceMode.Impulse);
 
-            // 생성된 낚싯대의 Transform을 반환
+            // 생성된 찌 Transform을 반환
             return spawnedFishingFloat.transform;
         }
 
