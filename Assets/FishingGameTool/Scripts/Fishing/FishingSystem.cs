@@ -13,6 +13,7 @@ using UnityEngine.InputSystem;
 using System;
 using DG.Tweening;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 namespace FishingGameTool.Fishing
 {
@@ -817,6 +818,9 @@ namespace FishingGameTool.Fishing
 
         public void OnPoint(InputAction.CallbackContext context)
         {
+            if (SceneManager.GetActiveScene().name != "PlayScene")
+                return;
+
             if (_catchLootCamera == null)
                 return;
 
@@ -840,6 +844,9 @@ namespace FishingGameTool.Fishing
         // 클릭 이벤트 처리 메서드
         public void OnClick(InputAction.CallbackContext context)
         {
+            if (SceneManager.GetActiveScene().name != "PlayScene")
+                return;
+
             if (_catchLootCamera == null)
                 return;
 
