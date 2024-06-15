@@ -9,7 +9,7 @@ public class GiveInvenDatatoAquarium : MonoBehaviour
     private void Awake()
     {
         //InvenFishData = (InvenFishData)Resources.Load("SH/GiveInvenFishData");
-        MainGotoAquarium.OnAquariumClick += GiveData;
+        //MainGotoAquarium.OnAquariumClick += GiveData;
     }
 
     public void GiveData()

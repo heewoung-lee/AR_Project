@@ -811,6 +811,9 @@ namespace FishingGameTool.Fishing
 
         public void OnPoint(InputAction.CallbackContext context)
         {
+            if (_catchLootCamera == null)
+                return;
+
             if (_catchLootCamera.enabled)
                 return;
 
@@ -831,8 +834,10 @@ namespace FishingGameTool.Fishing
         // 클릭 이벤트 처리 메서드
         public void OnClick(InputAction.CallbackContext context)
         {
+            if (_catchLootCamera == null)
+                return;
 
-            if (_catchLootCamera.enabled)
+            if (_catchLootCamera.enabled )
                 return;
 
             if (EventSystem.current.IsPointerOverGameObject())
