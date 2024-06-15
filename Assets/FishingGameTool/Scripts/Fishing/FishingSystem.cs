@@ -161,6 +161,7 @@ namespace FishingGameTool.Fishing
                 DragSound();
                 AttractFloat();
                 CastFloat();
+                Debug.Log($"{_arMainCamera.GetComponent<Transform>().position}\t {_arMainCamera.GetComponent<Transform>().rotation}");
             }
         }
 
