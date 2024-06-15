@@ -151,7 +151,6 @@ namespace FishingGameTool.Example
             {
                 _powerSlider.gameObject.SetActive(true);
                 _powerSlider.value = (_fishingSystem.dragDistance / Screen.height) * _fishingSystem._maxCastForce;
-                Debug.Log(_fishingSystem.dragDistance / Screen.height * _fishingSystem._maxCastForce);
 
 
                 _powerSlider.fillRect.GetComponent<Image>().DOFade(0, 1).OnComplete(() =>
