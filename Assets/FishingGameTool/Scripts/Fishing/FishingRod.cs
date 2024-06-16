@@ -93,6 +93,8 @@ namespace FishingGameTool.Fishing.Rod
             _fishingLineRenderer.startWidth = _line._width;
             // LineRenderer의 끝 너비 설정
             _fishingLineRenderer.endWidth = _line._width;
+
+            _fishingLineRenderer.material.renderQueue = 3000;
         }
 
         // Update 메서드: 매 프레임마다 호출
