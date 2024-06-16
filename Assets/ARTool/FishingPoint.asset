@@ -23,9 +23,9 @@ MonoBehaviour:
       m_GuidLow: 5057714782219461898
       m_GuidHigh: 12983026122000104585
     m_SerializedTextureGuid:
-      m_GuidLow: 9584886399633052346
-      m_GuidHigh: 8060355616805389946
+      m_GuidLow: 16912393684971409647
+      m_GuidHigh: 1148107684302646072
     m_Size: {x: 0, y: 0}
     m_SpecifySize: 0
-    m_Name: tuna
+    m_Name: fishingzone
     m_Texture: {fileID: 0}
