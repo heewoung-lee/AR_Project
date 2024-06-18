@@ -41,3 +41,7 @@
 - 2주차(6.3~6.7): 컨텐츠추가(상점, 인벤토리, 낚시연출)
 - 3주차(6.8~6.12): 어항 추가 및 디버깅
 ##
+
+
+## **시연영상**
+[![Video Label](http://img.youtube.com/vi/W5mAyPpWh0s/0.jpg)](https://youtu.be/W5mAyPpWh0s)
