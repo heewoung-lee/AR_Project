@@ -18,5 +18,5 @@
 ## **팀원 소개** 
 
 |  **이희웅**  |  **윤승현**  |
-|  ------  |  ------  |  ------  |
+|  ------  |  ------  |
 | [**@heewoung-lee**](https://github.com/heewoung-lee) |  [**@Yoon.07.09**](https://github.com/samhomesss)  |
